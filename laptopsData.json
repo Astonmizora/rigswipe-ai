@@ -1,0 +1,2602 @@
+[
+  {
+    "id": 1,
+    "name": "MacBook Air 13 M2",
+    "brand": "Apple",
+    "price": 999,
+    "cpu": "Apple M2 8-core",
+    "ram": "8GB",
+    "storage": "256GB SSD",
+    "graphics": "Apple 8-core GPU",
+    "screen": "13.6-inch Liquid Retina 2560x1664",
+    "idealFor": [
+      "School/Work",
+      "Travel",
+      "Creative Writing"
+    ],
+    "vibeKeywords": [
+      "lightweight",
+      "battery",
+      "quiet"
+    ],
+    "scores": {
+      "power": 72,
+      "mobility": 96,
+      "efficiency": 94
+    }
+  },
+  {
+    "id": 2,
+    "name": "MacBook Air 13 M3",
+    "brand": "Apple",
+    "price": 1199,
+    "cpu": "Apple M3 8-core",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Apple 10-core GPU",
+    "screen": "13.6-inch Liquid Retina 2560x1664",
+    "idealFor": [
+      "Coding",
+      "School/Work",
+      "Design"
+    ],
+    "vibeKeywords": [
+      "fast",
+      "lightweight",
+      "battery"
+    ],
+    "scores": {
+      "power": 80,
+      "mobility": 95,
+      "efficiency": 96
+    }
+  },
+  {
+    "id": 3,
+    "name": "MacBook Air 15 M3",
+    "brand": "Apple",
+    "price": 1299,
+    "cpu": "Apple M3 8-core",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Apple 10-core GPU",
+    "screen": "15.3-inch Liquid Retina 2880x1864",
+    "idealFor": [
+      "College",
+      "Content Creation",
+      "Productivity"
+    ],
+    "vibeKeywords": [
+      "roomy",
+      "silent",
+      "battery"
+    ],
+    "scores": {
+      "power": 81,
+      "mobility": 90,
+      "efficiency": 96
+    }
+  },
+  {
+    "id": 4,
+    "name": "MacBook Pro 14 M3",
+    "brand": "Apple",
+    "price": 1599,
+    "cpu": "Apple M3 8-core",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Apple 10-core GPU",
+    "screen": "14.2-inch Liquid Retina XDR 3024x1964",
+    "idealFor": [
+      "Coding",
+      "Photo Editing",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "premium",
+      "bright",
+      "efficient"
+    ],
+    "scores": {
+      "power": 84,
+      "mobility": 86,
+      "efficiency": 95
+    }
+  },
+  {
+    "id": 5,
+    "name": "MacBook Pro 14 M3 Pro",
+    "brand": "Apple",
+    "price": 1999,
+    "cpu": "Apple M3 Pro 11-core",
+    "ram": "18GB",
+    "storage": "512GB SSD",
+    "graphics": "Apple 14-core GPU",
+    "screen": "14.2-inch Liquid Retina XDR 3024x1964",
+    "idealFor": [
+      "Coding",
+      "Video Editing",
+      "Data Science"
+    ],
+    "vibeKeywords": [
+      "pro",
+      "battery",
+      "fast"
+    ],
+    "scores": {
+      "power": 91,
+      "mobility": 84,
+      "efficiency": 93
+    }
+  },
+  {
+    "id": 6,
+    "name": "MacBook Pro 16 M3 Pro",
+    "brand": "Apple",
+    "price": 2499,
+    "cpu": "Apple M3 Pro 12-core",
+    "ram": "18GB",
+    "storage": "1TB SSD",
+    "graphics": "Apple 18-core GPU",
+    "screen": "16.2-inch Liquid Retina XDR 3456x2234",
+    "idealFor": [
+      "Video Editing",
+      "Software Engineering",
+      "Music Production"
+    ],
+    "vibeKeywords": [
+      "large",
+      "pro",
+      "battery"
+    ],
+    "scores": {
+      "power": 93,
+      "mobility": 75,
+      "efficiency": 92
+    }
+  },
+  {
+    "id": 7,
+    "name": "MacBook Pro 14 M3 Max",
+    "brand": "Apple",
+    "price": 3199,
+    "cpu": "Apple M3 Max 14-core",
+    "ram": "36GB",
+    "storage": "1TB SSD",
+    "graphics": "Apple 30-core GPU",
+    "screen": "14.2-inch Liquid Retina XDR 3024x1964",
+    "idealFor": [
+      "3D Design",
+      "AI Workloads",
+      "Video Editing"
+    ],
+    "vibeKeywords": [
+      "workstation",
+      "compact",
+      "creator"
+    ],
+    "scores": {
+      "power": 97,
+      "mobility": 78,
+      "efficiency": 88
+    }
+  },
+  {
+    "id": 8,
+    "name": "MacBook Pro 16 M3 Max",
+    "brand": "Apple",
+    "price": 3999,
+    "cpu": "Apple M3 Max 16-core",
+    "ram": "48GB",
+    "storage": "2TB SSD",
+    "graphics": "Apple 40-core GPU",
+    "screen": "16.2-inch Liquid Retina XDR 3456x2234",
+    "idealFor": [
+      "Film Editing",
+      "Machine Learning",
+      "3D Design"
+    ],
+    "vibeKeywords": [
+      "monster",
+      "premium",
+      "rendering"
+    ],
+    "scores": {
+      "power": 99,
+      "mobility": 68,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 9,
+    "name": "MacBook Air 13 M4",
+    "brand": "Apple",
+    "price": 1099,
+    "cpu": "Apple M4 10-core",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Apple 10-core GPU",
+    "screen": "13.6-inch Liquid Retina 2560x1664",
+    "idealFor": [
+      "Coding",
+      "College",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "new",
+      "lightweight",
+      "battery"
+    ],
+    "scores": {
+      "power": 84,
+      "mobility": 96,
+      "efficiency": 97
+    }
+  },
+  {
+    "id": 10,
+    "name": "MacBook Pro 14 M4",
+    "brand": "Apple",
+    "price": 1699,
+    "cpu": "Apple M4 10-core",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Apple 10-core GPU",
+    "screen": "14.2-inch Liquid Retina XDR 3024x1964",
+    "idealFor": [
+      "Coding",
+      "Design",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "balanced",
+      "bright",
+      "premium"
+    ],
+    "scores": {
+      "power": 88,
+      "mobility": 86,
+      "efficiency": 96
+    }
+  },
+  {
+    "id": 11,
+    "name": "ROG Zephyrus G14",
+    "brand": "ASUS",
+    "price": 1999,
+    "cpu": "AMD Ryzen 9 8945HS",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "14-inch OLED 2880x1800 120Hz",
+    "idealFor": [
+      "Gaming",
+      "Streaming",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "compact",
+      "powerful",
+      "oled"
+    ],
+    "scores": {
+      "power": 94,
+      "mobility": 78,
+      "efficiency": 76
+    }
+  },
+  {
+    "id": 12,
+    "name": "ROG Zephyrus G16",
+    "brand": "ASUS",
+    "price": 2699,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4080 12GB",
+    "screen": "16-inch OLED 2560x1600 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Video Editing",
+      "3D Design"
+    ],
+    "vibeKeywords": [
+      "sleek",
+      "fast",
+      "premium"
+    ],
+    "scores": {
+      "power": 98,
+      "mobility": 70,
+      "efficiency": 72
+    }
+  },
+  {
+    "id": 13,
+    "name": "ROG Strix Scar 16",
+    "brand": "ASUS",
+    "price": 3499,
+    "cpu": "Intel Core i9-14900HX",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4090 16GB",
+    "screen": "16-inch Mini LED 2560x1600 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Esports",
+      "Rendering"
+    ],
+    "vibeKeywords": [
+      "rgb",
+      "extreme",
+      "desktop"
+    ],
+    "scores": {
+      "power": 100,
+      "mobility": 48,
+      "efficiency": 55
+    }
+  },
+  {
+    "id": 14,
+    "name": "ROG Strix G16",
+    "brand": "ASUS",
+    "price": 1399,
+    "cpu": "Intel Core i7-14650HX",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "16-inch IPS 1920x1200 165Hz",
+    "idealFor": [
+      "Gaming",
+      "Engineering",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "value",
+      "smooth",
+      "upgradeable"
+    ],
+    "scores": {
+      "power": 88,
+      "mobility": 58,
+      "efficiency": 64
+    }
+  },
+  {
+    "id": 15,
+    "name": "ROG Flow X13",
+    "brand": "ASUS",
+    "price": 1499,
+    "cpu": "AMD Ryzen 9 7940HS",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4050 6GB",
+    "screen": "13.4-inch 1920x1200 120Hz Touch",
+    "idealFor": [
+      "Gaming",
+      "Travel",
+      "Digital Art"
+    ],
+    "vibeKeywords": [
+      "convertible",
+      "compact",
+      "creator"
+    ],
+    "scores": {
+      "power": 84,
+      "mobility": 88,
+      "efficiency": 73
+    }
+  },
+  {
+    "id": 16,
+    "name": "ROG Flow Z13",
+    "brand": "ASUS",
+    "price": 1749,
+    "cpu": "Intel Core i9-13900H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "13.4-inch QHD+ 165Hz Touch",
+    "idealFor": [
+      "Gaming",
+      "Tablet Mode",
+      "Content Creation"
+    ],
+    "vibeKeywords": [
+      "detachable",
+      "unique",
+      "portable"
+    ],
+    "scores": {
+      "power": 86,
+      "mobility": 84,
+      "efficiency": 68
+    }
+  },
+  {
+    "id": 17,
+    "name": "TUF Gaming A15",
+    "brand": "ASUS",
+    "price": 1099,
+    "cpu": "AMD Ryzen 7 8845HS",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "15.6-inch FHD 144Hz",
+    "idealFor": [
+      "Gaming",
+      "College",
+      "CAD"
+    ],
+    "vibeKeywords": [
+      "durable",
+      "budget-gaming",
+      "cool"
+    ],
+    "scores": {
+      "power": 86,
+      "mobility": 60,
+      "efficiency": 67
+    }
+  },
+  {
+    "id": 18,
+    "name": "TUF Gaming F17",
+    "brand": "ASUS",
+    "price": 999,
+    "cpu": "Intel Core i7-13620H",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "NVIDIA GeForce RTX 4050 6GB",
+    "screen": "17.3-inch FHD 144Hz",
+    "idealFor": [
+      "Gaming",
+      "Media",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "big-screen",
+      "affordable",
+      "gaming"
+    ],
+    "scores": {
+      "power": 80,
+      "mobility": 50,
+      "efficiency": 63
+    }
+  },
+  {
+    "id": 19,
+    "name": "Zenbook 14 OLED",
+    "brand": "ASUS",
+    "price": 1099,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "14-inch OLED 2880x1800 120Hz",
+    "idealFor": [
+      "Coding",
+      "Business",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "oled",
+      "lightweight",
+      "efficient"
+    ],
+    "scores": {
+      "power": 78,
+      "mobility": 92,
+      "efficiency": 88
+    }
+  },
+  {
+    "id": 20,
+    "name": "ProArt Studiobook 16 OLED",
+    "brand": "ASUS",
+    "price": 2399,
+    "cpu": "Intel Core i9-13980HX",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "16-inch OLED 3200x2000 120Hz",
+    "idealFor": [
+      "Video Editing",
+      "3D Design",
+      "Animation"
+    ],
+    "vibeKeywords": [
+      "creator",
+      "color-accurate",
+      "dial"
+    ],
+    "scores": {
+      "power": 95,
+      "mobility": 58,
+      "efficiency": 70
+    }
+  },
+  {
+    "id": 21,
+    "name": "ThinkPad X1 Carbon Gen 12",
+    "brand": "Lenovo",
+    "price": 1799,
+    "cpu": "Intel Core Ultra 7 155U",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "14-inch 2880x1800 OLED",
+    "idealFor": [
+      "Business",
+      "Coding",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "keyboard",
+      "lightweight",
+      "secure"
+    ],
+    "scores": {
+      "power": 76,
+      "mobility": 96,
+      "efficiency": 90
+    }
+  },
+  {
+    "id": 22,
+    "name": "ThinkPad X1 Yoga Gen 9",
+    "brand": "Lenovo",
+    "price": 1699,
+    "cpu": "Intel Core Ultra 7 155U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "14-inch WUXGA Touch",
+    "idealFor": [
+      "Business",
+      "Notes",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "convertible",
+      "pen",
+      "premium"
+    ],
+    "scores": {
+      "power": 74,
+      "mobility": 91,
+      "efficiency": 88
+    }
+  },
+  {
+    "id": 23,
+    "name": "ThinkPad T14 Gen 5",
+    "brand": "Lenovo",
+    "price": 1399,
+    "cpu": "AMD Ryzen 7 PRO 8840U",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "AMD Radeon 780M",
+    "screen": "14-inch WUXGA IPS",
+    "idealFor": [
+      "Coding",
+      "Business",
+      "Cybersecurity"
+    ],
+    "vibeKeywords": [
+      "durable",
+      "keyboard",
+      "linux"
+    ],
+    "scores": {
+      "power": 80,
+      "mobility": 88,
+      "efficiency": 87
+    }
+  },
+  {
+    "id": 24,
+    "name": "ThinkPad T16 Gen 3",
+    "brand": "Lenovo",
+    "price": 1549,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "16-inch WUXGA IPS",
+    "idealFor": [
+      "Data Analysis",
+      "Business",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "large-keyboard",
+      "reliable",
+      "productive"
+    ],
+    "scores": {
+      "power": 82,
+      "mobility": 72,
+      "efficiency": 84
+    }
+  },
+  {
+    "id": 25,
+    "name": "ThinkPad P1 Gen 7",
+    "brand": "Lenovo",
+    "price": 3299,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "64GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA RTX 3000 Ada 8GB",
+    "screen": "16-inch 4K OLED",
+    "idealFor": [
+      "CAD",
+      "3D Design",
+      "Engineering"
+    ],
+    "vibeKeywords": [
+      "workstation",
+      "isv",
+      "premium"
+    ],
+    "scores": {
+      "power": 97,
+      "mobility": 58,
+      "efficiency": 69
+    }
+  },
+  {
+    "id": 26,
+    "name": "ThinkPad P14s Gen 5",
+    "brand": "Lenovo",
+    "price": 1599,
+    "cpu": "AMD Ryzen 7 PRO 8840HS",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "AMD Radeon 780M",
+    "screen": "14-inch 2.8K OLED",
+    "idealFor": [
+      "Engineering",
+      "Coding",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "portable-workstation",
+      "secure",
+      "efficient"
+    ],
+    "scores": {
+      "power": 84,
+      "mobility": 86,
+      "efficiency": 83
+    }
+  },
+  {
+    "id": 27,
+    "name": "ThinkPad E14 Gen 6",
+    "brand": "Lenovo",
+    "price": 849,
+    "cpu": "Intel Core Ultra 5 125U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "14-inch WUXGA IPS",
+    "idealFor": [
+      "School/Work",
+      "Business",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "value",
+      "keyboard",
+      "reliable"
+    ],
+    "scores": {
+      "power": 68,
+      "mobility": 86,
+      "efficiency": 84
+    }
+  },
+  {
+    "id": 28,
+    "name": "Yoga Slim 7x",
+    "brand": "Lenovo",
+    "price": 1199,
+    "cpu": "Qualcomm Snapdragon X Elite",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Qualcomm Adreno GPU",
+    "screen": "14.5-inch OLED 2944x1840 90Hz",
+    "idealFor": [
+      "Travel",
+      "Business",
+      "Writing"
+    ],
+    "vibeKeywords": [
+      "arm",
+      "battery",
+      "oled"
+    ],
+    "scores": {
+      "power": 76,
+      "mobility": 93,
+      "efficiency": 97
+    }
+  },
+  {
+    "id": 29,
+    "name": "Legion Pro 7i",
+    "brand": "Lenovo",
+    "price": 2699,
+    "cpu": "Intel Core i9-14900HX",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4080 12GB",
+    "screen": "16-inch 2560x1600 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Streaming",
+      "Rendering"
+    ],
+    "vibeKeywords": [
+      "performance",
+      "rgb",
+      "cooling"
+    ],
+    "scores": {
+      "power": 98,
+      "mobility": 50,
+      "efficiency": 58
+    }
+  },
+  {
+    "id": 30,
+    "name": "IdeaPad Slim 5",
+    "brand": "Lenovo",
+    "price": 799,
+    "cpu": "AMD Ryzen 7 8845HS",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "AMD Radeon 780M",
+    "screen": "16-inch WUXGA IPS",
+    "idealFor": [
+      "College",
+      "Coding",
+      "Everyday Use"
+    ],
+    "vibeKeywords": [
+      "affordable",
+      "balanced",
+      "battery"
+    ],
+    "scores": {
+      "power": 75,
+      "mobility": 74,
+      "efficiency": 85
+    }
+  },
+  {
+    "id": 31,
+    "name": "XPS 13",
+    "brand": "Dell",
+    "price": 1299,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "13.4-inch FHD+ InfinityEdge",
+    "idealFor": [
+      "Travel",
+      "Business",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "minimal",
+      "premium",
+      "portable"
+    ],
+    "scores": {
+      "power": 76,
+      "mobility": 94,
+      "efficiency": 88
+    }
+  },
+  {
+    "id": 32,
+    "name": "XPS 13 Plus",
+    "brand": "Dell",
+    "price": 1699,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "13.4-inch 3.5K OLED Touch",
+    "idealFor": [
+      "Design",
+      "Business",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "futuristic",
+      "oled",
+      "sleek"
+    ],
+    "scores": {
+      "power": 78,
+      "mobility": 92,
+      "efficiency": 84
+    }
+  },
+  {
+    "id": 33,
+    "name": "XPS 14",
+    "brand": "Dell",
+    "price": 2199,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4050 6GB",
+    "screen": "14.5-inch 3.2K OLED 120Hz",
+    "idealFor": [
+      "Content Creation",
+      "Coding",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "premium",
+      "creator",
+      "compact"
+    ],
+    "scores": {
+      "power": 86,
+      "mobility": 80,
+      "efficiency": 79
+    }
+  },
+  {
+    "id": 34,
+    "name": "XPS 16",
+    "brand": "Dell",
+    "price": 2899,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "16.3-inch 4K+ OLED Touch",
+    "idealFor": [
+      "Video Editing",
+      "3D Design",
+      "Engineering"
+    ],
+    "vibeKeywords": [
+      "large",
+      "premium",
+      "creator"
+    ],
+    "scores": {
+      "power": 94,
+      "mobility": 62,
+      "efficiency": 70
+    }
+  },
+  {
+    "id": 35,
+    "name": "Inspiron 14 Plus",
+    "brand": "Dell",
+    "price": 999,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "14-inch 2.2K IPS",
+    "idealFor": [
+      "College",
+      "Coding",
+      "Productivity"
+    ],
+    "vibeKeywords": [
+      "value",
+      "fast",
+      "portable"
+    ],
+    "scores": {
+      "power": 76,
+      "mobility": 84,
+      "efficiency": 84
+    }
+  },
+  {
+    "id": 36,
+    "name": "Inspiron 16 2-in-1",
+    "brand": "Dell",
+    "price": 899,
+    "cpu": "Intel Core Ultra 5 125U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "16-inch FHD+ Touch",
+    "idealFor": [
+      "School/Work",
+      "Media",
+      "Notes"
+    ],
+    "vibeKeywords": [
+      "convertible",
+      "big-screen",
+      "practical"
+    ],
+    "scores": {
+      "power": 66,
+      "mobility": 68,
+      "efficiency": 82
+    }
+  },
+  {
+    "id": 37,
+    "name": "Alienware m16 R2",
+    "brand": "Dell",
+    "price": 2199,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "16-inch QHD+ 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Streaming",
+      "Esports"
+    ],
+    "vibeKeywords": [
+      "alienware",
+      "rgb",
+      "high-refresh"
+    ],
+    "scores": {
+      "power": 93,
+      "mobility": 55,
+      "efficiency": 62
+    }
+  },
+  {
+    "id": 38,
+    "name": "G15 Gaming",
+    "brand": "Dell",
+    "price": 1199,
+    "cpu": "Intel Core i7-13650HX",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "15.6-inch FHD 165Hz",
+    "idealFor": [
+      "Gaming",
+      "College",
+      "CAD"
+    ],
+    "vibeKeywords": [
+      "affordable-gaming",
+      "sturdy",
+      "cool"
+    ],
+    "scores": {
+      "power": 86,
+      "mobility": 54,
+      "efficiency": 60
+    }
+  },
+  {
+    "id": 39,
+    "name": "Latitude 7450",
+    "brand": "Dell",
+    "price": 1599,
+    "cpu": "Intel Core Ultra 7 165U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "14-inch WUXGA IPS",
+    "idealFor": [
+      "Business",
+      "Travel",
+      "Security"
+    ],
+    "vibeKeywords": [
+      "corporate",
+      "secure",
+      "battery"
+    ],
+    "scores": {
+      "power": 72,
+      "mobility": 91,
+      "efficiency": 89
+    }
+  },
+  {
+    "id": 40,
+    "name": "Precision 5690",
+    "brand": "Dell",
+    "price": 3799,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "64GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA RTX 4000 Ada 12GB",
+    "screen": "16-inch OLED 3840x2400",
+    "idealFor": [
+      "Workstation",
+      "Engineering",
+      "AI Workloads"
+    ],
+    "vibeKeywords": [
+      "professional",
+      "certified",
+      "power"
+    ],
+    "scores": {
+      "power": 98,
+      "mobility": 55,
+      "efficiency": 66
+    }
+  },
+  {
+    "id": 41,
+    "name": "OmniBook X 14",
+    "brand": "HP",
+    "price": 1199,
+    "cpu": "Qualcomm Snapdragon X Elite",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Qualcomm Adreno GPU",
+    "screen": "14-inch 2.2K Touch",
+    "idealFor": [
+      "Travel",
+      "Business",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "ai-pc",
+      "battery",
+      "silent"
+    ],
+    "scores": {
+      "power": 74,
+      "mobility": 94,
+      "efficiency": 97
+    }
+  },
+  {
+    "id": 42,
+    "name": "OmniBook Ultra 14",
+    "brand": "HP",
+    "price": 1449,
+    "cpu": "AMD Ryzen AI 9 HX 370",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "AMD Radeon 890M",
+    "screen": "14-inch 2.2K IPS",
+    "idealFor": [
+      "Coding",
+      "AI Tools",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "ai",
+      "efficient",
+      "premium"
+    ],
+    "scores": {
+      "power": 84,
+      "mobility": 89,
+      "efficiency": 92
+    }
+  },
+  {
+    "id": 43,
+    "name": "OmniBook Ultra Flip 14",
+    "brand": "HP",
+    "price": 1599,
+    "cpu": "Intel Core Ultra 7 258V",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "14-inch 3K OLED Touch",
+    "idealFor": [
+      "Notes",
+      "Design",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "convertible",
+      "oled",
+      "ai"
+    ],
+    "scores": {
+      "power": 78,
+      "mobility": 90,
+      "efficiency": 93
+    }
+  },
+  {
+    "id": 44,
+    "name": "Spectre x360 14",
+    "brand": "HP",
+    "price": 1649,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "14-inch 2.8K OLED Touch",
+    "idealFor": [
+      "Design",
+      "Business",
+      "Notes"
+    ],
+    "vibeKeywords": [
+      "luxury",
+      "convertible",
+      "oled"
+    ],
+    "scores": {
+      "power": 78,
+      "mobility": 88,
+      "efficiency": 85
+    }
+  },
+  {
+    "id": 45,
+    "name": "Envy x360 15",
+    "brand": "HP",
+    "price": 949,
+    "cpu": "AMD Ryzen 7 8840HS",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "AMD Radeon 780M",
+    "screen": "15.6-inch FHD OLED Touch",
+    "idealFor": [
+      "School/Work",
+      "Design",
+      "Media"
+    ],
+    "vibeKeywords": [
+      "value",
+      "convertible",
+      "oled"
+    ],
+    "scores": {
+      "power": 74,
+      "mobility": 76,
+      "efficiency": 84
+    }
+  },
+  {
+    "id": 46,
+    "name": "Pavilion Aero 13",
+    "brand": "HP",
+    "price": 799,
+    "cpu": "AMD Ryzen 7 8840U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "AMD Radeon 780M",
+    "screen": "13.3-inch WUXGA IPS",
+    "idealFor": [
+      "College",
+      "Travel",
+      "Writing"
+    ],
+    "vibeKeywords": [
+      "ultralight",
+      "budget",
+      "battery"
+    ],
+    "scores": {
+      "power": 70,
+      "mobility": 95,
+      "efficiency": 88
+    }
+  },
+  {
+    "id": 47,
+    "name": "Victus 16",
+    "brand": "HP",
+    "price": 1099,
+    "cpu": "Intel Core i7-14700HX",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "16.1-inch FHD 144Hz",
+    "idealFor": [
+      "Gaming",
+      "College",
+      "Streaming"
+    ],
+    "vibeKeywords": [
+      "budget-gaming",
+      "large",
+      "practical"
+    ],
+    "scores": {
+      "power": 86,
+      "mobility": 56,
+      "efficiency": 62
+    }
+  },
+  {
+    "id": 48,
+    "name": "Omen Transcend 14",
+    "brand": "HP",
+    "price": 1899,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "14-inch OLED 2880x1800 120Hz",
+    "idealFor": [
+      "Gaming",
+      "Creator",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "compact-gaming",
+      "oled",
+      "premium"
+    ],
+    "scores": {
+      "power": 92,
+      "mobility": 78,
+      "efficiency": 72
+    }
+  },
+  {
+    "id": 49,
+    "name": "EliteBook 1040 G11",
+    "brand": "HP",
+    "price": 1699,
+    "cpu": "Intel Core Ultra 7 165U",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "14-inch WUXGA IPS",
+    "idealFor": [
+      "Business",
+      "Security",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "enterprise",
+      "durable",
+      "battery"
+    ],
+    "scores": {
+      "power": 73,
+      "mobility": 92,
+      "efficiency": 90
+    }
+  },
+  {
+    "id": 50,
+    "name": "ZBook Studio 16 G11",
+    "brand": "HP",
+    "price": 3399,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "64GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA RTX 3000 Ada 8GB",
+    "screen": "16-inch 4K DreamColor",
+    "idealFor": [
+      "CAD",
+      "Video Editing",
+      "Engineering"
+    ],
+    "vibeKeywords": [
+      "workstation",
+      "color",
+      "professional"
+    ],
+    "scores": {
+      "power": 96,
+      "mobility": 56,
+      "efficiency": 68
+    }
+  },
+  {
+    "id": 51,
+    "name": "Aspire 3 15",
+    "brand": "Acer",
+    "price": 399,
+    "cpu": "AMD Ryzen 5 7520U",
+    "ram": "8GB",
+    "storage": "512GB SSD",
+    "graphics": "AMD Radeon 610M",
+    "screen": "15.6-inch FHD IPS",
+    "idealFor": [
+      "School/Work",
+      "Everyday Use",
+      "Budget"
+    ],
+    "vibeKeywords": [
+      "cheap",
+      "basic",
+      "student"
+    ],
+    "scores": {
+      "power": 48,
+      "mobility": 66,
+      "efficiency": 76
+    }
+  },
+  {
+    "id": 52,
+    "name": "Aspire 5 14",
+    "brand": "Acer",
+    "price": 599,
+    "cpu": "Intel Core i5-1335U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Iris Xe Graphics",
+    "screen": "14-inch WUXGA IPS",
+    "idealFor": [
+      "College",
+      "Coding",
+      "Office"
+    ],
+    "vibeKeywords": [
+      "budget",
+      "portable",
+      "practical"
+    ],
+    "scores": {
+      "power": 62,
+      "mobility": 82,
+      "efficiency": 80
+    }
+  },
+  {
+    "id": 53,
+    "name": "Aspire Go 15",
+    "brand": "Acer",
+    "price": 329,
+    "cpu": "Intel Core i3-N305",
+    "ram": "8GB",
+    "storage": "128GB UFS",
+    "graphics": "Intel UHD Graphics",
+    "screen": "15.6-inch FHD",
+    "idealFor": [
+      "School/Work",
+      "Web Browsing",
+      "Budget"
+    ],
+    "vibeKeywords": [
+      "entry-level",
+      "cheap",
+      "simple"
+    ],
+    "scores": {
+      "power": 38,
+      "mobility": 68,
+      "efficiency": 79
+    }
+  },
+  {
+    "id": 54,
+    "name": "Swift Go 14 OLED",
+    "brand": "Acer",
+    "price": 899,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "14-inch OLED 2880x1800 90Hz",
+    "idealFor": [
+      "Coding",
+      "Travel",
+      "Media"
+    ],
+    "vibeKeywords": [
+      "oled",
+      "value",
+      "fast"
+    ],
+    "scores": {
+      "power": 76,
+      "mobility": 90,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 55,
+    "name": "Swift Edge 16",
+    "brand": "Acer",
+    "price": 1099,
+    "cpu": "AMD Ryzen 7 8840U",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "AMD Radeon 780M",
+    "screen": "16-inch OLED 3200x2000 120Hz",
+    "idealFor": [
+      "Business",
+      "Media",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "big-oled",
+      "thin",
+      "battery"
+    ],
+    "scores": {
+      "power": 75,
+      "mobility": 78,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 56,
+    "name": "Spin 514 Chromebook Plus",
+    "brand": "Acer",
+    "price": 549,
+    "cpu": "Intel Core i3-1315U",
+    "ram": "8GB",
+    "storage": "256GB SSD",
+    "graphics": "Intel UHD Graphics",
+    "screen": "14-inch WUXGA Touch",
+    "idealFor": [
+      "School/Work",
+      "Web Browsing",
+      "Notes"
+    ],
+    "vibeKeywords": [
+      "chromebook",
+      "convertible",
+      "simple"
+    ],
+    "scores": {
+      "power": 50,
+      "mobility": 86,
+      "efficiency": 88
+    }
+  },
+  {
+    "id": 57,
+    "name": "Chromebook Plus 515",
+    "brand": "Acer",
+    "price": 399,
+    "cpu": "Intel Core i3-1215U",
+    "ram": "8GB",
+    "storage": "128GB UFS",
+    "graphics": "Intel UHD Graphics",
+    "screen": "15.6-inch FHD IPS",
+    "idealFor": [
+      "School/Work",
+      "Web Browsing",
+      "Budget"
+    ],
+    "vibeKeywords": [
+      "chromebook",
+      "cheap",
+      "cloud"
+    ],
+    "scores": {
+      "power": 45,
+      "mobility": 72,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 58,
+    "name": "Nitro V 15",
+    "brand": "Acer",
+    "price": 749,
+    "cpu": "Intel Core i5-13420H",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "NVIDIA GeForce RTX 4050 6GB",
+    "screen": "15.6-inch FHD 144Hz",
+    "idealFor": [
+      "Gaming",
+      "College",
+      "CAD"
+    ],
+    "vibeKeywords": [
+      "starter-gaming",
+      "value",
+      "upgradeable"
+    ],
+    "scores": {
+      "power": 78,
+      "mobility": 58,
+      "efficiency": 61
+    }
+  },
+  {
+    "id": 59,
+    "name": "Predator Helios Neo 16",
+    "brand": "Acer",
+    "price": 1299,
+    "cpu": "Intel Core i7-14700HX",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "16-inch WUXGA 165Hz",
+    "idealFor": [
+      "Gaming",
+      "Streaming",
+      "Engineering"
+    ],
+    "vibeKeywords": [
+      "aggressive",
+      "fast",
+      "cooling"
+    ],
+    "scores": {
+      "power": 88,
+      "mobility": 52,
+      "efficiency": 59
+    }
+  },
+  {
+    "id": 60,
+    "name": "TravelMate P4 14",
+    "brand": "Acer",
+    "price": 799,
+    "cpu": "Intel Core Ultra 5 125U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "14-inch WUXGA IPS",
+    "idealFor": [
+      "Business",
+      "Travel",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "business-budget",
+      "durable",
+      "secure"
+    ],
+    "scores": {
+      "power": 66,
+      "mobility": 86,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 61,
+    "name": "Surface Laptop 7 13.8",
+    "brand": "Microsoft",
+    "price": 999,
+    "cpu": "Qualcomm Snapdragon X Plus",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Qualcomm Adreno GPU",
+    "screen": "13.8-inch PixelSense 2304x1536 Touch",
+    "idealFor": [
+      "Business",
+      "Travel",
+      "Writing"
+    ],
+    "vibeKeywords": [
+      "premium",
+      "arm",
+      "battery"
+    ],
+    "scores": {
+      "power": 72,
+      "mobility": 93,
+      "efficiency": 96
+    }
+  },
+  {
+    "id": 62,
+    "name": "Surface Laptop 7 15",
+    "brand": "Microsoft",
+    "price": 1299,
+    "cpu": "Qualcomm Snapdragon X Elite",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Qualcomm Adreno GPU",
+    "screen": "15-inch PixelSense 2496x1664 Touch",
+    "idealFor": [
+      "Productivity",
+      "Business",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "tall-screen",
+      "battery",
+      "clean"
+    ],
+    "scores": {
+      "power": 76,
+      "mobility": 84,
+      "efficiency": 96
+    }
+  },
+  {
+    "id": 63,
+    "name": "Surface Pro 11 OLED",
+    "brand": "Microsoft",
+    "price": 1499,
+    "cpu": "Qualcomm Snapdragon X Elite",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Qualcomm Adreno GPU",
+    "screen": "13-inch OLED 2880x1920 120Hz Touch",
+    "idealFor": [
+      "Notes",
+      "Travel",
+      "Design"
+    ],
+    "vibeKeywords": [
+      "tablet",
+      "pen",
+      "oled"
+    ],
+    "scores": {
+      "power": 74,
+      "mobility": 96,
+      "efficiency": 95
+    }
+  },
+  {
+    "id": 64,
+    "name": "Galaxy Book4 Pro 14",
+    "brand": "Samsung",
+    "price": 1449,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "14-inch AMOLED 2880x1800 120Hz",
+    "idealFor": [
+      "Travel",
+      "Media",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "amoled",
+      "thin",
+      "ecosystem"
+    ],
+    "scores": {
+      "power": 76,
+      "mobility": 94,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 65,
+    "name": "Galaxy Book4 Ultra",
+    "brand": "Samsung",
+    "price": 2399,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "16-inch AMOLED 2880x1800 120Hz",
+    "idealFor": [
+      "Creator",
+      "Gaming",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "amoled",
+      "premium",
+      "power"
+    ],
+    "scores": {
+      "power": 93,
+      "mobility": 68,
+      "efficiency": 72
+    }
+  },
+  {
+    "id": 66,
+    "name": "Gram Pro 16",
+    "brand": "LG",
+    "price": 1699,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "16-inch OLED 2560x1600 120Hz",
+    "idealFor": [
+      "Travel",
+      "Coding",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "ultralight",
+      "large-screen",
+      "battery"
+    ],
+    "scores": {
+      "power": 76,
+      "mobility": 90,
+      "efficiency": 87
+    }
+  },
+  {
+    "id": 67,
+    "name": "Gram 17",
+    "brand": "LG",
+    "price": 1599,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "17-inch 2560x1600 IPS",
+    "idealFor": [
+      "Productivity",
+      "Writing",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "huge-screen",
+      "light",
+      "battery"
+    ],
+    "scores": {
+      "power": 74,
+      "mobility": 82,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 68,
+    "name": "Stealth 16 AI Studio",
+    "brand": "MSI",
+    "price": 2999,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4080 12GB",
+    "screen": "16-inch QHD+ OLED 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Creator",
+      "3D Design"
+    ],
+    "vibeKeywords": [
+      "stealth",
+      "power",
+      "oled"
+    ],
+    "scores": {
+      "power": 98,
+      "mobility": 62,
+      "efficiency": 67
+    }
+  },
+  {
+    "id": 69,
+    "name": "Katana 15",
+    "brand": "MSI",
+    "price": 999,
+    "cpu": "Intel Core i7-13620H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "15.6-inch FHD 144Hz",
+    "idealFor": [
+      "Gaming",
+      "College",
+      "Streaming"
+    ],
+    "vibeKeywords": [
+      "budget-gaming",
+      "sharp",
+      "value"
+    ],
+    "scores": {
+      "power": 85,
+      "mobility": 56,
+      "efficiency": 60
+    }
+  },
+  {
+    "id": 70,
+    "name": "Prestige 13 AI Evo",
+    "brand": "MSI",
+    "price": 1299,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "Intel Arc Graphics",
+    "screen": "13.3-inch OLED 2880x1800",
+    "idealFor": [
+      "Business",
+      "Travel",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "lightweight",
+      "oled",
+      "ai"
+    ],
+    "scores": {
+      "power": 77,
+      "mobility": 96,
+      "efficiency": 87
+    }
+  },
+  {
+    "id": 71,
+    "name": "Blade 14",
+    "brand": "Razer",
+    "price": 2399,
+    "cpu": "AMD Ryzen 9 8945HS",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "14-inch QHD+ 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Creator",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "premium-gaming",
+      "compact",
+      "metal"
+    ],
+    "scores": {
+      "power": 94,
+      "mobility": 76,
+      "efficiency": 70
+    }
+  },
+  {
+    "id": 72,
+    "name": "Blade 16",
+    "brand": "Razer",
+    "price": 3299,
+    "cpu": "Intel Core i9-14900HX",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4080 12GB",
+    "screen": "16-inch OLED QHD+ 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Video Editing",
+      "Streaming"
+    ],
+    "vibeKeywords": [
+      "luxury",
+      "oled",
+      "performance"
+    ],
+    "scores": {
+      "power": 98,
+      "mobility": 55,
+      "efficiency": 61
+    }
+  },
+  {
+    "id": 73,
+    "name": "Laptop 13 AMD",
+    "brand": "Framework",
+    "price": 1049,
+    "cpu": "AMD Ryzen 7 7840U",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "AMD Radeon 780M",
+    "screen": "13.5-inch 2256x1504 IPS",
+    "idealFor": [
+      "Coding",
+      "Linux",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "repairable",
+      "modular",
+      "portable"
+    ],
+    "scores": {
+      "power": 74,
+      "mobility": 90,
+      "efficiency": 84
+    }
+  },
+  {
+    "id": 74,
+    "name": "Laptop 16",
+    "brand": "Framework",
+    "price": 1899,
+    "cpu": "AMD Ryzen 7 7840HS",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "AMD Radeon RX 7700S 8GB",
+    "screen": "16-inch 2560x1600 165Hz",
+    "idealFor": [
+      "Coding",
+      "Gaming",
+      "Engineering"
+    ],
+    "vibeKeywords": [
+      "modular",
+      "repairable",
+      "upgradeable"
+    ],
+    "scores": {
+      "power": 88,
+      "mobility": 60,
+      "efficiency": 70
+    }
+  },
+  {
+    "id": 75,
+    "name": "Aero 16 OLED",
+    "brand": "Gigabyte",
+    "price": 2199,
+    "cpu": "Intel Core i9-13900H",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "16-inch 4K OLED",
+    "idealFor": [
+      "Creator",
+      "Video Editing",
+      "3D Design"
+    ],
+    "vibeKeywords": [
+      "creator",
+      "4k",
+      "color"
+    ],
+    "scores": {
+      "power": 94,
+      "mobility": 58,
+      "efficiency": 66
+    }
+  },
+  {
+    "id": 76,
+    "name": "G6X 9KG",
+    "brand": "Gigabyte",
+    "price": 1199,
+    "cpu": "Intel Core i7-13650HX",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "16-inch WUXGA 165Hz",
+    "idealFor": [
+      "Gaming",
+      "CAD",
+      "College"
+    ],
+    "vibeKeywords": [
+      "value",
+      "fast",
+      "large"
+    ],
+    "scores": {
+      "power": 87,
+      "mobility": 52,
+      "efficiency": 58
+    }
+  },
+  {
+    "id": 77,
+    "name": "Vivobook S 15 OLED",
+    "brand": "ASUS",
+    "price": 1299,
+    "cpu": "Qualcomm Snapdragon X Elite",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Qualcomm Adreno GPU",
+    "screen": "15.6-inch OLED 2880x1620 120Hz",
+    "idealFor": [
+      "School/Work",
+      "Travel",
+      "Media"
+    ],
+    "vibeKeywords": [
+      "copilot",
+      "oled",
+      "battery"
+    ],
+    "scores": {
+      "power": 74,
+      "mobility": 84,
+      "efficiency": 96
+    }
+  },
+  {
+    "id": 78,
+    "name": "Vivobook Pro 15 OLED",
+    "brand": "ASUS",
+    "price": 1399,
+    "cpu": "AMD Ryzen 9 8945HS",
+    "ram": "24GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "15.6-inch OLED 2880x1620 120Hz",
+    "idealFor": [
+      "Creator",
+      "Gaming",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "creator-value",
+      "oled",
+      "fast"
+    ],
+    "scores": {
+      "power": 89,
+      "mobility": 66,
+      "efficiency": 70
+    }
+  },
+  {
+    "id": 79,
+    "name": "LOQ 15",
+    "brand": "Lenovo",
+    "price": 849,
+    "cpu": "AMD Ryzen 7 8845HS",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "NVIDIA GeForce RTX 4050 6GB",
+    "screen": "15.6-inch FHD 144Hz",
+    "idealFor": [
+      "Gaming",
+      "College",
+      "Engineering"
+    ],
+    "vibeKeywords": [
+      "entry-gaming",
+      "value",
+      "sturdy"
+    ],
+    "scores": {
+      "power": 80,
+      "mobility": 56,
+      "efficiency": 63
+    }
+  },
+  {
+    "id": 80,
+    "name": "Yoga Pro 9i 16",
+    "brand": "Lenovo",
+    "price": 1999,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "16-inch Mini LED 3200x2000 165Hz",
+    "idealFor": [
+      "Creator",
+      "Coding",
+      "Media"
+    ],
+    "vibeKeywords": [
+      "mini-led",
+      "premium",
+      "creator"
+    ],
+    "scores": {
+      "power": 90,
+      "mobility": 64,
+      "efficiency": 73
+    }
+  },
+  {
+    "id": 81,
+    "name": "XPS 15 9530",
+    "brand": "Dell",
+    "price": 1799,
+    "cpu": "Intel Core i7-13700H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4050 6GB",
+    "screen": "15.6-inch 3.5K OLED",
+    "idealFor": [
+      "Creator",
+      "Coding",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "classic",
+      "oled",
+      "premium"
+    ],
+    "scores": {
+      "power": 84,
+      "mobility": 68,
+      "efficiency": 73
+    }
+  },
+  {
+    "id": 82,
+    "name": "Latitude 5350",
+    "brand": "Dell",
+    "price": 1199,
+    "cpu": "Intel Core Ultra 5 135U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "13.3-inch FHD IPS",
+    "idealFor": [
+      "Business",
+      "Travel",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "compact",
+      "secure",
+      "enterprise"
+    ],
+    "scores": {
+      "power": 66,
+      "mobility": 93,
+      "efficiency": 88
+    }
+  },
+  {
+    "id": 83,
+    "name": "Dragonfly G4",
+    "brand": "HP",
+    "price": 1599,
+    "cpu": "Intel Core i7-1365U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Iris Xe Graphics",
+    "screen": "13.5-inch 1920x1280 IPS",
+    "idealFor": [
+      "Business",
+      "Travel",
+      "Writing"
+    ],
+    "vibeKeywords": [
+      "elite",
+      "light",
+      "quiet"
+    ],
+    "scores": {
+      "power": 68,
+      "mobility": 96,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 84,
+    "name": "ProBook 445 G11",
+    "brand": "HP",
+    "price": 749,
+    "cpu": "AMD Ryzen 5 7535U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "AMD Radeon 660M",
+    "screen": "14-inch WUXGA IPS",
+    "idealFor": [
+      "Business",
+      "School/Work",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "practical",
+      "durable",
+      "value"
+    ],
+    "scores": {
+      "power": 63,
+      "mobility": 84,
+      "efficiency": 82
+    }
+  },
+  {
+    "id": 85,
+    "name": "Swift X 14",
+    "brand": "Acer",
+    "price": 1299,
+    "cpu": "Intel Core Ultra 7 155H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4050 6GB",
+    "screen": "14.5-inch OLED 2880x1800 120Hz",
+    "idealFor": [
+      "Creator",
+      "Coding",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "portable-creator",
+      "oled",
+      "value"
+    ],
+    "scores": {
+      "power": 84,
+      "mobility": 82,
+      "efficiency": 76
+    }
+  },
+  {
+    "id": 86,
+    "name": "Aspire Vero 16",
+    "brand": "Acer",
+    "price": 749,
+    "cpu": "Intel Core Ultra 5 125U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "16-inch WUXGA IPS",
+    "idealFor": [
+      "School/Work",
+      "Sustainability",
+      "Business"
+    ],
+    "vibeKeywords": [
+      "eco",
+      "budget",
+      "large"
+    ],
+    "scores": {
+      "power": 64,
+      "mobility": 72,
+      "efficiency": 86
+    }
+  },
+  {
+    "id": 87,
+    "name": "MacBook Air 15 M4",
+    "brand": "Apple",
+    "price": 1499,
+    "cpu": "Apple M4 10-core",
+    "ram": "24GB",
+    "storage": "1TB SSD",
+    "graphics": "Apple 10-core GPU",
+    "screen": "15.3-inch Liquid Retina 2880x1864",
+    "idealFor": [
+      "Coding",
+      "Business",
+      "College"
+    ],
+    "vibeKeywords": [
+      "roomy",
+      "battery",
+      "silent"
+    ],
+    "scores": {
+      "power": 86,
+      "mobility": 89,
+      "efficiency": 97
+    }
+  },
+  {
+    "id": 88,
+    "name": "MacBook Pro 16 M4 Pro",
+    "brand": "Apple",
+    "price": 2699,
+    "cpu": "Apple M4 Pro 14-core",
+    "ram": "24GB",
+    "storage": "1TB SSD",
+    "graphics": "Apple 20-core GPU",
+    "screen": "16.2-inch Liquid Retina XDR 3456x2234",
+    "idealFor": [
+      "Software Engineering",
+      "Video Editing",
+      "Music Production"
+    ],
+    "vibeKeywords": [
+      "pro",
+      "battery",
+      "display"
+    ],
+    "scores": {
+      "power": 95,
+      "mobility": 74,
+      "efficiency": 94
+    }
+  },
+  {
+    "id": 89,
+    "name": "ROG Strix Scar 18",
+    "brand": "ASUS",
+    "price": 3899,
+    "cpu": "Intel Core i9-14900HX",
+    "ram": "64GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4090 16GB",
+    "screen": "18-inch Mini LED 2560x1600 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Streaming",
+      "3D Rendering"
+    ],
+    "vibeKeywords": [
+      "colossal",
+      "rgb",
+      "no-compromise"
+    ],
+    "scores": {
+      "power": 100,
+      "mobility": 35,
+      "efficiency": 50
+    }
+  },
+  {
+    "id": 90,
+    "name": "ThinkBook 14 2-in-1 Gen 4",
+    "brand": "Lenovo",
+    "price": 899,
+    "cpu": "Intel Core Ultra 5 125U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "14-inch WUXGA Touch",
+    "idealFor": [
+      "Notes",
+      "Business",
+      "School/Work"
+    ],
+    "vibeKeywords": [
+      "convertible",
+      "value",
+      "office"
+    ],
+    "scores": {
+      "power": 65,
+      "mobility": 84,
+      "efficiency": 84
+    }
+  },
+  {
+    "id": 91,
+    "name": "Alienware x16 R2",
+    "brand": "Dell",
+    "price": 2999,
+    "cpu": "Intel Core Ultra 9 185H",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4080 12GB",
+    "screen": "16-inch QHD+ 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Streaming",
+      "Creator"
+    ],
+    "vibeKeywords": [
+      "thin-gaming",
+      "rgb",
+      "premium"
+    ],
+    "scores": {
+      "power": 97,
+      "mobility": 52,
+      "efficiency": 60
+    }
+  },
+  {
+    "id": 92,
+    "name": "Omen 17",
+    "brand": "HP",
+    "price": 2499,
+    "cpu": "Intel Core i9-14900HX",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4080 12GB",
+    "screen": "17.3-inch QHD 240Hz",
+    "idealFor": [
+      "Gaming",
+      "Rendering",
+      "Esports"
+    ],
+    "vibeKeywords": [
+      "big",
+      "powerful",
+      "cooling"
+    ],
+    "scores": {
+      "power": 97,
+      "mobility": 42,
+      "efficiency": 55
+    }
+  },
+  {
+    "id": 93,
+    "name": "Predator Triton 14",
+    "brand": "Acer",
+    "price": 1799,
+    "cpu": "Intel Core i7-13700H",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "14-inch Mini LED 2560x1600 250Hz",
+    "idealFor": [
+      "Gaming",
+      "Creator",
+      "Travel"
+    ],
+    "vibeKeywords": [
+      "compact",
+      "mini-led",
+      "gaming"
+    ],
+    "scores": {
+      "power": 91,
+      "mobility": 76,
+      "efficiency": 68
+    }
+  },
+  {
+    "id": 94,
+    "name": "Surface Laptop Studio 2",
+    "brand": "Microsoft",
+    "price": 2399,
+    "cpu": "Intel Core i7-13700H",
+    "ram": "32GB",
+    "storage": "1TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4060 8GB",
+    "screen": "14.4-inch PixelSense 2400x1600 120Hz Touch",
+    "idealFor": [
+      "Design",
+      "Notes",
+      "Creator"
+    ],
+    "vibeKeywords": [
+      "hinge",
+      "pen",
+      "studio"
+    ],
+    "scores": {
+      "power": 86,
+      "mobility": 74,
+      "efficiency": 70
+    }
+  },
+  {
+    "id": 95,
+    "name": "Galaxy Book4 Edge 16",
+    "brand": "Samsung",
+    "price": 1449,
+    "cpu": "Qualcomm Snapdragon X Elite",
+    "ram": "16GB",
+    "storage": "1TB SSD",
+    "graphics": "Qualcomm Adreno GPU",
+    "screen": "16-inch AMOLED 2880x1800 120Hz Touch",
+    "idealFor": [
+      "Business",
+      "Travel",
+      "Media"
+    ],
+    "vibeKeywords": [
+      "arm",
+      "amoled",
+      "battery"
+    ],
+    "scores": {
+      "power": 75,
+      "mobility": 82,
+      "efficiency": 96
+    }
+  },
+  {
+    "id": 96,
+    "name": "Creator Z17 HX Studio",
+    "brand": "MSI",
+    "price": 2999,
+    "cpu": "Intel Core i9-13950HX",
+    "ram": "64GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4070 8GB",
+    "screen": "17-inch QHD+ 165Hz Touch",
+    "idealFor": [
+      "Animation",
+      "Video Editing",
+      "CAD"
+    ],
+    "vibeKeywords": [
+      "creator",
+      "pen",
+      "large"
+    ],
+    "scores": {
+      "power": 96,
+      "mobility": 44,
+      "efficiency": 60
+    }
+  },
+  {
+    "id": 97,
+    "name": "Blade 18",
+    "brand": "Razer",
+    "price": 4499,
+    "cpu": "Intel Core i9-14900HX",
+    "ram": "32GB",
+    "storage": "2TB SSD",
+    "graphics": "NVIDIA GeForce RTX 4090 16GB",
+    "screen": "18-inch 4K 200Hz",
+    "idealFor": [
+      "Gaming",
+      "Workstation",
+      "Streaming"
+    ],
+    "vibeKeywords": [
+      "luxury",
+      "desktop-class",
+      "4k"
+    ],
+    "scores": {
+      "power": 100,
+      "mobility": 32,
+      "efficiency": 48
+    }
+  },
+  {
+    "id": 98,
+    "name": "Aspire Lite 14",
+    "brand": "Acer",
+    "price": 349,
+    "cpu": "Intel Core i3-1215U",
+    "ram": "8GB",
+    "storage": "256GB SSD",
+    "graphics": "Intel UHD Graphics",
+    "screen": "14-inch FHD IPS",
+    "idealFor": [
+      "Budget",
+      "School/Work",
+      "Web Browsing"
+    ],
+    "vibeKeywords": [
+      "cheap",
+      "portable",
+      "simple"
+    ],
+    "scores": {
+      "power": 42,
+      "mobility": 80,
+      "efficiency": 78
+    }
+  },
+  {
+    "id": 99,
+    "name": "IdeaPad Flex 5 14",
+    "brand": "Lenovo",
+    "price": 699,
+    "cpu": "AMD Ryzen 5 8645HS",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "AMD Radeon 760M",
+    "screen": "14-inch WUXGA Touch",
+    "idealFor": [
+      "College",
+      "Notes",
+      "Coding"
+    ],
+    "vibeKeywords": [
+      "convertible",
+      "student",
+      "value"
+    ],
+    "scores": {
+      "power": 66,
+      "mobility": 84,
+      "efficiency": 82
+    }
+  },
+  {
+    "id": 100,
+    "name": "OmniBook 5 16",
+    "brand": "HP",
+    "price": 849,
+    "cpu": "Intel Core Ultra 5 125U",
+    "ram": "16GB",
+    "storage": "512GB SSD",
+    "graphics": "Intel Graphics",
+    "screen": "16-inch 2K IPS",
+    "idealFor": [
+      "School/Work",
+      "Business",
+      "Media"
+    ],
+    "vibeKeywords": [
+      "modern",
+      "quiet",
+      "large"
+    ],
+    "scores": {
+      "power": 65,
+      "mobility": 74,
+      "efficiency": 85
+    }
+  }
+]

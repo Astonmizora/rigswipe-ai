@@ -1,0 +1,9 @@
+{
+  "name": "laptop-matchmaker-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static React and Tailwind CSS laptop recommendation app backed by a 100-item mock catalog.",
+  "scripts": {
+    "start": "python -m http.server 5173"
+  }
+}
