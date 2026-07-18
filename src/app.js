@@ -2,7 +2,28 @@ const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Roast My Current Rig", 
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
-// Hardware target profiles aligned to engineering branch constraints
+const perfStyles = document.createElement("style");
+perfStyles.textContent = `
+  /* Hardware acceleration layer promotion */
+  .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  /* Remove layout calculation stutter during drag cycles */
+  .dragging {
+    transition: none !important;
+    will-change: transform !important;
+  }
+  /* Avoid cursor highlights when dragging card nodes */
+  .swipe-zone, .tinder-card {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+  }
+`;
+document.head.appendChild(perfStyles);
+
 const branchProfiles = {
   CSE: {
     terms: ["Coding", "Data Science", "AI Workloads", "Software Engineering", "Machine Learning", "Linux"],
@@ -206,8 +227,61 @@ function getMatches() {
 }
 
 function setState(patch) {
+  const oldTab = state.activeTab;
   Object.assign(state, patch);
-  render();
+
+  if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
+    render();
+  } else {
+    // If selecting a different dropdown branch/purpose, re-render the sidebar to keep static labels synced
+    if (patch.branch !== undefined || patch.purpose !== undefined) {
+      const panel = document.querySelector(".panel");
+      if (panel) panel.innerHTML = renderPanel();
+    }
+    updateResultsOnly();
+  }
+}
+
+function updateResultsOnly() {
+  if (state.activeTab === "Match Mode ⚡") {
+    render();
+    return;
+  }
+
+  const matches = getMatches();
+  const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
+  if (state.page > totalPages) state.page = totalPages;
+  const visible = matches.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
+
+  // Update Result Count Head without wiping navigation blocks
+  const resultsHead = document.querySelector(".results-head");
+  if (resultsHead) {
+    resultsHead.innerHTML = `
+      <div class="results-row">
+        <div>
+          <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
+          <h2>Matched Shortlist</h2>
+        </div>
+        <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
+      </div>
+    `;
+  }
+
+  // Update only the result grid cards
+  const grid = document.querySelector(".grid");
+  if (grid) {
+    grid.innerHTML = visible.map(renderCard).join("");
+  }
+
+  // Update pagination actions
+  const pagination = document.querySelector(".pagination");
+  if (pagination) {
+    pagination.innerHTML = `
+      <button class="page-btn" data-page="prev" ${state.page === 1 ? "disabled" : ""}>Prev</button>
+      <button class="page-btn" disabled>${state.page} / ${totalPages}</button>
+      <button class="page-btn" data-page="next" ${state.page === totalPages ? "disabled" : ""}>Next</button>
+    `;
+  }
 }
 
 function renderNav() {
@@ -238,71 +312,32 @@ function render() {
   if (state.page > totalPages) state.page = totalPages;
   const visible = matches.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
 
-  const layoutContainer = document.querySelector(".layout");
-  const activeTabEl = document.querySelector(".tabs button.active");
+  root.innerHTML = `
+    <main class="app">
+      ${renderNav()}
 
-  // DOM Patching: Keeps structure in memory, updates only changing content nodes
-  if (layoutContainer && activeTabEl && activeTabEl.dataset.tab !== "Match Mode ⚡") {
-    document.querySelectorAll(".tabs .tab").forEach(button => {
-      button.classList.toggle("active", button.dataset.tab === state.activeTab);
-    });
-
-    const panel = document.querySelector(".panel");
-    if (panel) panel.innerHTML = renderPanel();
-
-    const resultsHead = document.querySelector(".results-head");
-    if (resultsHead) {
-      resultsHead.innerHTML = `
-        <div class="results-row">
-          <div>
-            <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
-            <h2>Matched Shortlist</h2>
-          </div>
-          <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
-        </div>
-      `;
-    }
-
-    const grid = document.querySelector(".grid");
-    if (grid) grid.innerHTML = visible.map(renderCard).join("");
-
-    const pagination = document.querySelector(".pagination");
-    if (pagination) {
-      pagination.innerHTML = `
-        <button class="page-btn" data-page="prev" ${state.page === 1 ? "disabled" : ""}>Prev</button>
-        <button class="page-btn" disabled>${state.page} / ${totalPages}</button>
-        <button class="page-btn" data-page="next" ${state.page === totalPages ? "disabled" : ""}>Next</button>
-      `;
-    }
-  } else {
-    // Structural Rebuild: Runs only when loading app initially or returning from Match Mode
-    root.innerHTML = `
-      <main class="app">
-        ${renderNav()}
-
-        <section class="layout">
-          <aside class="glass panel">${renderPanel()}</aside>
-          <section class="results">
-            <header class="glass results-head">
-              <div class="results-row">
-                <div>
-                  <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
-                  <h2>Matched Shortlist</h2>
-                </div>
-                <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
+      <section class="layout">
+        <aside class="glass panel">${renderPanel()}</aside>
+        <section class="results">
+          <header class="glass results-head">
+            <div class="results-row">
+              <div>
+                <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
+                <h2>Matched Shortlist</h2>
               </div>
-            </header>
-            <div class="grid">${visible.map(renderCard).join("")}</div>
-            <div class="pagination">
-              <button class="page-btn" data-page="prev" ${state.page === 1 ? "disabled" : ""}>Prev</button>
-              <button class="page-btn" disabled>${state.page} / ${totalPages}</button>
-              <button class="page-btn" data-page="next" ${state.page === totalPages ? "disabled" : ""}>Next</button>
+              <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
             </div>
-          </section>
+          </header>
+          <div class="grid">${visible.map(renderCard).join("")}</div>
+          <div class="pagination">
+            <button class="page-btn" data-page="prev" ${state.page === 1 ? "disabled" : ""}>Prev</button>
+            <button class="page-btn" disabled>${state.page} / ${totalPages}</button>
+            <button class="page-btn" data-page="next" ${state.page === totalPages ? "disabled" : ""}>Next</button>
+          </div>
         </section>
-      </main>
-    `;
-  }
+      </section>
+    </main>
+  `;
 }
 
 function renderPanel() {
@@ -569,6 +604,7 @@ function attachDragSwipe() {
   let startX = 0;
   let currentX = 0;
   let dragging = false;
+  let rafId = null;
 
   card.addEventListener("pointerdown", (event) => {
     dragging = true;
@@ -581,8 +617,13 @@ function attachDragSwipe() {
   card.addEventListener("pointermove", (event) => {
     if (!dragging) return;
     currentX = event.clientX - startX;
-    const rotate = Math.max(-10, Math.min(10, currentX / 18));
-    card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+    
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      if (!dragging) return;
+      const rotate = Math.max(-10, Math.min(10, currentX / 18));
+      card.style.transform = `translate3d(${currentX}px, 0, 0) rotate(${rotate}deg)`;
+    });
   });
 
   card.addEventListener("pointerup", () => finishDrag());
@@ -591,6 +632,7 @@ function attachDragSwipe() {
   function finishDrag() {
     if (!dragging) return;
     dragging = false;
+    if (rafId) cancelAnimationFrame(rafId);
     card.classList.remove("dragging");
 
     if (currentX > 110) {
@@ -704,9 +746,7 @@ function debounceRender() {
   }, 200);
 }
 
-// Binds event listeners EXACTLY ONCE to protect system memory threads
 function initGlobalEvents() {
-  // Global Click delegation
   document.addEventListener("click", (event) => {
     const tabBtn = event.target.closest("[data-tab]");
     if (tabBtn) {
@@ -745,7 +785,6 @@ function initGlobalEvents() {
     }
   });
 
-  // Global Input delegation
   document.addEventListener("input", (event) => {
     const target = event.target;
     if (target.id === "budget") {
@@ -760,7 +799,6 @@ function initGlobalEvents() {
     }
   });
 
-  // Global Select / Slider Drag Release delegation
   document.addEventListener("change", (event) => {
     const target = event.target;
     if (target.id === "budget") {
@@ -772,7 +810,6 @@ function initGlobalEvents() {
     }
   });
 
-  // Global Form Submission delegation
   document.addEventListener("submit", (event) => {
     const target = event.target;
     if (target.id === "matcher-form") {
@@ -790,7 +827,6 @@ function initGlobalEvents() {
   });
 }
 
-// Ensure the setup run starts event hooks exactly once
 if (!window.__eventsInitialized) {
   initGlobalEvents();
   window.__eventsInitialized = true;
