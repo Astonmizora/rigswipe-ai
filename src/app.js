@@ -4,43 +4,27 @@ const USD_TO_INR = 83;
 
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
-  /* High-Fidelity Apple "hello" Style Keyframes */
-  @keyframes drawSignature {
-    0% {
-      stroke-dashoffset: 700;
-      fill: rgba(255, 255, 255, 0);
-    }
-    70% {
+  /* High-Fidelity Apple cursive write-in animations */
+  @keyframes writeStroke {
+    to {
       stroke-dashoffset: 0;
-      fill: rgba(255, 255, 255, 0);
-    }
-    100% {
-      stroke-dashoffset: 0;
-      fill: rgba(255, 255, 255, 1);
     }
   }
 
-  @keyframes scaleUpExit {
-    0% {
-      opacity: 1;
-      transform: scale3d(1, 1, 1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale3d(1.05, 1.05, 1);
-      visibility: hidden;
-    }
+  @keyframes popElasticDot {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
   }
 
-  @keyframes pulseAura {
-    0%, 100% {
-      opacity: 0.12;
-      transform: translate3d(-10%, -10%, 0) scale(1);
-    }
-    50% {
-      opacity: 0.22;
-      transform: translate3d(10%, 10%, 0) scale(1.1);
-    }
+  @keyframes ambientShift {
+    0%, 100% { transform: translate3d(-10%, -10%, 0) scale(1); opacity: 0.15; }
+    50% { transform: translate3d(10%, 10%, 0) scale(1.15); opacity: 0.25; }
+  }
+
+  @keyframes scaleAndFadeOut {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
   }
 
   /* Velvet Matte Splash Screen Structure */
@@ -50,7 +34,7 @@ perfStyles.textContent = `
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #09090b; /* Pure premium matte black */
+    background-color: #08080a; /* Premium matte carbon black */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -60,54 +44,77 @@ perfStyles.textContent = `
   }
 
   .splash-screen.fade-out {
-    animation: scaleUpExit 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: scaleAndFadeOut 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     pointer-events: none;
   }
 
   /* Soft Background Fluid Aura */
   .splash-aura {
     position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
-    top: 15%;
-    left: 15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
+    top: 20%;
+    left: 20%;
     z-index: 1;
     pointer-events: none;
-    animation: pulseAura 6s ease-in-out infinite;
+    animation: ambientShift 7s ease-in-out infinite;
   }
 
   .splash-container {
     text-align: center;
-    max-width: 420px;
+    width: 100%;
+    max-width: 460px;
     z-index: 2;
     position: relative;
     transform: translate3d(0, 0, 0);
   }
 
-  /* SVG Signature element */
-  .splash-signature-svg {
+  /* Cursive SVG Signature Structure */
+  .hello-svg {
     width: 320px;
-    height: 90px;
+    height: 120px;
     margin-bottom: 2rem;
+    overflow: visible;
   }
 
-  .signature-text {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
-    font-size: 58px;
-    font-weight: 700;
-    letter-spacing: -0.04em;
+  .hello-path {
     stroke: #ffffff;
-    stroke-width: 1.5px;
-    stroke-dasharray: 700;
-    stroke-dashoffset: 700;
-    fill: rgba(255, 255, 255, 0);
-    animation: drawSignature 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    stroke-width: 4.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+    animation: writeStroke 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 
+  .hello-dot, .hello-dot-i, .hello-dot-i2 {
+    fill: #a78bfa; /* Warm glowing accent purple dots */
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: center;
+    animation: popElasticDot 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  /* Staggered Stroke handwriting timings */
+  .p-r { animation-delay: 0.1s; animation-duration: 0.35s; }
+  .p-i { animation-delay: 0.4s; animation-duration: 0.25s; }
+  .p-g { animation-delay: 0.6s; animation-duration: 0.45s; }
+  .p-s { animation-delay: 1.0s; animation-duration: 0.35s; }
+  .p-w { animation-delay: 1.25s; animation-duration: 0.45s; }
+  .p-i2 { animation-delay: 1.6s; animation-duration: 0.25s; }
+  .p-p { animation-delay: 1.75s; animation-duration: 0.45s; }
+  .p-e { animation-delay: 2.1s; animation-duration: 0.35s; }
+  
+  .hello-dot { animation-delay: 2.35s; }
+  .hello-dot-i { animation-delay: 2.35s; }
+  .hello-dot-i2 { animation-delay: 2.35s; }
+
+  /* iOS Smooth white timeline progress track */
   .splash-progress-track {
-    width: 140px;
-    height: 2px; /* iOS thin timeline track */
+    width: 150px;
+    height: 2.5px;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 99px;
     margin: 0 auto;
@@ -118,20 +125,12 @@ perfStyles.textContent = `
   .splash-progress-fill {
     height: 100%;
     width: 0%;
-    background: #ffffff; /* Monochromatic white loading line */
+    background: #ffffff;
     border-radius: 99px;
-    transition: width 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: width 2.4s linear;
   }
 
-  /* GPU Rendering and Scroll optimizations */
-  .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
-    transform: translate3d(0, 0, 0);
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-
-  /* Clean scrolling containment */
+  /* Static Scroll containment */
   .grid {
     contain: layout paint;
   }
@@ -429,9 +428,29 @@ function renderSplash() {
     <section class="splash-screen" id="splash-screen">
       <div class="splash-aura"></div>
       <div class="splash-container">
-        <!-- SVG self-writing text emblem -->
-        <svg class="splash-signature-svg" viewBox="0 0 320 90">
-          <text x="50%" y="65%" text-anchor="middle" class="signature-text">RigSwipe.</text>
+        <!-- iOS Signature Cursive "hello" Style write-in path -->
+        <svg class="hello-svg" viewBox="0 0 450 160">
+          <!-- r -->
+          <path class="hello-path p-r" d="M 50,110 C 50,110 52,65 65,65 C 75,65 80,72 85,75 C 90,78 95,110 95,110" />
+          <!-- i -->
+          <path class="hello-path p-i" d="M 95,110 C 105,95 110,80 115,80 C 120,80 120,110 120,110" />
+          <!-- g -->
+          <path class="hello-path p-g" d="M 120,110 C 120,95 135,95 140,95 C 145,95 145,110 140,110 C 135,110 135,95 135,95 M 140,110 C 140,125 130,145 115,145 C 105,145 105,135 115,125 C 125,115 145,110 155,110" />
+          <!-- s -->
+          <path class="hello-path p-s" d="M 155,110 C 165,95 175,70 180,70 C 185,70 170,110 185,110" />
+          <!-- w -->
+          <path class="hello-path p-w" d="M 185,110 C 190,90 195,90 200,110 C 205,110 210,90 215,90 C 220,90 220,110 225,110" />
+          <!-- i -->
+          <path class="hello-path p-i2" d="M 225,110 C 230,95 235,80 240,80 C 245,80 245,110 245,110" />
+          <!-- p -->
+          <path class="hello-path p-p" d="M 245,110 C 250,90 255,80 260,80 C 265,80 255,140 255,140 M 255,110 C 265,95 275,95 275,110" />
+          <!-- e -->
+          <path class="hello-path p-e" d="M 275,110 C 285,100 290,90 295,90 C 300,90 285,110 310,110 C 330,110 350,95 365,95" />
+          <!-- Elastic Accent period -->
+          <circle class="hello-dot" cx="375" cy="110" r="4.5" />
+          <!-- Dots for letter "i" and "i2" -->
+          <circle class="hello-dot-i" cx="115" cy="65" r="3" />
+          <circle class="hello-dot-i2" cx="240" cy="65" r="3" />
         </svg>
         <div class="splash-progress-track">
           <div class="splash-progress-fill" id="splash-progress"></div>
@@ -445,13 +464,13 @@ function render() {
   if (state.showSplash) {
     root.innerHTML = renderSplash();
     
-    // Animate loading bar progress
+    // Fill progress bar relative to pen write timings
     window.setTimeout(() => {
       const progress = document.getElementById("splash-progress");
       if (progress) progress.style.width = "100%";
-    }, 150);
+    }, 100);
 
-    // Fade out and transition
+    // Zoom-fade transition out of curtain once signature completes
     window.setTimeout(() => {
       const splash = document.getElementById("splash-screen");
       if (splash) {
@@ -459,9 +478,9 @@ function render() {
         window.setTimeout(() => {
           state.showSplash = false;
           render();
-        }, 650);
+        }, 750);
       }
-    }, 2200); // Gives written letters plenty of time to assemble
+    }, 2800); 
     return;
   }
 
@@ -1001,12 +1020,11 @@ fetch("./laptopsData.json")
     return response.json();
   })
   .then((laptops) => {
-    shuffle(laptops); // Shuffles laptop decks on startup
+    shuffle(laptops); // Randomize current deck on startup
     state.laptops = laptops;
     render();
   })
   .catch((error) => {
-    // If we're showing the splash, let the splash animation run its course, then mount the error
     const renderError = () => {
       root.innerHTML = `
         <main class="app">
