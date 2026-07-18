@@ -1,25 +1,116 @@
-const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Roast My Current Rig", "Match Mode ⚡"];
+const TABS = ["Scan", "Academic", "Roast", "Rig Tinder"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
+// Injected dynamic high-performance stylesheet
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
-  /* Hardware acceleration layer promotion */
+  /* iOS Soft Organic Spring Keyframes */
+  @keyframes iosFadeScaleIn {
+    0% {
+      opacity: 0;
+      transform: scale3d(0.96, 0.96, 1);
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes iosExit {
+    0% {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale3d(1.03, 1.03, 1);
+      visibility: hidden;
+    }
+  }
+
+  /* OLED Matte Splash Screen Gate */
+  .splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #09090b; /* Pure Apple-style Matte Graphite */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    overflow: hidden;
+  }
+
+  .splash-screen.fade-out {
+    animation: iosExit 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    pointer-events: none;
+  }
+
+  .splash-container {
+    text-align: center;
+    max-width: 320px;
+    animation: iosFadeScaleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .splash-logo-svg {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 1.75rem;
+    color: #ffffff;
+  }
+
+  .splash-brand {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  .splash-tagline {
+    font-size: 0.8rem;
+    color: #71717a; /* Clean premium matte gray */
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+  }
+
+  .splash-progress-track {
+    width: 140px;
+    height: 2px; /* Apple signature thin scroll track */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .splash-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #ffffff; /* Monochromatic premium white fill */
+    border-radius: 99px;
+    transition: width 1.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* GPU Rendering and Scroll optimizations */
   .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
     transform: translate3d(0, 0, 0);
     will-change: transform, opacity;
     backface-visibility: hidden;
     perspective: 1000px;
   }
-  /* Remove layout calculation stutter during drag cycles */
-  .dragging {
-    transition: none !important;
-    will-change: transform !important;
-  }
-  /* Avoid cursor highlights when dragging card nodes */
-  .swipe-zone, .tinder-card {
-    user-select: none !important;
-    -webkit-user-select: none !important;
+
+  /* Clean scrolling containment */
+  .grid {
+    contain: layout paint;
   }
 `;
 document.head.appendChild(perfStyles);
@@ -135,9 +226,17 @@ const state = {
   matchIndex: 0,
   savedMatches: [],
   drawerOpen: true,
+  showSplash: true,
 };
 
 const root = document.getElementById("root");
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
 function formatPrice(value) {
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(value * USD_TO_INR);
@@ -202,7 +301,7 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 function getMatches() {
   const currentBudgetUsd = budgetInUsd();
   
-  if (state.activeTab === "BTech Branch Finder") {
+  if (state.activeTab === "Academic") {
     const profile = branchProfiles[state.branch];
     const terms = [...profile.terms, ...profile.vibes, ...purposeProfiles[state.purpose]];
     const maxBudgetFilter = currentBudgetUsd + 700;
@@ -230,10 +329,14 @@ function setState(patch) {
   const oldTab = state.activeTab;
   Object.assign(state, patch);
 
+  if (state.showSplash) {
+    render();
+    return;
+  }
+
   if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
     render();
   } else {
-    // If selecting a different dropdown branch/purpose, re-render the sidebar to keep static labels synced
     if (patch.branch !== undefined || patch.purpose !== undefined) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
@@ -243,7 +346,7 @@ function setState(patch) {
 }
 
 function updateResultsOnly() {
-  if (state.activeTab === "Match Mode ⚡") {
+  if (state.activeTab === "Rig Tinder") {
     render();
     return;
   }
@@ -253,7 +356,6 @@ function updateResultsOnly() {
   if (state.page > totalPages) state.page = totalPages;
   const visible = matches.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
 
-  // Update Result Count Head without wiping navigation blocks
   const resultsHead = document.querySelector(".results-head");
   if (resultsHead) {
     resultsHead.innerHTML = `
@@ -267,13 +369,11 @@ function updateResultsOnly() {
     `;
   }
 
-  // Update only the result grid cards
   const grid = document.querySelector(".grid");
   if (grid) {
     grid.innerHTML = visible.map(renderCard).join("");
   }
 
-  // Update pagination actions
   const pagination = document.querySelector(".pagination");
   if (pagination) {
     pagination.innerHTML = `
@@ -288,7 +388,7 @@ function renderNav() {
   return `
     <nav class="glass nav">
       <div class="brand">
-        <div class="brand-mark">AI</div>
+        <div class="brand-mark">RS</div>
         <div>
           <h1>RigSwipe</h1>
           <div class="accent-line"></div>
@@ -301,8 +401,54 @@ function renderNav() {
   `;
 }
 
+function renderSplash() {
+  return `
+    <section class="splash-screen" id="splash-screen">
+      <div class="splash-container">
+        <!-- Minimalist iOS Wireframe Device Logo -->
+        <svg class="splash-logo-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <!-- Continuous precision chassis line -->
+          <rect x="22" y="26" width="56" height="38" rx="4" stroke="currentColor" stroke-width="2.5" fill="none" />
+          <line x1="15" y1="68" x2="85" y2="68" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <line x1="38" y1="72" x2="62" y2="72" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <!-- Symmetrical minimalist brand emblem -->
+          <circle cx="50" cy="45" r="5" fill="currentColor" opacity="0.9" />
+        </svg>
+        <h1 class="splash-brand">RigSwipe</h1>
+        <p class="splash-tagline">Swipe. Spec. Conquer.</p>
+        <div class="splash-progress-track">
+          <div class="splash-progress-fill" id="splash-progress"></div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function render() {
-  if (state.activeTab === "Match Mode ⚡") {
+  if (state.showSplash) {
+    root.innerHTML = renderSplash();
+    
+    // Smooth minimalist linear transition
+    window.setTimeout(() => {
+      const progress = document.getElementById("splash-progress");
+      if (progress) progress.style.width = "100%";
+    }, 120);
+
+    // Fade out and scale elegantly after fill completes
+    window.setTimeout(() => {
+      const splash = document.getElementById("splash-screen");
+      if (splash) {
+        splash.classList.add("fade-out");
+        window.setTimeout(() => {
+          state.showSplash = false;
+          render();
+        }, 650);
+      }
+    }, 1600);
+    return;
+  }
+
+  if (state.activeTab === "Rig Tinder") {
     renderMatchMode();
     return;
   }
@@ -341,8 +487,8 @@ function render() {
 }
 
 function renderPanel() {
-  if (state.activeTab === "BTech Branch Finder") return renderBranchPanel();
-  if (state.activeTab === "Roast My Current Rig") return renderRoastPanel();
+  if (state.activeTab === "Academic") return renderBranchPanel();
+  if (state.activeTab === "Roast") return renderRoastPanel();
   return renderMatcherPanel();
 }
 
@@ -397,7 +543,7 @@ function renderMatchMode() {
         <section class="match-stage">
           <div class="match-copy">
             <p class="eyebrow">Laptop Tinder</p>
-            <h2>Match Mode</h2>
+            <h2>Rig Tinder</h2>
             <p>Swipe through the catalog one laptop at a time. Match what feels right, pass what does not.</p>
           </div>
           <div class="match-workspace">
@@ -499,7 +645,7 @@ function renderShortlistDrawer() {
 function renderMatcherPanel() {
   return `
     <form class="form" id="matcher-form">
-      ${panelTitle("AI Vibe Matcher", "Tell it the vibe, budget, workload, or deal-breakers.")}
+      ${panelTitle("Scan Specifications", "Tell it the vibe, budget, workload, or deal-breakers.")}
       <label>
         Request
         <textarea id="query" rows="7">${escapeHtml(state.query)}</textarea>
@@ -514,7 +660,7 @@ function renderBranchPanel() {
   const profile = branchProfiles[state.branch];
   return `
     <div class="form">
-      ${panelTitle("BTech Branch Finder", "Tune recommendations around branch workload and campus reality.")}
+      ${panelTitle("Academic Requirements", "Tune recommendations around branch workload and campus reality.")}
       <label>
         Branch
         <select id="branch">${Object.keys(branchProfiles).map((item) => `<option value="${item}" ${item === state.branch ? "selected" : ""}>${branchLabels[item]}</option>`).join("")}</select>
@@ -532,7 +678,7 @@ function renderBranchPanel() {
 function renderRoastPanel() {
   return `
     <form class="form" id="roast-form">
-      ${panelTitle("Roast My Current Rig", "Drop the specs. The roast is rude, the upgrade advice is useful.")}
+      ${panelTitle("Rig Roast 🔥", "Drop the specs. The roast is rude, the upgrade advice is useful.")}
       <textarea id="roast-input" rows="7">${escapeHtml(state.roastInput)}</textarea>
       <button class="primary-btn">Roast It</button>
       ${state.roast ? `<div class="roast-output">${escapeHtml(state.roast)}</div>` : ""}
@@ -728,7 +874,7 @@ function buildRoast(input) {
   if (text.includes("crack") || text.includes("hinge")) burns.push("The hinge has seen things no productivity device should have to see.");
   if (!burns.length) burns.push("Honestly, this rig may survive. It still deserves a gentle upgrade and a less dramatic desktop wallpaper.");
 
-  return `${burns.join(" ")} Upgrade vibe: ${recommendUpgrade(text)}.`;
+  return `${burns.join(" ")} Upgrade advice: ${recommendUpgrade(text)}.`;
 }
 
 function recommendUpgrade(text) {
@@ -832,35 +978,22 @@ if (!window.__eventsInitialized) {
   window.__eventsInitialized = true;
 }
 
-// Fisher-Yates shuffle algorithm to randomize the deck cleanly
-function shuffle(array) {
-  let currentIndex = array.length;
-  let randomIndex;
-
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-  }
-
-  return array;
-}
-
 fetch("./laptopsData.json")
   .then((response) => {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     return response.json();
   })
   .then((laptops) => {
-    state.laptops = shuffle(laptops);
+    shuffle(laptops); // Shuffles laptop decks on startup
+    state.laptops = laptops;
     render();
   })
   .catch((error) => {
     root.innerHTML = `
       <main class="app">
         <div class="error">
-          <h1>Laptop Matchmaker AI could not load the catalog.</h1>
-          <p>Run it through a local server from this folder, then open http://127.0.0.1:5173. Details: ${escapeHtml(error.message)}</p>
+          <h1>RigSwipe could not load the catalog.</h1>
+          <p>Please launch your local host server or verify Vercel configuration. Error detail: ${escapeHtml(error.message)}</p>
         </div>
       </main>
     `;
