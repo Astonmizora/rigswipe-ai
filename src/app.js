@@ -20,12 +20,6 @@ perfStyles.textContent = `
     100% { opacity: 0; transform: scale(1.02); filter: blur(8px); visibility: hidden; }
   }
 
-  @keyframes metalShimmer {
-    0% { left: -150%; }
-    50% { left: 150%; }
-    100% { left: 150%; }
-  }
-
   @keyframes scanningLaser {
     0% { top: -5%; opacity: 0; }
     5% { opacity: 1; }
@@ -33,7 +27,7 @@ perfStyles.textContent = `
     100% { top: 105%; opacity: 0; }
   }
 
-  /* Velvet Minimalist Splash */
+  /* Minimalist Splash */
   .splash-screen {
     position: fixed;
     top: 0;
@@ -65,10 +59,11 @@ perfStyles.textContent = `
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
     font-size: 3.5rem;
-    letter-spacing: -0.04em;
+    letter-spacing: 0.05em;
     color: #ffffff;
     animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     opacity: 0;
+    text-transform: uppercase;
   }
 
   .splash-sub-text {
@@ -80,22 +75,6 @@ perfStyles.textContent = `
     margin-top: 0.5rem;
     animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
     opacity: 0;
-  }
-
-  /* Micro-Interaction Shimmer Class */
-  .shimmer-track {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .shimmer-track::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -150%; width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-    transform: skewX(-25deg);
-    pointer-events: none;
-    animation: metalShimmer 6s infinite ease-in-out;
   }
 
   /* Premium Elevation Physics */
@@ -123,6 +102,14 @@ perfStyles.textContent = `
   /* Holographic Scan Overlay Laser */
   .scan-horizon-laser {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+    animation: scanningLaser 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
   /* GPU Rendering optimizers */
   .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
     transform: translate3d(0, 0, 0);
@@ -437,7 +424,7 @@ function renderSplash() {
   return `
     <section class="splash-screen" id="splash-screen">
       <div class="splash-container">
-        <h1 class="splash-logo-text">rigswipe.</h1>
+        <h1 class="splash-logo-text">RIGSWIPE</h1>
         <p class="splash-sub-text">AI Laptop Matchmaker</p>
       </div>
     </section>
@@ -536,7 +523,7 @@ function renderMatchMode() {
             count
               ? state.savedMatches
                   .map((item) => `
-                    <article class="mini-card shimmer-track">
+                    <article class="mini-card">
                       <div>
                         <p class="eyebrow">${escapeHtml(item.brand)}</p>
                         <h4>${escapeHtml(item.name)}</h4>
@@ -589,7 +576,7 @@ function primaryHighlight(laptop) {
 
 function renderSwipeCard(laptop) {
   return `
-    <article class="glass tinder-card shimmer-track" id="tinder-card" data-card-id="${laptop.id}">
+    <article class="glass tinder-card" id="tinder-card" data-card-id="${laptop.id}">
       <div class="photo-placeholder">
         <div class="laptop-shell">
           <div class="laptop-screen"></div>
@@ -632,7 +619,7 @@ function renderShortlistDrawer() {
           ? state.savedMatches
               .map(
                 (laptop) => `
-                  <article class="mini-card shimmer-track">
+                  <article class="mini-card">
                     <div>
                       <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
                       <h4>${escapeHtml(laptop.name)}</h4>
@@ -719,7 +706,7 @@ function budgetControl() {
 
 function renderCard(laptop) {
   return `
-    <article class="glass card shimmer-track">
+    <article class="glass card">
       <div class="card-top">
         <div>
           <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
@@ -882,7 +869,7 @@ function buildRoast(input) {
   const burns = [];
 
   if (text.includes("4gb") || text.includes("8gb")) burns.push("That RAM capacity is barely keeping Windows breathing.");
-  if (text.includes("hdd")) burns.push("Running an mechanical spindle drive in this decade belongs in a museum.");
+  if (text.includes("hdd")) burns.push("Running a mechanical spindle drive in this decade belongs in a museum.");
   if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push("That CPU works at the speed of legal legislation.");
   if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The laptop sounds prepared for outer space flight but remains static on your table.");
   if (text.includes("crack") || text.includes("hinge")) burns.push("Your frame is undergoing rapid structural decay.");
