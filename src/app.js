@@ -215,7 +215,7 @@ function renderNav() {
       <div class="brand">
         <div class="brand-mark">AI</div>
         <div>
-          <h1>Laptop Matchmaker AI</h1>
+          <h1>RigSwipe</h1>
           <div class="accent-line"></div>
         </div>
       </div>
@@ -721,4 +721,3 @@ fetch("./laptopsData.json")
       </main>
     `;
   });
-  
