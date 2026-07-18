@@ -1,12 +1,8 @@
-const fontLink = document.createElement("link");
-fontLink.rel = "stylesheet";
-fontLink.href = "https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Space+Grotesk:wght@400;700&display=swap";
-document.head.appendChild(fontLink);
-
-const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Rig Roast", "Rig Tinder"];
+const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Rig Roast", "Match Mode"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
+// Optimized performance styles injected dynamically
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
   /* High-Fidelity Apple/Minimalist Transitions */
@@ -76,17 +72,6 @@ perfStyles.textContent = `
     text-transform: uppercase;
     animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
     opacity: 0;
-  }
-
-  /* Particle Canvas Overlay */
-  .splash-particle-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
   }
 
   /* General Application Performance Containment */
@@ -335,7 +320,7 @@ function setState(patch) {
 }
 
 function updateResultsOnly() {
-  if (state.activeTab === "Rig Tinder") {
+  if (state.activeTab === "Match Mode") {
     render();
     return;
   }
@@ -393,7 +378,6 @@ function renderNav() {
 function renderSplash() {
   return `
     <section class="splash-screen" id="splash-screen">
-      <canvas class="splash-particle-canvas" id="splash-canvas"></canvas>
       <div class="splash-container">
         <h1 class="splash-logo-text">RigSwipe</h1>
         <p class="splash-sub-text">AI Laptop Matchmaker</p>
@@ -402,123 +386,24 @@ function renderSplash() {
   `;
 }
 
-let activeSplashAnimationId = null;
-
-function runParticleBlast() {
-  const canvas = document.getElementById("splash-canvas");
-  if (!canvas) return;
-
-  const ctx = canvas.getContext("2d");
-  let width = (canvas.width = window.innerWidth);
-  let height = (canvas.height = window.innerHeight);
-
-  window.addEventListener("resize", () => {
-    if (canvas) {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-  });
-
-  const particles = [];
-  const colors = [
-    "rgba(0, 255, 255, 0.8)",  // Holographic Cyan
-    "rgba(255, 46, 147, 0.8)", // Quantum Neon Pink
-    "rgba(139, 92, 246, 0.8)", // Cyber Violet
-    "rgba(255, 255, 255, 0.9)" // Brilliant White
-  ];
-
-  class Particle {
-    constructor(x, y) {
-      this.x = x;
-      this.y = y;
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 2 + Math.random() * 8; // Burst speed physics
-      this.vx = Math.cos(angle) * speed;
-      this.vy = Math.sin(angle) * speed;
-      this.radius = 1 + Math.random() * 3.5;
-      this.alpha = 1;
-      this.decay = 0.015 + Math.random() * 0.02; // Sparkle duration decay
-      this.color = colors[Math.floor(Math.random() * colors.length)];
-      this.friction = 0.98; // Gradual deceleration
-    }
-
-    update() {
-      this.vx *= this.friction;
-      this.vy *= this.friction;
-      this.x += this.vx;
-      this.y += this.vy;
-      this.alpha -= this.decay;
-    }
-
-    draw() {
-      ctx.save();
-      ctx.globalAlpha = this.alpha;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
-      // Ambient core bloom effect around each quantum sparkle
-      ctx.shadowBlur = 15;
-      ctx.shadowColor = this.color;
-      ctx.fill();
-      ctx.restore();
-    }
-  }
-
-  // Generate initial particle cluster on center focus coordinate
-  function createBurst() {
-    const originX = width / 2;
-    const originY = height / 2;
-    for (let i = 0; i < 160; i++) {
-      particles.push(new Particle(originX, originY));
-    }
-  }
-
-  // Trigger quantum detonation shortly after text begins rendering
-  window.setTimeout(createBurst, 350);
-
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.update();
-      p.draw();
-      if (p.alpha <= 0) {
-        particles.splice(i, 1);
-      }
-    }
-
-    if (state.showSplash) {
-      activeSplashAnimationId = requestAnimationFrame(animate);
-    }
-  }
-
-  animate();
-}
-
 function render() {
   if (state.showSplash) {
     root.innerHTML = renderSplash();
-    runParticleBlast();
 
     window.setTimeout(() => {
       const splash = document.getElementById("splash-screen");
       if (splash) {
         splash.classList.add("fade-out");
         window.setTimeout(() => {
-          if (activeSplashAnimationId) {
-            cancelAnimationFrame(activeSplashAnimationId);
-            activeSplashAnimationId = null;
-          }
           state.showSplash = false;
           render();
         }, 800);
       }
-    }, 2400); // Complete presentation sweep window
+    }, 2400); // Elegant static viewing duration before transition
     return;
   }
 
-  if (state.activeTab === "Rig Tinder") {
+  if (state.activeTab === "Match Mode") {
     renderMatchMode();
     return;
   }
@@ -612,8 +497,8 @@ function renderMatchMode() {
         ${renderNav()}
         <section class="match-stage">
           <div class="match-copy">
-            <p class="eyebrow">Laptop Tinder</p>
-            <h2>Rig Tinder</h2>
+            <p class="eyebrow">Laptop Matcher</p>
+            <h2>Match Mode</h2>
             <p>Swipe through the catalog one laptop at a time. Match what feels right, pass what does not.</p>
           </div>
           <div class="match-workspace">
@@ -1054,7 +939,7 @@ fetch("./laptopsData.json")
     return response.json();
   })
   .then((laptops) => {
-    shuffle(laptops); // Shuffles laptop decks completely
+    shuffle(laptops); // Randomize entire laptop inventory on startup for Match Mode
     state.laptops = laptops;
     render();
   })
