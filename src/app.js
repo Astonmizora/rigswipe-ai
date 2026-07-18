@@ -4,38 +4,42 @@ const USD_TO_INR = 83;
 
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
-  /* High-Fidelity Matte iOS Keyframe Sequences */
-  @keyframes drawLogo {
-    to {
+  /* High-Fidelity Apple "hello" Style Keyframes */
+  @keyframes drawSignature {
+    0% {
+      stroke-dashoffset: 700;
+      fill: rgba(255, 255, 255, 0);
+    }
+    70% {
       stroke-dashoffset: 0;
+      fill: rgba(255, 255, 255, 0);
+    }
+    100% {
+      stroke-dashoffset: 0;
+      fill: rgba(255, 255, 255, 1);
     }
   }
 
-  @keyframes pulseSoft {
-    0%, 100% {
-      opacity: 0.85;
-      filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.2));
-    }
-    50% {
-      opacity: 1;
-      filter: drop-shadow(0 0 25px rgba(167, 139, 250, 0.6));
-    }
-  }
-
-  @keyframes ambientAura {
-    0%, 100% { transform: translate3d(-5%, -5%, 0) scale(1); }
-    50% { transform: translate3d(5%, 5%, 0) scale(1.08); }
-  }
-
-  @keyframes iosExit {
+  @keyframes scaleUpExit {
     0% {
       opacity: 1;
       transform: scale3d(1, 1, 1);
     }
     100% {
       opacity: 0;
-      transform: scale3d(1.03, 1.03, 1);
+      transform: scale3d(1.05, 1.05, 1);
       visibility: hidden;
+    }
+  }
+
+  @keyframes pulseAura {
+    0%, 100% {
+      opacity: 0.12;
+      transform: translate3d(-10%, -10%, 0) scale(1);
+    }
+    50% {
+      opacity: 0.22;
+      transform: translate3d(10%, 10%, 0) scale(1.1);
     }
   }
 
@@ -46,7 +50,7 @@ perfStyles.textContent = `
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #09090b; /* Pure matte graphite */
+    background-color: #09090b; /* Pure premium matte black */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,65 +60,54 @@ perfStyles.textContent = `
   }
 
   .splash-screen.fade-out {
-    animation: iosExit 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: scaleUpExit 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     pointer-events: none;
   }
 
-  /* Ambient soft background glow layer */
+  /* Soft Background Fluid Aura */
   .splash-aura {
     position: absolute;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
-    top: 20%;
-    left: 20%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    top: 15%;
+    left: 15%;
     z-index: 1;
     pointer-events: none;
-    animation: ambientAura 8s ease-in-out infinite;
+    animation: pulseAura 6s ease-in-out infinite;
   }
 
   .splash-container {
     text-align: center;
-    max-width: 360px;
+    max-width: 420px;
     z-index: 2;
     position: relative;
+    transform: translate3d(0, 0, 0);
   }
 
-  /* Self-drawing premium vector chassis styling */
-  .splash-logo-svg {
-    width: 96px;
-    height: 96px;
+  /* SVG Signature element */
+  .splash-signature-svg {
+    width: 320px;
+    height: 90px;
     margin-bottom: 2rem;
-    color: #ffffff;
-    animation: pulseSoft 3s ease-in-out infinite;
   }
 
-  .vector-path-draw {
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-    animation: drawLogo 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  .splash-brand {
-    font-size: 2.5rem;
+  .signature-text {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+    font-size: 58px;
     font-weight: 700;
     letter-spacing: -0.04em;
-    color: #ffffff;
-    margin-bottom: 0.35rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-
-  .splash-tagline {
-    font-size: 0.8rem;
-    color: #71717a; /* Muted corporate titanium gray */
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 2.75rem;
+    stroke: #ffffff;
+    stroke-width: 1.5px;
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    fill: rgba(255, 255, 255, 0);
+    animation: drawSignature 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 
   .splash-progress-track {
     width: 140px;
-    height: 2px; /* Apple signature thin timeline track */
+    height: 2px; /* iOS thin timeline track */
     background: rgba(255, 255, 255, 0.08);
     border-radius: 99px;
     margin: 0 auto;
@@ -125,9 +118,9 @@ perfStyles.textContent = `
   .splash-progress-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #a78bfa, #f472b6); /* Monochromatic premium white fill */
+    background: #ffffff; /* Monochromatic white loading line */
     border-radius: 99px;
-    transition: width 1.3s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: width 1.4s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   /* GPU Rendering and Scroll optimizations */
@@ -436,17 +429,10 @@ function renderSplash() {
     <section class="splash-screen" id="splash-screen">
       <div class="splash-aura"></div>
       <div class="splash-container">
-        <!-- SVG self-drawing premium wireframe vector chassis -->
-        <svg class="splash-logo-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <!-- Precise outline screen boundaries -->
-          <rect class="vector-path-draw" x="22" y="26" width="56" height="38" rx="4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none" />
-          <line class="vector-path-draw" x1="15" y1="68" x2="85" y2="68" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-          <line class="vector-path-draw" x1="38" y1="72" x2="62" y2="72" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          <!-- Symmetrical core alignment dot -->
-          <circle cx="50" cy="45" r="5" fill="currentColor" opacity="0.9" style="animation: pulseSoft 2.5s ease-in-out infinite;" />
+        <!-- SVG self-writing text emblem -->
+        <svg class="splash-signature-svg" viewBox="0 0 320 90">
+          <text x="50%" y="65%" text-anchor="middle" class="signature-text">RigSwipe.</text>
         </svg>
-        <h1 class="splash-brand">RigSwipe</h1>
-        <p class="splash-tagline">Swipe. Spec. Conquer.</p>
         <div class="splash-progress-track">
           <div class="splash-progress-fill" id="splash-progress"></div>
         </div>
@@ -459,13 +445,13 @@ function render() {
   if (state.showSplash) {
     root.innerHTML = renderSplash();
     
-    // Smooth minimalist linear timeline transition
+    // Animate loading bar progress
     window.setTimeout(() => {
       const progress = document.getElementById("splash-progress");
       if (progress) progress.style.width = "100%";
-    }, 120);
+    }, 150);
 
-    // Zoom-fade scale elegantly after fill completes
+    // Fade out and transition
     window.setTimeout(() => {
       const splash = document.getElementById("splash-screen");
       if (splash) {
@@ -475,7 +461,7 @@ function render() {
           render();
         }, 650);
       }
-    }, 1600);
+    }, 2200); // Gives written letters plenty of time to assemble
     return;
   }
 
@@ -519,7 +505,7 @@ function render() {
 
 function renderPanel() {
   if (state.activeTab === "BTech Branch Finder") return renderBranchPanel();
-  if (state.activeTab === "Roast") return renderRoastPanel();
+  if (state.activeTab === "Rig Roast") return renderRoastPanel();
   return renderMatcherPanel();
 }
 
@@ -676,7 +662,7 @@ function renderShortlistDrawer() {
 function renderMatcherPanel() {
   return `
     <form class="form" id="matcher-form">
-      ${panelTitle("Scan Specifications", "Tell it the vibe, budget, workload, or deal-breakers.")}
+      ${panelTitle("AI Vibe Matcher", "Tell it the vibe, budget, workload, or deal-breakers.")}
       <label>
         Request
         <textarea id="query" rows="7">${escapeHtml(state.query)}</textarea>
@@ -1020,13 +1006,22 @@ fetch("./laptopsData.json")
     render();
   })
   .catch((error) => {
-    root.innerHTML = `
-      <main class="app">
-        <div class="error">
-          <h1>RigSwipe could not load the catalog.</h1>
-          <p>Please launch your local host server or verify Vercel configuration. Error detail: ${escapeHtml(error.message)}</p>
-        </div>
-      </main>
-    `;
+    // If we're showing the splash, let the splash animation run its course, then mount the error
+    const renderError = () => {
+      root.innerHTML = `
+        <main class="app">
+          <div class="error">
+            <h1>RigSwipe could not load the catalog.</h1>
+            <p>Please launch your local host server or verify Vercel configuration. Error detail: ${escapeHtml(error.message)}</p>
+          </div>
+        </main>
+      `;
+    };
+
+    if (state.showSplash) {
+      window.setTimeout(renderError, 2800);
+    } else {
+      renderError();
+    }
   });
   
