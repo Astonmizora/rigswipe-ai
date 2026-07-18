@@ -1,7 +1,6 @@
-// Inject luxury calligraphic cursive font for the signature sequence
 const fontLink = document.createElement("link");
 fontLink.rel = "stylesheet";
-fontLink.href = "https://fonts.googleapis.com/css2?family=Mr+De+Haviland&display=swap";
+fontLink.href = "https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Space+Grotesk:wght@400;700&display=swap";
 document.head.appendChild(fontLink);
 
 const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Rig Roast", "Rig Tinder"];
@@ -10,36 +9,30 @@ const USD_TO_INR = 83;
 
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
-  /* High-Fidelity Apple cursive write-in animations */
-  @keyframes writeStroke {
-    to {
-      stroke-dashoffset: 0;
-    }
+  /* High-Fidelity Apple/Minimalist Transitions */
+  @keyframes logoReveal {
+    0% { opacity: 0; transform: scale(0.92) translate3d(0, 0, 0); filter: blur(10px); }
+    100% { opacity: 1; transform: scale(1) translate3d(0, 0, 0); filter: blur(0px); }
   }
 
-  @keyframes fillLiquidText {
-    0% { fill: rgba(255, 255, 255, 0); }
-    100% { fill: rgba(255, 255, 255, 0.95); }
+  @keyframes taglineReveal {
+    0% { opacity: 0; transform: translate3d(0, 10px, 0); }
+    100% { opacity: 0.7; transform: translate3d(0, 0, 0); }
   }
 
-  @keyframes ambientShift {
-    0%, 100% { transform: translate3d(-10%, -10%, 0) scale(1); opacity: 0.15; }
-    50% { transform: translate3d(10%, 10%, 0) scale(1.15); opacity: 0.25; }
-  }
-
-  @keyframes scaleAndFadeOut {
+  @keyframes fadeOutSplash {
     0% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
+    100% { opacity: 0; transform: scale(1.03); visibility: hidden; }
   }
 
-  /* Velvet Matte Splash Screen Structure */
+  /* Velvet Matte Dark Background */
   .splash-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #08080a; /* Premium matte carbon black */
+    background-color: #030305;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -49,77 +42,64 @@ perfStyles.textContent = `
   }
 
   .splash-screen.fade-out {
-    animation: scaleAndFadeOut 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeOutSplash 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     pointer-events: none;
-  }
-
-  /* Soft Background Fluid Aura */
-  .splash-aura {
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
-    top: 20%;
-    left: 20%;
-    z-index: 1;
-    pointer-events: none;
-    animation: ambientShift 7s ease-in-out infinite;
   }
 
   .splash-container {
     text-align: center;
-    width: 100%;
-    max-width: 460px;
+    position: relative;
     z-index: 2;
-    position: relative;
-    transform: translate3d(0, 0, 0);
+    pointer-events: none;
   }
 
-  /* Cursive SVG Signature Structure */
-  .hello-svg {
-    width: 380px;
-    height: 130px;
-    margin-bottom: 2rem;
-    overflow: visible;
+  /* Futuristic Typography */
+  .splash-logo-text {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 4rem;
+    letter-spacing: 0.25em;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    padding-left: 0.25em; /* Compensate for tracking alignment */
+    text-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+    animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
   }
 
-  /* Perfect vector text writing layout */
-  .cursive-signature {
-    font-family: 'Mr De Haviland', cursive;
-    font-size: 135px;
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 2px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 800;
-    stroke-dashoffset: 800;
-    animation: writeStroke 2.0s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-               fillLiquidText 1.0s ease-in-out 1.5s forwards;
+  .splash-sub-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    color: #a78bfa;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    opacity: 0;
   }
 
-  /* iOS Smooth white timeline progress track */
-  .splash-progress-track {
-    width: 150px;
-    height: 2.5px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 99px;
-    margin: 0 auto;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .splash-progress-fill {
+  /* Particle Canvas Overlay */
+  .splash-particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-    width: 0%;
-    background: #ffffff;
-    border-radius: 99px;
-    transition: width 2.4s linear;
+    z-index: 1;
+    pointer-events: none;
   }
 
-  /* Static Scroll containment */
+  /* General Application Performance Containment */
   .grid {
     contain: layout paint;
+  }
+
+  /* Smooth performance scroll settings */
+  .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 `;
 document.head.appendChild(perfStyles);
@@ -413,41 +393,128 @@ function renderNav() {
 function renderSplash() {
   return `
     <section class="splash-screen" id="splash-screen">
-      <div class="splash-aura"></div>
+      <canvas class="splash-particle-canvas" id="splash-canvas"></canvas>
       <div class="splash-container">
-        <!-- Mathematically Perfect Cursive Signature Write-In Layout -->
-        <svg class="hello-svg" viewBox="0 0 500 150">
-          <text x="50%" y="75%" text-anchor="middle" class="cursive-signature">rigswipe.</text>
-        </svg>
-        <div class="splash-progress-track">
-          <div class="splash-progress-fill" id="splash-progress"></div>
-        </div>
+        <h1 class="splash-logo-text">RigSwipe</h1>
+        <p class="splash-sub-text">AI Laptop Matchmaker</p>
       </div>
     </section>
   `;
 }
 
+let activeSplashAnimationId = null;
+
+function runParticleBlast() {
+  const canvas = document.getElementById("splash-canvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  window.addEventListener("resize", () => {
+    if (canvas) {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+  });
+
+  const particles = [];
+  const colors = [
+    "rgba(0, 255, 255, 0.8)",  // Holographic Cyan
+    "rgba(255, 46, 147, 0.8)", // Quantum Neon Pink
+    "rgba(139, 92, 246, 0.8)", // Cyber Violet
+    "rgba(255, 255, 255, 0.9)" // Brilliant White
+  ];
+
+  class Particle {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 2 + Math.random() * 8; // Burst speed physics
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed;
+      this.radius = 1 + Math.random() * 3.5;
+      this.alpha = 1;
+      this.decay = 0.015 + Math.random() * 0.02; // Sparkle duration decay
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.friction = 0.98; // Gradual deceleration
+    }
+
+    update() {
+      this.vx *= this.friction;
+      this.vy *= this.friction;
+      this.x += this.vx;
+      this.y += this.vy;
+      this.alpha -= this.decay;
+    }
+
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      // Ambient core bloom effect around each quantum sparkle
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = this.color;
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Generate initial particle cluster on center focus coordinate
+  function createBurst() {
+    const originX = width / 2;
+    const originY = height / 2;
+    for (let i = 0; i < 160; i++) {
+      particles.push(new Particle(originX, originY));
+    }
+  }
+
+  // Trigger quantum detonation shortly after text begins rendering
+  window.setTimeout(createBurst, 350);
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.update();
+      p.draw();
+      if (p.alpha <= 0) {
+        particles.splice(i, 1);
+      }
+    }
+
+    if (state.showSplash) {
+      activeSplashAnimationId = requestAnimationFrame(animate);
+    }
+  }
+
+  animate();
+}
+
 function render() {
   if (state.showSplash) {
     root.innerHTML = renderSplash();
-    
-    // Fill progress bar relative to pen write timings
-    window.setTimeout(() => {
-      const progress = document.getElementById("splash-progress");
-      if (progress) progress.style.width = "100%";
-    }, 100);
+    runParticleBlast();
 
-    // Zoom-fade transition out of curtain once signature completes
     window.setTimeout(() => {
       const splash = document.getElementById("splash-screen");
       if (splash) {
         splash.classList.add("fade-out");
         window.setTimeout(() => {
+          if (activeSplashAnimationId) {
+            cancelAnimationFrame(activeSplashAnimationId);
+            activeSplashAnimationId = null;
+          }
           state.showSplash = false;
           render();
-        }, 750);
+        }, 800);
       }
-    }, 2800); 
+    }, 2400); // Complete presentation sweep window
     return;
   }
 
@@ -987,26 +1054,18 @@ fetch("./laptopsData.json")
     return response.json();
   })
   .then((laptops) => {
-    shuffle(laptops); // Shuffles laptop decks on startup
+    shuffle(laptops); // Shuffles laptop decks completely
     state.laptops = laptops;
     render();
   })
   .catch((error) => {
-    const renderError = () => {
-      root.innerHTML = `
-        <main class="app">
-          <div class="error">
-            <h1>RigSwipe could not load the catalog.</h1>
-            <p>Please launch your local host server or verify Vercel configuration. Error detail: ${escapeHtml(error.message)}</p>
-          </div>
-        </main>
-      `;
-    };
-
-    if (state.showSplash) {
-      window.setTimeout(renderError, 2800);
-    } else {
-      renderError();
-    }
+    root.innerHTML = `
+      <main class="app">
+        <div class="error">
+          <h1>RigSwipe could not load the catalog.</h1>
+          <p>Please launch your local host server or verify Vercel configuration. Error detail: ${escapeHtml(error.message)}</p>
+        </div>
+      </main>
+    `;
   });
   
