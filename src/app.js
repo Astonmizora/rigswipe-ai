@@ -2,6 +2,7 @@ const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Roast My Current Rig", 
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
+// Hardware target profiles aligned to engineering branch constraints
 const branchProfiles = {
   CSE: {
     terms: ["Coding", "Data Science", "AI Workloads", "Software Engineering", "Machine Learning", "Linux"],
@@ -186,7 +187,7 @@ function getMatches() {
     const maxBudgetFilter = currentBudgetUsd + 700;
     
     return state.laptops
-      .filter((laptop) => laptop.price <= maxBudgetFilter) // Fast budget check pass
+      .filter((laptop) => laptop.price <= maxBudgetFilter)
       .map((laptop) => ({
         laptop,
         rank: scoreLaptop(laptop, `${state.branch} ${state.purpose}`, currentBudgetUsd, terms) + Math.max(0, laptop.scores.power - profile.power) * 0.2,
@@ -197,7 +198,7 @@ function getMatches() {
   }
 
   return state.laptops
-    .filter((laptop) => laptop.price <= currentBudgetUsd + 500) // Fast budget check pass
+    .filter((laptop) => laptop.price <= currentBudgetUsd + 500)
     .map((laptop) => ({ laptop, rank: scoreLaptop(laptop, state.query, currentBudgetUsd) }))
     .filter(({ laptop, rank }) => rank > 20 || laptop.price <= currentBudgetUsd)
     .sort((a, b) => b.rank - a.rank)
@@ -237,34 +238,71 @@ function render() {
   if (state.page > totalPages) state.page = totalPages;
   const visible = matches.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
 
-  root.innerHTML = `
-    <main class="app">
-      ${renderNav()}
+  const layoutContainer = document.querySelector(".layout");
+  const activeTabEl = document.querySelector(".tabs button.active");
 
-      <section class="layout">
-        <aside class="glass panel">${renderPanel()}</aside>
-        <section class="results">
-          <header class="glass results-head">
-            <div class="results-row">
-              <div>
-                <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
-                <h2>Matched Shortlist</h2>
-              </div>
-              <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
-            </div>
-          </header>
-          <div class="grid">${visible.map(renderCard).join("")}</div>
-          <div class="pagination">
-            <button class="page-btn" data-page="prev" ${state.page === 1 ? "disabled" : ""}>Prev</button>
-            <button class="page-btn" disabled>${state.page} / ${totalPages}</button>
-            <button class="page-btn" data-page="next" ${state.page === totalPages ? "disabled" : ""}>Next</button>
+  // DOM Patching: Keeps structure in memory, updates only changing content nodes
+  if (layoutContainer && activeTabEl && activeTabEl.dataset.tab !== "Match Mode ⚡") {
+    document.querySelectorAll(".tabs .tab").forEach(button => {
+      button.classList.toggle("active", button.dataset.tab === state.activeTab);
+    });
+
+    const panel = document.querySelector(".panel");
+    if (panel) panel.innerHTML = renderPanel();
+
+    const resultsHead = document.querySelector(".results-head");
+    if (resultsHead) {
+      resultsHead.innerHTML = `
+        <div class="results-row">
+          <div>
+            <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
+            <h2>Matched Shortlist</h2>
           </div>
-        </section>
-      </section>
-    </main>
-  `;
+          <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
+        </div>
+      `;
+    }
 
-  attachHandlers(totalPages);
+    const grid = document.querySelector(".grid");
+    if (grid) grid.innerHTML = visible.map(renderCard).join("");
+
+    const pagination = document.querySelector(".pagination");
+    if (pagination) {
+      pagination.innerHTML = `
+        <button class="page-btn" data-page="prev" ${state.page === 1 ? "disabled" : ""}>Prev</button>
+        <button class="page-btn" disabled>${state.page} / ${totalPages}</button>
+        <button class="page-btn" data-page="next" ${state.page === totalPages ? "disabled" : ""}>Next</button>
+      `;
+    }
+  } else {
+    // Structural Rebuild: Runs only when loading app initially or returning from Match Mode
+    root.innerHTML = `
+      <main class="app">
+        ${renderNav()}
+
+        <section class="layout">
+          <aside class="glass panel">${renderPanel()}</aside>
+          <section class="results">
+            <header class="glass results-head">
+              <div class="results-row">
+                <div>
+                  <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
+                  <h2>Matched Shortlist</h2>
+                </div>
+                <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
+              </div>
+            </header>
+            <div class="grid">${visible.map(renderCard).join("")}</div>
+            <div class="pagination">
+              <button class="page-btn" data-page="prev" ${state.page === 1 ? "disabled" : ""}>Prev</button>
+              <button class="page-btn" disabled>${state.page} / ${totalPages}</button>
+              <button class="page-btn" data-page="next" ${state.page === totalPages ? "disabled" : ""}>Next</button>
+            </div>
+          </section>
+        </section>
+      </main>
+    `;
+  }
 }
 
 function renderPanel() {
@@ -275,31 +313,73 @@ function renderPanel() {
 
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
+  const matchStage = document.querySelector(".match-stage");
 
-  root.innerHTML = `
-    <main class="app">
-      ${renderNav()}
-      <section class="match-stage">
-        <div class="match-copy">
-          <p class="eyebrow">Laptop Tinder</p>
-          <h2>Match Mode</h2>
-          <p>Swipe through the catalog one laptop at a time. Match what feels right, pass what does not.</p>
+  if (matchStage) {
+    document.querySelectorAll(".tabs .tab").forEach(button => {
+      button.classList.toggle("active", button.dataset.tab === state.activeTab);
+    });
+
+    const swipeZone = document.querySelector(".swipe-zone");
+    if (swipeZone) {
+      swipeZone.innerHTML = `
+        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+        <div class="swipe-actions">
+          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
         </div>
-        <div class="match-workspace">
-          <div class="swipe-zone">
-            ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-            <div class="swipe-actions">
-              <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-              <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
-            </div>
+      `;
+    }
+
+    const shortlistDrawer = document.querySelector(".shortlist-drawer");
+    if (shortlistDrawer) {
+      const count = state.savedMatches.length;
+      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
+      shortlistDrawer.innerHTML = `
+        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
+        ${state.drawerOpen ? `
+          <div class="shortlist-body">${
+            count
+              ? state.savedMatches
+                  .map((item) => `
+                    <article class="mini-card">
+                      <div>
+                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
+                        <h4>${escapeHtml(item.name)}</h4>
+                        <span>${formatPrice(item.price)}</span>
+                      </div>
+                      <button class="mini-detail" data-detail-id="${item.id}">View Full Details</button>
+                    </article>
+                  `).join("")
+              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
+          }</div>` : ""}
+      `;
+    }
+  } else {
+    root.innerHTML = `
+      <main class="app">
+        ${renderNav()}
+        <section class="match-stage">
+          <div class="match-copy">
+            <p class="eyebrow">Laptop Tinder</p>
+            <h2>Match Mode</h2>
+            <p>Swipe through the catalog one laptop at a time. Match what feels right, pass what does not.</p>
           </div>
-          ${renderShortlistDrawer()}
-        </div>
-      </section>
-    </main>
-  `;
-
-  attachMatchHandlers();
+          <div class="match-workspace">
+            <div class="swipe-zone">
+              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+              <div class="swipe-actions">
+                <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+                <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+              </div>
+            </div>
+            ${renderShortlistDrawer()}
+          </div>
+        </section>
+      </main>
+    `;
+  }
+  attachDragSwipe();
 }
 
 function getCurrentSwipeLaptop() {
@@ -482,92 +562,6 @@ function scoreBar(label, value, type) {
   `;
 }
 
-function attachHandlers(totalPages) {
-  document.querySelectorAll("[data-tab]").forEach((button) => {
-    button.addEventListener("click", () => setState({ activeTab: button.dataset.tab, page: 1 }));
-  });
-
-  const budget = document.getElementById("budget");
-  if (budget) {
-    // FIX 1: Slider tracks visually instantly without locking up the CPU grid
-    budget.addEventListener("input", (event) => {
-      state.budget = Number(event.target.value);
-      const labelElement = document.getElementById("budget-val-label");
-      if (labelElement) labelElement.textContent = formatBudget(state.budget);
-    });
-    // FIX 2: Only triggers structural repaints when the user drops the mouse handle
-    budget.addEventListener("change", () => {
-      setState({ page: 1 });
-    });
-  }
-
-  const query = document.getElementById("query");
-  if (query) {
-    // FIX 3: Wiping out global repaints on typing keystrokes
-    query.addEventListener("input", (event) => {
-      state.query = event.target.value;
-      state.page = 1;
-    });
-  }
-
-  const branch = document.getElementById("branch");
-  if (branch) branch.addEventListener("change", (event) => setState({ branch: event.target.value, page: 1 }));
-
-  const purpose = document.getElementById("purpose");
-  if (purpose) purpose.addEventListener("change", (event) => setState({ purpose: event.target.value, page: 1 }));
-
-  const matcherForm = document.getElementById("matcher-form");
-  if (matcherForm) {
-    matcherForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const query = document.getElementById("query");
-      if (query) state.query = query.value;
-      render();
-      showScan();
-    });
-  }
-
-  const roastInput = document.getElementById("roast-input");
-  if (roastInput) roastInput.addEventListener("input", (event) => (state.roastInput = event.target.value));
-
-  const roastForm = document.getElementById("roast-form");
-  if (roastForm) {
-    roastForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      setState({ roast: buildRoast(state.roastInput) });
-    });
-  }
-
-  document.querySelectorAll("[data-page]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const nextPage = button.dataset.page === "next" ? Math.min(totalPages, state.page + 1) : Math.max(1, state.page - 1);
-      setState({ page: nextPage });
-    });
-  });
-}
-
-function attachMatchHandlers() {
-  document.querySelectorAll("[data-tab]").forEach((button) => {
-    button.addEventListener("click", () => setState({ activeTab: button.dataset.tab, page: 1 }));
-  });
-
-  const drawerToggle = document.getElementById("drawer-toggle");
-  if (drawerToggle) drawerToggle.addEventListener("click", () => setState({ drawerOpen: !state.drawerOpen }));
-
-  document.querySelectorAll("[data-swipe]").forEach((button) => {
-    button.addEventListener("click", () => swipeCurrentLaptop(button.dataset.swipe));
-  });
-
-  document.querySelectorAll("[data-detail-id]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const laptop = state.laptops.find((item) => item.id === Number(button.dataset.detailId));
-      if (laptop) showLaptopDetails(laptop);
-    });
-  });
-
-  attachDragSwipe();
-}
-
 function attachDragSwipe() {
   const card = document.getElementById("tinder-card");
   if (!card) return;
@@ -702,6 +696,106 @@ function recommendUpgrade(text) {
   return "16GB RAM, 512GB SSD, modern CPU, and battery life that does not cause trust issues";
 }
 
+let debounceTimer;
+function debounceRender() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    setState({ page: 1 });
+  }, 200);
+}
+
+// Binds event listeners EXACTLY ONCE to protect system memory threads
+function initGlobalEvents() {
+  // Global Click delegation
+  document.addEventListener("click", (event) => {
+    const tabBtn = event.target.closest("[data-tab]");
+    if (tabBtn) {
+      setState({ activeTab: tabBtn.dataset.tab, page: 1 });
+      return;
+    }
+
+    const pageBtn = event.target.closest("[data-page]");
+    if (pageBtn) {
+      const matches = getMatches();
+      const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
+      const nextPage = pageBtn.dataset.page === "next" 
+        ? Math.min(totalPages, state.page + 1) 
+        : Math.max(1, state.page - 1);
+      setState({ page: nextPage });
+      return;
+    }
+
+    const swipeBtn = event.target.closest("[data-swipe]");
+    if (swipeBtn) {
+      swipeCurrentLaptop(swipeBtn.dataset.swipe);
+      return;
+    }
+
+    const drawerToggle = event.target.closest("#drawer-toggle");
+    if (drawerToggle) {
+      setState({ drawerOpen: !state.drawerOpen });
+      return;
+    }
+
+    const detailBtn = event.target.closest("[data-detail-id]");
+    if (detailBtn) {
+      const laptop = state.laptops.find((item) => item.id === Number(detailBtn.dataset.detailId));
+      if (laptop) showLaptopDetails(laptop);
+      return;
+    }
+  });
+
+  // Global Input delegation
+  document.addEventListener("input", (event) => {
+    const target = event.target;
+    if (target.id === "budget") {
+      state.budget = Number(target.value);
+      const labels = document.querySelectorAll(".budget-value");
+      labels.forEach(el => el.textContent = formatBudget(state.budget));
+    } else if (target.id === "query") {
+      state.query = target.value;
+      debounceRender();
+    } else if (target.id === "roast-input") {
+      state.roastInput = target.value;
+    }
+  });
+
+  // Global Select / Slider Drag Release delegation
+  document.addEventListener("change", (event) => {
+    const target = event.target;
+    if (target.id === "budget") {
+      setState({ page: 1 });
+    } else if (target.id === "branch") {
+      setState({ branch: target.value, page: 1 });
+    } else if (target.id === "purpose") {
+      setState({ purpose: target.value, page: 1 });
+    }
+  });
+
+  // Global Form Submission delegation
+  document.addEventListener("submit", (event) => {
+    const target = event.target;
+    if (target.id === "matcher-form") {
+      event.preventDefault();
+      const queryEl = document.getElementById("query");
+      if (queryEl) state.query = queryEl.value;
+      render();
+      showScan();
+    } else if (target.id === "roast-form") {
+      event.preventDefault();
+      const inputEl = document.getElementById("roast-input");
+      if (inputEl) state.roastInput = inputEl.value;
+      setState({ roast: buildRoast(state.roastInput) });
+    }
+  });
+}
+
+// Ensure the setup run starts event hooks exactly once
+if (!window.__eventsInitialized) {
+  initGlobalEvents();
+  window.__eventsInitialized = true;
+}
+
 fetch("./laptopsData.json")
   .then((response) => {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -721,3 +815,4 @@ fetch("./laptopsData.json")
       </main>
     `;
   });
+  
