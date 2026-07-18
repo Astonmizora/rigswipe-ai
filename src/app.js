@@ -1,22 +1,30 @@
-const TABS = ["Scan", "Academic", "Roast", "Rig Tinder"];
+const TABS = ["Scan", "BTech Branch Finder", "Roast", "Rig Tinder"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
-// Injected dynamic high-performance stylesheet
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
-  /* iOS Soft Organic Spring Keyframes */
-  @keyframes iosFadeScaleIn {
-    0% {
-      opacity: 0;
-      transform: scale3d(0.96, 0.96, 1);
-      filter: blur(4px);
+  /* High-Fidelity Matte iOS Keyframe Sequences */
+  @keyframes drawLogo {
+    to {
+      stroke-dashoffset: 0;
     }
-    100% {
+  }
+
+  @keyframes pulseSoft {
+    0%, 100% {
+      opacity: 0.85;
+      filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.2));
+    }
+    50% {
       opacity: 1;
-      transform: scale3d(1, 1, 1);
-      filter: blur(0);
+      filter: drop-shadow(0 0 25px rgba(167, 139, 250, 0.6));
     }
+  }
+
+  @keyframes ambientAura {
+    0%, 100% { transform: translate3d(-5%, -5%, 0) scale(1); }
+    50% { transform: translate3d(5%, 5%, 0) scale(1.08); }
   }
 
   @keyframes iosExit {
@@ -31,14 +39,14 @@ perfStyles.textContent = `
     }
   }
 
-  /* OLED Matte Splash Screen Gate */
+  /* Velvet Matte Splash Screen Structure */
   .splash-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #09090b; /* Pure Apple-style Matte Graphite */
+    background-color: #09090b; /* Pure matte graphite */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -52,40 +60,62 @@ perfStyles.textContent = `
     pointer-events: none;
   }
 
-  .splash-container {
-    text-align: center;
-    max-width: 320px;
-    animation: iosFadeScaleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* Ambient soft background glow layer */
+  .splash-aura {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+    top: 20%;
+    left: 20%;
+    z-index: 1;
+    pointer-events: none;
+    animation: ambientAura 8s ease-in-out infinite;
   }
 
+  .splash-container {
+    text-align: center;
+    max-width: 360px;
+    z-index: 2;
+    position: relative;
+  }
+
+  /* Self-drawing premium vector chassis styling */
   .splash-logo-svg {
-    width: 88px;
-    height: 88px;
-    margin-bottom: 1.75rem;
+    width: 96px;
+    height: 96px;
+    margin-bottom: 2rem;
     color: #ffffff;
+    animation: pulseSoft 3s ease-in-out infinite;
+  }
+
+  .vector-path-draw {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: drawLogo 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
   .splash-brand {
-    font-size: 2.25rem;
+    font-size: 2.5rem;
     font-weight: 700;
     letter-spacing: -0.04em;
     color: #ffffff;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
   .splash-tagline {
     font-size: 0.8rem;
-    color: #71717a; /* Clean premium matte gray */
+    color: #71717a; /* Muted corporate titanium gray */
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.75rem;
   }
 
   .splash-progress-track {
     width: 140px;
-    height: 2px; /* Apple signature thin scroll track */
-    background: rgba(255, 255, 255, 0.1);
+    height: 2px; /* Apple signature thin timeline track */
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 99px;
     margin: 0 auto;
     overflow: hidden;
@@ -95,7 +125,7 @@ perfStyles.textContent = `
   .splash-progress-fill {
     height: 100%;
     width: 0%;
-    background: #ffffff; /* Monochromatic premium white fill */
+    background: linear-gradient(90deg, #a78bfa, #f472b6); /* Monochromatic premium white fill */
     border-radius: 99px;
     transition: width 1.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
@@ -301,7 +331,7 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 function getMatches() {
   const currentBudgetUsd = budgetInUsd();
   
-  if (state.activeTab === "Academic") {
+  if (state.activeTab === "BTech Branch Finder") {
     const profile = branchProfiles[state.branch];
     const terms = [...profile.terms, ...profile.vibes, ...purposeProfiles[state.purpose]];
     const maxBudgetFilter = currentBudgetUsd + 700;
@@ -404,15 +434,16 @@ function renderNav() {
 function renderSplash() {
   return `
     <section class="splash-screen" id="splash-screen">
+      <div class="splash-aura"></div>
       <div class="splash-container">
-        <!-- Minimalist iOS Wireframe Device Logo -->
+        <!-- SVG self-drawing premium wireframe vector chassis -->
         <svg class="splash-logo-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <!-- Continuous precision chassis line -->
-          <rect x="22" y="26" width="56" height="38" rx="4" stroke="currentColor" stroke-width="2.5" fill="none" />
-          <line x1="15" y1="68" x2="85" y2="68" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-          <line x1="38" y1="72" x2="62" y2="72" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          <!-- Symmetrical minimalist brand emblem -->
-          <circle cx="50" cy="45" r="5" fill="currentColor" opacity="0.9" />
+          <!-- Precise outline screen boundaries -->
+          <rect class="vector-path-draw" x="22" y="26" width="56" height="38" rx="4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          <line class="vector-path-draw" x1="15" y1="68" x2="85" y2="68" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <line class="vector-path-draw" x1="38" y1="72" x2="62" y2="72" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <!-- Symmetrical core alignment dot -->
+          <circle cx="50" cy="45" r="5" fill="currentColor" opacity="0.9" style="animation: pulseSoft 2.5s ease-in-out infinite;" />
         </svg>
         <h1 class="splash-brand">RigSwipe</h1>
         <p class="splash-tagline">Swipe. Spec. Conquer.</p>
@@ -428,13 +459,13 @@ function render() {
   if (state.showSplash) {
     root.innerHTML = renderSplash();
     
-    // Smooth minimalist linear transition
+    // Smooth minimalist linear timeline transition
     window.setTimeout(() => {
       const progress = document.getElementById("splash-progress");
       if (progress) progress.style.width = "100%";
     }, 120);
 
-    // Fade out and scale elegantly after fill completes
+    // Zoom-fade scale elegantly after fill completes
     window.setTimeout(() => {
       const splash = document.getElementById("splash-screen");
       if (splash) {
@@ -487,7 +518,7 @@ function render() {
 }
 
 function renderPanel() {
-  if (state.activeTab === "Academic") return renderBranchPanel();
+  if (state.activeTab === "BTech Branch Finder") return renderBranchPanel();
   if (state.activeTab === "Roast") return renderRoastPanel();
   return renderMatcherPanel();
 }
@@ -660,7 +691,7 @@ function renderBranchPanel() {
   const profile = branchProfiles[state.branch];
   return `
     <div class="form">
-      ${panelTitle("Academic Requirements", "Tune recommendations around branch workload and campus reality.")}
+      ${panelTitle("BTech Branch Finder", "Tune recommendations around branch workload and campus reality.")}
       <label>
         Branch
         <select id="branch">${Object.keys(branchProfiles).map((item) => `<option value="${item}" ${item === state.branch ? "selected" : ""}>${branchLabels[item]}</option>`).join("")}</select>
