@@ -2,26 +2,38 @@ const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Rig Roast", "Match Mode
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
-// Optimized performance styles injected dynamically
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
-  /* High-Fidelity Apple/Minimalist Transitions */
+  /* Premium Apple/iOS Motion Physics */
   @keyframes logoReveal {
-    0% { opacity: 0; transform: scale(0.92) translate3d(0, 0, 0); filter: blur(10px); }
+    0% { opacity: 0; transform: scale(0.95) translate3d(0, 8px, 0); filter: blur(12px); }
     100% { opacity: 1; transform: scale(1) translate3d(0, 0, 0); filter: blur(0px); }
   }
 
   @keyframes taglineReveal {
-    0% { opacity: 0; transform: translate3d(0, 10px, 0); }
-    100% { opacity: 0.7; transform: translate3d(0, 0, 0); }
+    0% { opacity: 0; transform: translate3d(0, 8px, 0); }
+    100% { opacity: 0.6; transform: translate3d(0, 0, 0); }
   }
 
   @keyframes fadeOutSplash {
-    0% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.03); visibility: hidden; }
+    0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+    100% { opacity: 0; transform: scale(1.02); filter: blur(8px); visibility: hidden; }
   }
 
-  /* Velvet Matte Dark Background */
+  @keyframes metalShimmer {
+    0% { left: -150%; }
+    50% { left: 150%; }
+    100% { left: 150%; }
+  }
+
+  @keyframes scanningLaser {
+    0% { top: -5%; opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { top: 105%; opacity: 0; }
+  }
+
+  /* Velvet Minimalist Splash */
   .splash-screen {
     position: fixed;
     top: 0;
@@ -38,7 +50,7 @@ perfStyles.textContent = `
   }
 
   .splash-screen.fade-out {
-    animation: fadeOutSplash 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeOutSplash 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     pointer-events: none;
   }
 
@@ -49,42 +61,88 @@ perfStyles.textContent = `
     pointer-events: none;
   }
 
-  /* Futuristic Typography */
   .splash-logo-text {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 4rem;
-    letter-spacing: 0.25em;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 3.5rem;
+    letter-spacing: -0.04em;
     color: #ffffff;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    padding-left: 0.25em; /* Compensate for tracking alignment */
-    text-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
     animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     opacity: 0;
   }
 
   .splash-sub-text {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #a78bfa;
-    letter-spacing: 0.4em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    margin-top: 0.5rem;
+    animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
     opacity: 0;
   }
 
-  /* General Application Performance Containment */
-  .grid {
-    contain: layout paint;
+  /* Micro-Interaction Shimmer Class */
+  .shimmer-track {
+    position: relative;
+    overflow: hidden;
   }
 
-  /* Smooth performance scroll settings */
+  .shimmer-track::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -150%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+    animation: metalShimmer 6s infinite ease-in-out;
+  }
+
+  /* Premium Elevation Physics */
+  .card, .tinder-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .card:hover {
+    transform: translate3d(0, -6px, 0) !important;
+    border-color: rgba(139, 92, 246, 0.25) !important;
+    box-shadow: 0 12px 30px rgba(139, 92, 246, 0.06), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* Tab Indicator Organic Fluidity */
+  .tab {
+    transition: color 0.25s ease, background-color 0.25s ease, transform 0.15s active !important;
+  }
+
+  .tab:active, .primary-btn:active {
+    transform: scale(0.97) translate3d(0, 0, 0) !important;
+  }
+
+  /* Holographic Scan Overlay Laser */
+  .scan-horizon-laser {
+    position: absolute;
+  /* GPU Rendering optimizers */
   .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
     transform: translate3d(0, 0, 0);
     will-change: transform, opacity;
     backface-visibility: hidden;
     perspective: 1000px;
+  }
+
+  /* Cybernetic Roast terminal entry style */
+  .roast-output {
+    margin-top: 1.5rem;
+    padding: 1.2rem;
+    background: rgba(239, 68, 68, 0.04) !important;
+    border: 1px dashed rgba(239, 68, 68, 0.25) !important;
+    border-radius: 12px;
+    color: #fca5a5 !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    animation: logoReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.03);
   }
 `;
 document.head.appendChild(perfStyles);
@@ -311,7 +369,7 @@ function setState(patch) {
   if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
     render();
   } else {
-    if (patch.branch !== undefined || patch.purpose !== undefined) {
+    if (patch.branch !== undefined || patch.purpose !== undefined || patch.roast !== undefined) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
     }
@@ -379,7 +437,7 @@ function renderSplash() {
   return `
     <section class="splash-screen" id="splash-screen">
       <div class="splash-container">
-        <h1 class="splash-logo-text">RigSwipe</h1>
+        <h1 class="splash-logo-text">rigswipe.</h1>
         <p class="splash-sub-text">AI Laptop Matchmaker</p>
       </div>
     </section>
@@ -397,9 +455,9 @@ function render() {
         window.setTimeout(() => {
           state.showSplash = false;
           render();
-        }, 800);
+        }, 500);
       }
-    }, 2400); // Elegant static viewing duration before transition
+    }, 1200);
     return;
   }
 
@@ -478,13 +536,13 @@ function renderMatchMode() {
             count
               ? state.savedMatches
                   .map((item) => `
-                    <article class="mini-card">
+                    <article class="mini-card shimmer-track">
                       <div>
                         <p class="eyebrow">${escapeHtml(item.brand)}</p>
                         <h4>${escapeHtml(item.name)}</h4>
                         <span>${formatPrice(item.price)}</span>
                       </div>
-                      <button class="mini-detail" data-detail-id="${item.id}">View Full Details</button>
+                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
                     </article>
                   `).join("")
               : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
@@ -497,7 +555,7 @@ function renderMatchMode() {
         ${renderNav()}
         <section class="match-stage">
           <div class="match-copy">
-            <p class="eyebrow">Laptop Matcher</p>
+            <p class="eyebrow">Interactive Tinder</p>
             <h2>Match Mode</h2>
             <p>Swipe through the catalog one laptop at a time. Match what feels right, pass what does not.</p>
           </div>
@@ -531,7 +589,7 @@ function primaryHighlight(laptop) {
 
 function renderSwipeCard(laptop) {
   return `
-    <article class="glass tinder-card" id="tinder-card" data-card-id="${laptop.id}">
+    <article class="glass tinder-card shimmer-track" id="tinder-card" data-card-id="${laptop.id}">
       <div class="photo-placeholder">
         <div class="laptop-shell">
           <div class="laptop-screen"></div>
@@ -558,9 +616,9 @@ function renderSwipeFinished() {
   return `
     <div class="glass tinder-card empty-card">
       <div>
-        <p class="eyebrow">Deck unavailable</p>
-        <h3>No laptops loaded</h3>
-        <p class="hint">Refresh after the local server is running.</p>
+        <p class="eyebrow">Deck complete</p>
+        <h3>All cards evaluated</h3>
+        <p class="hint">Liked laptops are saved inside your shortlist drawer.</p>
       </div>
     </div>
   `;
@@ -574,13 +632,13 @@ function renderShortlistDrawer() {
           ? state.savedMatches
               .map(
                 (laptop) => `
-                  <article class="mini-card">
+                  <article class="mini-card shimmer-track">
                     <div>
                       <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
                       <h4>${escapeHtml(laptop.name)}</h4>
                       <span>${formatPrice(laptop.price)}</span>
                     </div>
-                    <button class="mini-detail" data-detail-id="${laptop.id}">View Full Details</button>
+                    <button class="mini-detail" data-detail-id="${laptop.id}">View Details</button>
                   </article>
                 `
               )
@@ -600,10 +658,10 @@ function renderShortlistDrawer() {
 function renderMatcherPanel() {
   return `
     <form class="form" id="matcher-form">
-      ${panelTitle("AI Vibe Matcher", "Tell it the vibe, budget, workload, or deal-breakers.")}
+      ${panelTitle("AI Vibe Matcher", "Describe your setup preferences, budget bounds, or target apps.")}
       <label>
         Request
-        <textarea id="query" rows="7">${escapeHtml(state.query)}</textarea>
+        <textarea id="query" rows="5" placeholder="e.g. coding, 16gb, metal body, great screen">${escapeHtml(state.query)}</textarea>
       </label>
       ${budgetControl()}
       <button class="primary-btn">Neural Scan</button>
@@ -615,7 +673,7 @@ function renderBranchPanel() {
   const profile = branchProfiles[state.branch];
   return `
     <div class="form">
-      ${panelTitle("BTech Branch Finder", "Tune recommendations around branch workload and campus reality.")}
+      ${panelTitle("BTech Branch Finder", "Align hardware requirements automatically against college curriculums.")}
       <label>
         Branch
         <select id="branch">${Object.keys(branchProfiles).map((item) => `<option value="${item}" ${item === state.branch ? "selected" : ""}>${branchLabels[item]}</option>`).join("")}</select>
@@ -625,7 +683,7 @@ function renderBranchPanel() {
         <select id="purpose">${Object.keys(purposeProfiles).map((item) => `<option ${item === state.purpose ? "selected" : ""}>${item}</option>`).join("")}</select>
       </label>
       ${budgetControl()}
-      <div class="note">Best matches prioritize ${profile.terms.slice(0, 3).join(", ")} and the ${state.purpose.toLowerCase()} use case.</div>
+      <div class="note">Workloads map to: ${profile.terms.slice(0, 3).join(", ")} requirements.</div>
     </div>
   `;
 }
@@ -633,8 +691,8 @@ function renderBranchPanel() {
 function renderRoastPanel() {
   return `
     <form class="form" id="roast-form">
-      ${panelTitle("Rig Roast 🔥", "Drop the specs. The roast is rude, the upgrade advice is useful.")}
-      <textarea id="roast-input" rows="7">${escapeHtml(state.roastInput)}</textarea>
+      ${panelTitle("Rig Roast 🔥", "Drop your old computer specifications to get a brutal upgrade review.")}
+      <textarea id="roast-input" rows="7" placeholder="e.g. 8GB RAM, i3, broken trackpad, loud fans">${escapeHtml(state.roastInput)}</textarea>
       <button class="primary-btn">Roast It</button>
       ${state.roast ? `<div class="roast-output">${escapeHtml(state.roast)}</div>` : ""}
     </form>
@@ -653,7 +711,7 @@ function panelTitle(title, detail) {
 function budgetControl() {
   return `
     <label>
-      <span class="budget-row"><span>Budget</span><span class="budget-value" id="budget-val-label">${formatBudget(state.budget)}</span></span>
+      <span class="budget-row"><span>Budget Limit</span><span class="budget-value" id="budget-val-label">${formatBudget(state.budget)}</span></span>
       <input id="budget" type="range" min="25000" max="375000" step="5000" value="${state.budget}" />
     </label>
   `;
@@ -661,7 +719,7 @@ function budgetControl() {
 
 function renderCard(laptop) {
   return `
-    <article class="glass card">
+    <article class="glass card shimmer-track">
       <div class="card-top">
         <div>
           <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
@@ -681,6 +739,7 @@ function renderCard(laptop) {
         ${scoreBar("Mobility", laptop.scores.mobility, "mobility")}
         ${scoreBar("Efficiency", laptop.scores.efficiency, "efficiency")}
       </div>
+      <button class="mini-detail" data-detail-id="${laptop.id}" style="width: 100%; text-align: center; justify-content: center; margin-top: 12px; padding: 10px; border-radius: 8px;">View Full Details</button>
     </article>
   `;
 }
@@ -764,7 +823,7 @@ function swipeCurrentLaptop(action) {
   window.setTimeout(() => {
     state.matchIndex += 1;
     render();
-  }, 420);
+  }, 350);
 }
 
 function showLaptopDetails(laptop) {
@@ -803,40 +862,40 @@ function showScan() {
   overlay.className = "scan-overlay";
   overlay.innerHTML = `
     <div class="scan-box">
+      <div class="scan-horizon-laser"></div>
       <div class="scan-grid"></div>
-      <div class="scan-line"></div>
       <div class="scan-copy">
         <div>
-          <p class="eyebrow">Neural scan running</p>
-          <h2>Matching Your Vibe</h2>
-          <p class="hint">Parsing budget, workload, portability, and chaos tolerance.</p>
+          <p class="eyebrow">Spectrometer Sweep</p>
+          <h2>Scanning Catalog</h2>
+          <p class="hint">Parsing optimal spec synergy, weights, and cooling requirements...</p>
         </div>
       </div>
     </div>
   `;
   document.body.appendChild(overlay);
-  window.setTimeout(() => overlay.remove(), 1500);
+  window.setTimeout(() => overlay.remove(), 1200);
 }
 
 function buildRoast(input) {
   const text = normalize(input);
   const burns = [];
 
-  if (text.includes("4gb") || text.includes("8gb")) burns.push("That RAM is not multitasking, it is asking for emotional support.");
-  if (text.includes("hdd")) burns.push("A hard drive in this decade is less storage and more archaeological exhibit.");
-  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push("That CPU opens Chrome like it is negotiating a peace treaty.");
-  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The fan curve sounds prepared for takeoff, but the performance stayed at the gate.");
-  if (text.includes("crack") || text.includes("hinge")) burns.push("The hinge has seen things no productivity device should have to see.");
-  if (!burns.length) burns.push("Honestly, this rig may survive. It still deserves a gentle upgrade and a less dramatic desktop wallpaper.");
+  if (text.includes("4gb") || text.includes("8gb")) burns.push("That RAM capacity is barely keeping Windows breathing.");
+  if (text.includes("hdd")) burns.push("Running an mechanical spindle drive in this decade belongs in a museum.");
+  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push("That CPU works at the speed of legal legislation.");
+  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The laptop sounds prepared for outer space flight but remains static on your table.");
+  if (text.includes("crack") || text.includes("hinge")) burns.push("Your frame is undergoing rapid structural decay.");
+  if (!burns.length) burns.push("Decent specs, but definitely missing modern performance headroom.");
 
-  return `${burns.join(" ")} Upgrade advice: ${recommendUpgrade(text)}.`;
+  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
 }
 
 function recommendUpgrade(text) {
-  if (text.includes("gaming") || text.includes("fps")) return "RTX 4060 or better, 16GB RAM, and a 144Hz+ screen";
-  if (text.includes("code") || text.includes("coding")) return "16GB minimum, 512GB SSD, strong keyboard, and efficient CPU";
-  if (text.includes("design") || text.includes("edit")) return "OLED or color-accurate display, 32GB RAM, and dedicated graphics";
-  return "16GB RAM, 512GB SSD, modern CPU, and battery life that does not cause trust issues";
+  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40-series graphics module, 16GB RAM, and 144Hz+ high-refresh display";
+  if (text.includes("code") || text.includes("coding")) return "Adopt 16GB dual-channel memory, SSD storage, and balanced thermal limits";
+  if (text.includes("design") || text.includes("edit")) return "Choose color-certified hardware (OLED or IPS), high memory headroom, and discrete graphics";
+  return "Modernize with 16GB RAM, fast PCIe NVMe storage, and high-efficiency CPU structures";
 }
 
 let debounceTimer;
@@ -939,7 +998,7 @@ fetch("./laptopsData.json")
     return response.json();
   })
   .then((laptops) => {
-    shuffle(laptops); // Randomize entire laptop inventory on startup for Match Mode
+    shuffle(laptops);
     state.laptops = laptops;
     render();
   })
