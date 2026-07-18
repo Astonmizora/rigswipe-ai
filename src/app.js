@@ -1,4 +1,4 @@
-const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Roast My Current Rig", "Match Mode ⚡"];
+const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Roast My Current Rig", "Rig tinder"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
