@@ -2,41 +2,24 @@ const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Roast My Current Rig", 
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
-// Clean up layer explosion & optimize desktop scrolling performance
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
-  /* ONLY promote elements that are actively moving to the GPU */
-  .tinder-card {
+  /* Hardware acceleration layer promotion */
+  .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
     transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
     backface-visibility: hidden;
     perspective: 1000px;
   }
-  
+  /* Remove layout calculation stutter during drag cycles */
   .dragging {
-    will-change: transform !important;
     transition: none !important;
+    will-change: transform !important;
   }
-  
-  /* Prevent text highlights during swipe drags */
+  /* Avoid cursor highlights when dragging card nodes */
   .swipe-zone, .tinder-card {
     user-select: none !important;
     -webkit-user-select: none !important;
-  }
-
-  /* Improve scrolling performance by isolating card container repaints */
-  .grid {
-    contain: layout paint;
-  }
-
-  /* Optimize high-cost backdrop-blurs on high-DPI laptop/desktop viewports */
-  @media (min-width: 769px) {
-    .glass, .card, .panel, .results-head, .nav, .shortlist-drawer {
-      backdrop-filter: blur(8px) !important;
-      -webkit-backdrop-filter: blur(8px) !important;
-      background: rgba(13, 15, 23, 0.88) !important; /* Slightly richer dark to keep contrast premium */
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
-      will-change: auto !important; /* Safely offload GPU layer allocation */
-    }
   }
 `;
 document.head.appendChild(perfStyles);
@@ -250,7 +233,7 @@ function setState(patch) {
   if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
     render();
   } else {
-    // Re-render the form controls sidebar if drop-down selections change
+    // If selecting a different dropdown branch/purpose, re-render the sidebar to keep static labels synced
     if (patch.branch !== undefined || patch.purpose !== undefined) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
@@ -270,6 +253,7 @@ function updateResultsOnly() {
   if (state.page > totalPages) state.page = totalPages;
   const visible = matches.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
 
+  // Update Result Count Head without wiping navigation blocks
   const resultsHead = document.querySelector(".results-head");
   if (resultsHead) {
     resultsHead.innerHTML = `
@@ -283,11 +267,13 @@ function updateResultsOnly() {
     `;
   }
 
+  // Update only the result grid cards
   const grid = document.querySelector(".grid");
   if (grid) {
     grid.innerHTML = visible.map(renderCard).join("");
   }
 
+  // Update pagination actions
   const pagination = document.querySelector(".pagination");
   if (pagination) {
     pagination.innerHTML = `
