@@ -1,3 +1,9 @@
+// Inject luxury calligraphic cursive font for the signature sequence
+const fontLink = document.createElement("link");
+fontLink.rel = "stylesheet";
+fontLink.href = "https://fonts.googleapis.com/css2?family=Mr+De+Haviland&display=swap";
+document.head.appendChild(fontLink);
+
 const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Rig Roast", "Rig Tinder"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
@@ -11,10 +17,9 @@ perfStyles.textContent = `
     }
   }
 
-  @keyframes popElasticDot {
-    0% { transform: scale(0); opacity: 0; }
-    70% { transform: scale(1.3); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
+  @keyframes fillLiquidText {
+    0% { fill: rgba(255, 255, 255, 0); }
+    100% { fill: rgba(255, 255, 255, 0.95); }
   }
 
   @keyframes ambientShift {
@@ -72,44 +77,26 @@ perfStyles.textContent = `
 
   /* Cursive SVG Signature Structure */
   .hello-svg {
-    width: 320px;
-    height: 120px;
+    width: 380px;
+    height: 130px;
     margin-bottom: 2rem;
     overflow: visible;
   }
 
-  .hello-path {
+  /* Perfect vector text writing layout */
+  .cursive-signature {
+    font-family: 'Mr De Haviland', cursive;
+    font-size: 135px;
+    fill: none;
     stroke: #ffffff;
-    stroke-width: 4.5;
+    stroke-width: 2px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    fill: none;
-    stroke-dasharray: 120;
-    stroke-dashoffset: 120;
-    animation: writeStroke 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: writeStroke 2.0s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+               fillLiquidText 1.0s ease-in-out 1.5s forwards;
   }
-
-  .hello-dot, .hello-dot-i, .hello-dot-i2 {
-    fill: #a78bfa; /* Warm glowing accent purple dots */
-    opacity: 0;
-    transform: scale(0);
-    transform-origin: center;
-    animation: popElasticDot 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
-
-  /* Staggered Stroke handwriting timings */
-  .p-r { animation-delay: 0.1s; animation-duration: 0.35s; }
-  .p-i { animation-delay: 0.4s; animation-duration: 0.25s; }
-  .p-g { animation-delay: 0.6s; animation-duration: 0.45s; }
-  .p-s { animation-delay: 1.0s; animation-duration: 0.35s; }
-  .p-w { animation-delay: 1.25s; animation-duration: 0.45s; }
-  .p-i2 { animation-delay: 1.6s; animation-duration: 0.25s; }
-  .p-p { animation-delay: 1.75s; animation-duration: 0.45s; }
-  .p-e { animation-delay: 2.1s; animation-duration: 0.35s; }
-  
-  .hello-dot { animation-delay: 2.35s; }
-  .hello-dot-i { animation-delay: 2.35s; }
-  .hello-dot-i2 { animation-delay: 2.35s; }
 
   /* iOS Smooth white timeline progress track */
   .splash-progress-track {
@@ -428,29 +415,9 @@ function renderSplash() {
     <section class="splash-screen" id="splash-screen">
       <div class="splash-aura"></div>
       <div class="splash-container">
-        <!-- iOS Signature Cursive "hello" Style write-in path -->
-        <svg class="hello-svg" viewBox="0 0 450 160">
-          <!-- r -->
-          <path class="hello-path p-r" d="M 50,110 C 50,110 52,65 65,65 C 75,65 80,72 85,75 C 90,78 95,110 95,110" />
-          <!-- i -->
-          <path class="hello-path p-i" d="M 95,110 C 105,95 110,80 115,80 C 120,80 120,110 120,110" />
-          <!-- g -->
-          <path class="hello-path p-g" d="M 120,110 C 120,95 135,95 140,95 C 145,95 145,110 140,110 C 135,110 135,95 135,95 M 140,110 C 140,125 130,145 115,145 C 105,145 105,135 115,125 C 125,115 145,110 155,110" />
-          <!-- s -->
-          <path class="hello-path p-s" d="M 155,110 C 165,95 175,70 180,70 C 185,70 170,110 185,110" />
-          <!-- w -->
-          <path class="hello-path p-w" d="M 185,110 C 190,90 195,90 200,110 C 205,110 210,90 215,90 C 220,90 220,110 225,110" />
-          <!-- i -->
-          <path class="hello-path p-i2" d="M 225,110 C 230,95 235,80 240,80 C 245,80 245,110 245,110" />
-          <!-- p -->
-          <path class="hello-path p-p" d="M 245,110 C 250,90 255,80 260,80 C 265,80 255,140 255,140 M 255,110 C 265,95 275,95 275,110" />
-          <!-- e -->
-          <path class="hello-path p-e" d="M 275,110 C 285,100 290,90 295,90 C 300,90 285,110 310,110 C 330,110 350,95 365,95" />
-          <!-- Elastic Accent period -->
-          <circle class="hello-dot" cx="375" cy="110" r="4.5" />
-          <!-- Dots for letter "i" and "i2" -->
-          <circle class="hello-dot-i" cx="115" cy="65" r="3" />
-          <circle class="hello-dot-i2" cx="240" cy="65" r="3" />
+        <!-- Mathematically Perfect Cursive Signature Write-In Layout -->
+        <svg class="hello-svg" viewBox="0 0 500 150">
+          <text x="50%" y="75%" text-anchor="middle" class="cursive-signature">rigswipe.</text>
         </svg>
         <div class="splash-progress-track">
           <div class="splash-progress-fill" id="splash-progress"></div>
@@ -1020,7 +987,7 @@ fetch("./laptopsData.json")
     return response.json();
   })
   .then((laptops) => {
-    shuffle(laptops); // Randomize current deck on startup
+    shuffle(laptops); // Shuffles laptop decks on startup
     state.laptops = laptops;
     render();
   })
