@@ -1,4 +1,4 @@
-const TABS = ["Scan", "BTech Branch Finder", "Roast", "Rig Tinder"];
+const TABS = ["AI Vibe Matcher", "BTech Branch Finder", "Rig Roast", "Rig Tinder"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
