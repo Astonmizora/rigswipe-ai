@@ -178,22 +178,28 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 }
 
 function getMatches() {
+  const currentBudgetUsd = budgetInUsd();
+  
   if (state.activeTab === "BTech Branch Finder") {
     const profile = branchProfiles[state.branch];
     const terms = [...profile.terms, ...profile.vibes, ...purposeProfiles[state.purpose]];
+    const maxBudgetFilter = currentBudgetUsd + 700;
+    
     return state.laptops
+      .filter((laptop) => laptop.price <= maxBudgetFilter) // Fast budget check pass
       .map((laptop) => ({
         laptop,
-        rank: scoreLaptop(laptop, `${state.branch} ${state.purpose}`, budgetInUsd(), terms) + Math.max(0, laptop.scores.power - profile.power) * 0.2,
+        rank: scoreLaptop(laptop, `${state.branch} ${state.purpose}`, currentBudgetUsd, terms) + Math.max(0, laptop.scores.power - profile.power) * 0.2,
       }))
-      .filter(({ laptop, rank }) => laptop.price <= budgetInUsd() + 700 && rank > 28)
+      .filter(({ rank }) => rank > 28)
       .sort((a, b) => b.rank - a.rank)
       .map(({ laptop }) => laptop);
   }
 
   return state.laptops
-    .map((laptop) => ({ laptop, rank: scoreLaptop(laptop, state.query, budgetInUsd()) }))
-    .filter(({ laptop, rank }) => rank > 20 || laptop.price <= budgetInUsd())
+    .filter((laptop) => laptop.price <= currentBudgetUsd + 500) // Fast budget check pass
+    .map((laptop) => ({ laptop, rank: scoreLaptop(laptop, state.query, currentBudgetUsd) }))
+    .filter(({ laptop, rank }) => rank > 20 || laptop.price <= currentBudgetUsd)
     .sort((a, b) => b.rank - a.rank)
     .map(({ laptop }) => laptop);
 }
@@ -431,7 +437,7 @@ function panelTitle(title, detail) {
 function budgetControl() {
   return `
     <label>
-      <span class="budget-row"><span>Budget</span><span class="budget-value">${formatBudget(state.budget)}</span></span>
+      <span class="budget-row"><span>Budget</span><span class="budget-value" id="budget-val-label">${formatBudget(state.budget)}</span></span>
       <input id="budget" type="range" min="25000" max="375000" step="5000" value="${state.budget}" />
     </label>
   `;
@@ -482,10 +488,22 @@ function attachHandlers(totalPages) {
   });
 
   const budget = document.getElementById("budget");
-  if (budget) budget.addEventListener("input", (event) => setState({ budget: Number(event.target.value), page: 1 }));
+  if (budget) {
+    // FIX 1: Slider tracks visually instantly without locking up the CPU grid
+    budget.addEventListener("input", (event) => {
+      state.budget = Number(event.target.value);
+      const labelElement = document.getElementById("budget-val-label");
+      if (labelElement) labelElement.textContent = formatBudget(state.budget);
+    });
+    // FIX 2: Only triggers structural repaints when the user drops the mouse handle
+    budget.addEventListener("change", () => {
+      setState({ page: 1 });
+    });
+  }
 
   const query = document.getElementById("query");
   if (query) {
+    // FIX 3: Wiping out global repaints on typing keystrokes
     query.addEventListener("input", (event) => {
       state.query = event.target.value;
       state.page = 1;
@@ -703,3 +721,4 @@ fetch("./laptopsData.json")
       </main>
     `;
   });
+  
