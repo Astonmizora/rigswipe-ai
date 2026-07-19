@@ -866,75 +866,161 @@ function renderGta6Panel() {
 
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
-  const matchStage = document.querySelector(".match-stage");
-
-  if (matchStage) {
-    document.querySelectorAll(".tabs .tab").forEach(button => {
-      button.classList.toggle("active", button.dataset.tab === state.activeTab);
-    });
-
-    const swipeZone = document.querySelector(".swipe-zone");
-    if (swipeZone) {
-      swipeZone.innerHTML = `
-        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-        <div class="swipe-actions">
-          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+  
+  root.innerHTML = `
+    <main class="app">
+      ${renderNav()}
+      <section class="match-stage">
+        <div class="match-copy">
+          <p class="eyebrow">Interactive Tinder</p>
+          <h2>Match Mode</h2>
+          <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+            Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+          </p>
         </div>
-      `;
-    }
-
-    const shortlistDrawer = document.querySelector(".shortlist-drawer");
-    if (shortlistDrawer) {
-      const count = state.savedMatches.length;
-      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
-      shortlistDrawer.innerHTML = `
-        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
-        ${state.drawerOpen ? `
-          <div class="shortlist-body">${
-            count
-              ? state.savedMatches
-                  .map((item) => `
-                    <article class="mini-card">
-                      <div>
-                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
-                        <h4>${escapeHtml(item.name)}</h4>
-                        <span>${formatPrice(item.price)}</span>
-                      </div>
-                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
-                    </article>
-                  `).join("")
-              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
-          }</div>` : ""}
-      `;
-    }
-  } else {
-    root.innerHTML = `
-      <main class="app">
-        ${renderNav()}
-        <section class="match-stage">
-          <div class="match-copy">
-            <p class="eyebrow">Interactive Tinder</p>
-            <h2>Match Mode</h2>
-            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
-              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
-            </p>
+        <div class="match-workspace">
+          <div class="swipe-zone">
+            ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+            <div class="swipe-actions">
+              <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+              <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+            </div>
           </div>
-          <div class="match-workspace">
-            <div class="swipe-zone">
-              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-              <div class="swipe-actions">
-                <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-                <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+          ${renderShortlistDrawer()}
+        </div>
+      </section>
+    </main>
+  `;
+  attachDragSwipe();
+}
+
+function getCurrentSwipeLaptop() {
+  const filtered = getMatches();
+  if (!filtered.length) return null;
+  return filtered[state.matchIndex % filtered.length];
+}
+
+function primaryHighlight(laptop) {
+  const dedicatedGraphics = laptop.graphics.includes("RTX") || laptop.graphics.includes("Radeon RX") || laptop.graphics.includes("Apple");
+  const heroSpec = dedicatedGraphics ? laptop.graphics : laptop.cpu;
+  return `${laptop.ram} - ${laptop.storage} - ${heroSpec}`;
+}
+
+function renderSwipeCard(laptop) {
+  const rawPriceInInr = laptop.price * USD_TO_INR;
+  const computedEmiString = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(Math.round(rawPriceInInr / 12));
+  
+  const displayPriceText = state.showMonthlyCost 
+    ? `${computedEmiString} / month` 
+    : formatPrice(laptop.price);
+
+  const ramLower = normalize(laptop.ram);
+  const isSoldered = ramLower.includes("soldered") || ramLower.includes("onboard") || ramLower.includes("lpddr");
+
+  return `
+    <article class="glass tinder-card ${state.cardFlipped ? "flipped" : ""}" id="tinder-card" data-card-id="${laptop.id}">
+      <div class="tinder-card-inner">
+        
+        <!-- FRONT CARD DISPLAY LAYER -->
+        <div class="tinder-card-front">
+          <div class="photo-placeholder tinder-photo-box" style="cursor: pointer;">
+            <div class="laptop-shell">
+              <div class="laptop-screen"></div>
+              <div class="laptop-base"></div>
+            </div>
+            <span>${escapeHtml(laptop.brand)}</span>
+          </div>
+          <div class="tinder-info">
+            <div class="card-top">
+              <div class="card-headings">
+                <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
+                <h3>${escapeHtml(laptop.name)}</h3>
+              </div>
+              <div class="price-matrix-container">
+                <div class="price">${displayPriceText}</div>
+                <div class="cost-toggle-switch emi-switch-trigger">
+                  <span class="cost-toggle-opt ${!state.showMonthlyCost ? "selected" : ""}">Total</span>
+                  <span class="cost-toggle-opt ${state.showMonthlyCost ? "selected" : ""}">EMI</span>
+                </div>
               </div>
             </div>
-            ${renderShortlistDrawer()}
+            <p class="highlight">${escapeHtml(primaryHighlight(laptop))}</p>
+            <div class="chips">${laptop.idealFor.slice(0, 3).map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}</div>
           </div>
-        </section>
-      </main>
-    `;
-  }
-  attachDragSwipe();
+        </div>
+        
+        <!-- BACK CARD DISPLAY LAYER -->
+        <div class="tinder-card-back">
+          <div class="photo-placeholder tinder-photo-box" style="height: 50px; min-height: 50px; cursor: pointer;">
+            <span style="font-size: 0.75rem; letter-spacing:0.02em;">← Return to Image view</span>
+          </div>
+          
+          <div class="upgrade-path-map">
+            <div class="xray-header">> CORE SUSTAINABILITY INDEX</div>
+            <div class="upgrade-badge-row">
+              ${isSoldered 
+                ? `<span class="upgrade-status-pill fail-check">RAM: Soldered ❌</span>` 
+                : `<span class="upgrade-status-pill pass-check">RAM: Upgradeable to 32GB</span>`}
+              <span class="upgrade-status-pill pass-check">Storage: 1x Open M.2 Slot</span>
+            </div>
+          </div>
+
+          <div class="tinder-info" style="padding-top: 0.25rem;">
+            <div class="card-top" style="margin-bottom:0.5rem;">
+              <h4>${escapeHtml(laptop.name)} Specifications</h4>
+              <div class="price" style="font-size:0.95rem;">${displayPriceText}</div>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.2rem 0; color:#a1a1aa;"><b>GPU Architecture:</b> ${escapeHtml(laptop.graphics)}</p>
+            <p style="font-size: 0.8rem; margin: 0; color:#a1a1aa;"><b>Panel Core Build:</b> ${escapeHtml(laptop.screen)}</p>
+          </div>
+        </div>
+
+      </div>
+    </article>
+  `;
+}
+
+function renderSwipeFinished() {
+  return `
+    <div class="glass tinder-card empty-card">
+      <div>
+        <p class="eyebrow">Deck complete</p>
+        <h3>All matching cards evaluated</h3>
+        <p class="hint">Adjust budget configuration sliders if you require additional recommendations.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderShortlistDrawer() {
+  const count = state.savedMatches.length;
+  const body = state.drawerOpen
+    ? `<div class="shortlist-body">${
+        count
+          ? state.savedMatches
+              .map(
+                (laptop) => `
+                  <article class="mini-card">
+                    <div>
+                      <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
+                      <h4>${escapeHtml(laptop.name)}</h4>
+                      <span>${formatPrice(laptop.price)}</span>
+                    </div>
+                    <button class="mini-detail" data-detail-id="${laptop.id}">View Details</button>
+                  </article>
+                `
+              )
+              .join("")
+          : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
+      }</div>`
+    : "";
+
+  return `
+    <aside class="glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}">
+      <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
+      ${body}
+    </aside>
+  `;
 }
 
 function renderMatcherPanel() {
@@ -1047,6 +1133,9 @@ function spec(label, value) {
   return `<div class="spec"><b>${escapeHtml(label)}:</b> ${escapeHtml(value)}</div>`;
 }
 
+// ==========================================
+// 8. TACTILE GESTURE SWIPING INTERFACE ENGINE
+// ==========================================
 function scoreBar(label, value, type) {
   return `
     <div>
@@ -1255,6 +1344,9 @@ function debounceRender() {
   }, 200);
 }
 
+// ==========================================
+// 10. UNIFIED COMPONENT INTERACTION INTERCEPTORS
+// ==========================================
 function initGlobalEvents() {
   document.addEventListener("click", (event) => {
     const target = event.target;
@@ -1294,7 +1386,6 @@ function initGlobalEvents() {
       return;
     }
 
-    // Capture Interactive Custom Chips
     const vibeChip = event.target.closest(".vibe-toggle-chip");
     if (vibeChip) {
       const type = vibeChip.dataset.vibeType;
