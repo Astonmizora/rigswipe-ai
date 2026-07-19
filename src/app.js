@@ -27,6 +27,18 @@ perfStyles.textContent = `
     100% { top: 105%; opacity: 0; }
   }
 
+  /* Premium Hyper-Drive Glow Animation for Elite Tier Silicon */
+  @keyframes hyperPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0px rgba(167, 139, 250, 0); border-color: rgba(167, 139, 250, 0.2); }
+    50% { transform: scale(1.015); box-shadow: 0 0 40px rgba(167, 139, 250, 0.4); border-color: #a78bfa; }
+    100% { transform: scale(1); box-shadow: 0 0 0px rgba(167, 139, 250, 0); border-color: rgba(167, 139, 250, 0.2); }
+  }
+
+  .tinder-card.hyper-drive-active {
+    animation: hyperPulse 0.7s cubic-bezier(0.16, 1, 0.3, 1) double;
+    z-index: 1000;
+  }
+
   /* Minimalist Splash */
   .splash-screen {
     position: fixed;
@@ -132,9 +144,7 @@ perfStyles.textContent = `
     box-shadow: 0 4px 20px rgba(239, 68, 68, 0.03);
   }
 
-  /* ==========================================
-     START OF NEW MODULAR FEASIBILITY FEATURES
-     ========================================== */
+  /* Modular Interface Extensions */
   .tinder-card-inner {
     width: 100%;
     height: 100%;
@@ -169,7 +179,6 @@ perfStyles.textContent = `
     padding: 1.5rem;
   }
 
-  /* Upgrade Path System Elements */
   .xray-header {
     font-family: monospace;
     font-size: 0.8rem;
@@ -214,7 +223,6 @@ perfStyles.textContent = `
     border-color: rgba(239, 68, 68, 0.2);
   }
 
-  /* Dynamic Price/EMI Toggle Layout */
   .price-matrix-container {
     display: flex;
     flex-direction: column;
@@ -245,7 +253,6 @@ perfStyles.textContent = `
     color: #ffffff;
   }
 
-  /* Inline Toggle Custom Chips Layout */
   .vibe-chip-group {
     display: flex;
     gap: 0.5rem;
@@ -276,9 +283,6 @@ perfStyles.textContent = `
     border-color: #a78bfa;
     color: #c084fc;
   }
-  /* ==========================================
-     END OF NEW MODULAR FEASIBILITY FEATURES
-     ========================================== */
 `;
 document.head.appendChild(perfStyles);
 
@@ -396,8 +400,6 @@ const state = {
   showSplash: true,
   cardFlipped: false,
   showMonthlyCost: false,
-  
-  // Custom execution configuration maps
   phoneSync: "Mac OS"
 };
 
@@ -450,8 +452,13 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // STRICT EXCLUSION RULES: Hard enforcement of budget limits across all sorting domains
+  // STRICT CEILING REGULATOR: Block entry to lower sub-tiers if luxury budget is allocated
   if (laptop.price > priceLimit) {
+    return -Infinity;
+  }
+  
+  // BUDGET LOWER THRESHOLD PROTECTOR: Prevent cheap/budget setups from leaking into high budget limits
+  if (priceLimit >= (250000 / USD_TO_INR) && (laptop.price * USD_TO_INR) < 135000) {
     return -Infinity;
   }
 
@@ -471,7 +478,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   score += (priceFit / Math.max(priceLimit, 1)) * 18;
   score += laptop.scores.power * 0.14 + laptop.scores.mobility * 0.11 + laptop.scores.efficiency * 0.12;
 
-  // Process Advanced Operating System Configuration Weights
   if (state.activeTab === "AI Vibe Matcher") {
     if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) {
       score += 45; 
@@ -990,7 +996,7 @@ function attachDragSwipe() {
   let rafId = null;
 
   card.addEventListener("pointerdown", (event) => {
-    if (event.target.closest(".tinder-photo-box") || event.target.closest(".emi-switch-trigger")) return;
+    if (event.target.closest(".tinder-photo-box") || event.target.closest(".emi-switch-trigger") || card.classList.contains("hyper-drive-active")) return;
     dragging = true;
     startX = event.clientX;
     currentX = 0;
@@ -1038,8 +1044,26 @@ function swipeCurrentLaptop(action) {
   const card = document.getElementById("tinder-card");
   if (!laptop || !card || card.classList.contains("exiting")) return;
 
-  if (action === "match" && !state.savedMatches.some((item) => item.id === laptop.id)) {
-    state.savedMatches.push(laptop);
+  if (action === "match") {
+    if (!state.savedMatches.some((item) => item.id === laptop.id)) {
+      state.savedMatches.push(laptop);
+    }
+
+    // CHECK FOR ELITE EXTRA EXPENSIVE HARDWARE: Trigger premium scan animations
+    const isEliteTier = laptop.price >= (250000 / USD_TO_INR) || laptop.scores.power >= 90 || normalize(laptop.graphics).includes("5080") || normalize(laptop.graphics).includes("5090");
+    if (isEliteTier) {
+      card.classList.add("hyper-drive-active");
+      window.setTimeout(() => {
+        card.classList.remove("hyper-drive-active");
+        card.classList.add("exiting", "exit-right");
+        window.setTimeout(() => {
+          state.matchIndex += 1;
+          state.cardFlipped = false;
+          render();
+        }, 350);
+      }, 700);
+      return;
+    }
   }
 
   card.classList.add("exiting", action === "match" ? "exit-right" : "exit-left");
@@ -1104,20 +1128,39 @@ function showScan() {
 
 function buildRoast(input) {
   const text = normalize(input);
+  
+  // DYNAMIC COMPONENT ROAST ARRAY SELECTION MATRIX
+  const ramRoasts = [
+    "That RAM layout is barely holding your active baseline background elements alive.",
+    "8GB RAM? Your memory metrics look ready to drop into a system paging file cycle.",
+    "An execution sandbox footprint like that is begging for memory leaks."
+  ];
+  const storageRoasts = [
+    "Running a spinning mechanical sector drive in this architecture belongs in a legacy museum archive.",
+    "A slow storage controller pool means your data lines move like dial-up packets.",
+    "Your disk controllers are throttling everything. Get ready for buffer queues."
+  ];
+  const cpuRoasts = [
+    "That processor architecture processes data vectors at the speed of bureaucracy.",
+    "Your processing core density is screaming out for a thread scheduler update.",
+    "Silicon limits encountered. That logic block can barely calculate code loops."
+  ];
+
+  const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const burns = [];
 
-  if (text.includes("4gb") || text.includes("8gb")) burns.push("That RAM capacity is barely keeping Windows breathing.");
-  if (text.includes("hdd")) burns.push("Running a mechanical spindle drive in this decade belongs in a museum.");
-  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push("That CPU works at the speed of legal legislation.");
-  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The laptop sounds prepared for outer space flight but remains static on your table.");
-  if (text.includes("crack") || text.includes("hinge")) burns.push("Your frame is undergoing rapid structural decay.");
-  if (!burns.length) burns.push("Decent specs, but definitely missing modern performance headroom.");
+  if (text.includes("4gb") || text.includes("8gb")) burns.push(randomPick(ramRoasts));
+  if (text.includes("hdd") || text.includes("256gb")) burns.push(randomPick(storageRoasts));
+  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push(randomPick(cpuRoasts));
+  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The chassis thermals emulate a turbine block but performance metrics remain stagnant.");
+  
+  if (!burns.length) burns.push("Chassis density is baseline structural config, but lacking top-tier performance cache pools entirely.");
 
-  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
+  return `${burns.join(" ")} Operational Suggestion: ${recommendUpgrade(text)}.`;
 }
 
 function recommendUpgrade(text) {
-  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40-series graphics module, 16GB RAM, and 144Hz+ high-refresh display";
+  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40/50-series graphics module, 32GB RAM, and 144Hz+ high-refresh display";
   if (text.includes("code") || text.includes("coding")) return "Adopt 16GB dual-channel memory, SSD storage, and balanced thermal limits";
   if (text.includes("design") || text.includes("edit")) return "Choose color-certified hardware (OLED or IPS), high memory headroom, and discrete graphics";
   return "Modernize with 16GB RAM, fast PCIe NVMe storage, and high-efficiency CPU structures";
