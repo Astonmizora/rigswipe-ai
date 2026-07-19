@@ -132,7 +132,9 @@ perfStyles.textContent = `
     box-shadow: 0 4px 20px rgba(239, 68, 68, 0.03);
   }
 
-  /* Modular Interface Extensions */
+  /* ==========================================
+     START OF NEW MODULAR FEASIBILITY FEATURES
+     ========================================== */
   .tinder-card-inner {
     width: 100%;
     height: 100%;
@@ -167,6 +169,7 @@ perfStyles.textContent = `
     padding: 1.5rem;
   }
 
+  /* Upgrade Path System Elements */
   .xray-header {
     font-family: monospace;
     font-size: 0.8rem;
@@ -211,6 +214,7 @@ perfStyles.textContent = `
     border-color: rgba(239, 68, 68, 0.2);
   }
 
+  /* Dynamic Price/EMI Toggle Layout */
   .price-matrix-container {
     display: flex;
     flex-direction: column;
@@ -240,38 +244,9 @@ perfStyles.textContent = `
     background: rgba(255, 255, 255, 0.08);
     color: #ffffff;
   }
-
-  /* Inline Toggle Custom Chips Layout */
-  .vibe-chip-group {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.35rem;
-    margin-bottom: 0.85rem;
-    flex-wrap: wrap;
-  }
-
-  .vibe-toggle-chip {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.75rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #a1a1aa;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-
-  .vibe-toggle-chip:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
-  }
-
-  .vibe-toggle-chip.active {
-    background: rgba(167, 139, 250, 0.12);
-    border-color: #a78bfa;
-    color: #c084fc;
-  }
+  /* ==========================================
+     END OF NEW MODULAR FEASIBILITY FEATURES
+     ========================================== */
 `;
 document.head.appendChild(perfStyles);
 
@@ -373,9 +348,6 @@ const branchLabels = {
   Architecture: "Architecture / Planning",
 };
 
-// Renamed "BTech Branch Finder" panel layout view string context mapping tab indices
-const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode"];
-
 const state = {
   laptops: [],
   activeTab: TABS[0],
@@ -390,11 +362,9 @@ const state = {
   savedMatches: [],
   drawerOpen: true,
   showSplash: true,
+  // New runtime tracking state flags
   cardFlipped: false,
-  showMonthlyCost: false,
-  
-  // Custom execution configuration maps
-  phoneSync: "Mac OS"
+  showMonthlyCost: false
 };
 
 const root = document.getElementById("root");
@@ -446,11 +416,6 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // STRICT EXCLUSION RULES: Hard enforcement of budget limits across all sorting domains
-  if (laptop.price > priceLimit) {
-    return -Infinity;
-  }
-
   const blob = normalize(textBlob(laptop));
   const terms = normalize(query).split(/[^a-z0-9+]+/).filter(Boolean);
   let score = 0;
@@ -467,39 +432,33 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   score += (priceFit / Math.max(priceLimit, 1)) * 18;
   score += laptop.scores.power * 0.14 + laptop.scores.mobility * 0.11 + laptop.scores.efficiency * 0.12;
 
-  // Process Advanced Operating System Configuration Weights
-  if (state.activeTab === "AI Vibe Matcher") {
-    if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) {
-      score += 45; 
-    }
-    if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) {
-      score += 15;
-    }
-  }
-
+  if (laptop.price > priceLimit) score -= Math.min(45, (laptop.price - priceLimit) / 70);
   return score;
 }
 
 function getMatches() {
   const currentBudgetUsd = budgetInUsd();
   
-  if (state.activeTab === "Engineering") {
+  if (state.activeTab === "BTech Branch Finder") {
     const profile = branchProfiles[state.branch];
     const terms = [...profile.terms, ...profile.vibes, ...purposeProfiles[state.purpose]];
+    const maxBudgetFilter = currentBudgetUsd + 700;
     
     return state.laptops
+      .filter((laptop) => laptop.price <= maxBudgetFilter)
       .map((laptop) => ({
         laptop,
         rank: scoreLaptop(laptop, `${state.branch} ${state.purpose}`, currentBudgetUsd, terms) + Math.max(0, laptop.scores.power - profile.power) * 0.2,
       }))
-      .filter(({ rank }) => rank !== -Infinity && rank > 28)
+      .filter(({ rank }) => rank > 28)
       .sort((a, b) => b.rank - a.rank)
       .map(({ laptop }) => laptop);
   }
 
   return state.laptops
+    .filter((laptop) => laptop.price <= currentBudgetUsd + 500)
     .map((laptop) => ({ laptop, rank: scoreLaptop(laptop, state.query, currentBudgetUsd) }))
-    .filter(({ rank }) => rank !== -Infinity)
+    .filter(({ laptop, rank }) => rank > 20 || laptop.price <= currentBudgetUsd)
     .sort((a, b) => b.rank - a.rank)
     .map(({ laptop }) => laptop);
 }
@@ -514,15 +473,10 @@ function setState(patch) {
   }
 
   if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
-    state.cardFlipped = false;
+    state.cardFlipped = false; // Reset flip states on tab changes
     render();
   } else {
-    if (
-      patch.branch !== undefined || 
-      patch.purpose !== undefined || 
-      patch.roast !== undefined ||
-      patch.phoneSync !== undefined
-    ) {
+    if (patch.branch !== undefined || patch.purpose !== undefined || patch.roast !== undefined) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
     }
@@ -653,7 +607,7 @@ function render() {
 }
 
 function renderPanel() {
-  if (state.activeTab === "Engineering") return renderBranchPanel();
+  if (state.activeTab === "BTech Branch Finder") return renderBranchPanel();
   if (state.activeTab === "Rig Roast") return renderRoastPanel();
   return renderMatcherPanel();
 }
@@ -732,9 +686,8 @@ function renderMatchMode() {
 }
 
 function getCurrentSwipeLaptop() {
-  const filtered = getMatches();
-  if (!filtered.length) return null;
-  return filtered[state.matchIndex % filtered.length];
+  if (!state.laptops.length) return null;
+  return state.laptops[state.matchIndex % state.laptops.length];
 }
 
 function primaryHighlight(laptop) {
@@ -769,7 +722,7 @@ function renderSwipeCard(laptop) {
           </div>
           <div class="tinder-info">
             <div class="card-top">
-              <div class="card-headings">
+              <div>
                 <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
                 <h3>${escapeHtml(laptop.name)}</h3>
               </div>
@@ -786,7 +739,7 @@ function renderSwipeCard(laptop) {
           </div>
         </div>
         
-        <!-- BACK CARD DISPLAY LAYER -->
+        <!-- BACK CARD DISPLAY LAYER (Upgrade Path Map Features Attached) -->
         <div class="tinder-card-back">
           <div class="photo-placeholder tinder-photo-box" style="height: 50px; min-height: 50px; cursor: pointer;">
             <span style="font-size: 0.75rem; letter-spacing:0.02em;">← Return to Image view</span>
@@ -822,8 +775,8 @@ function renderSwipeFinished() {
     <div class="glass tinder-card empty-card">
       <div>
         <p class="eyebrow">Deck complete</p>
-        <h3>All matching cards evaluated</h3>
-        <p class="hint">Adjust budget configuration sliders if you require additional recommendations.</p>
+        <h3>All cards evaluated</h3>
+        <p class="hint">Liked laptops are saved inside your shortlist drawer.</p>
       </div>
     </div>
   `;
@@ -861,29 +814,15 @@ function renderShortlistDrawer() {
 }
 
 function renderMatcherPanel() {
-  const ecosystems = ["Mac OS", "Windows"];
-
   return `
     <form class="form" id="matcher-form">
-      ${panelTitle("AI Vibe Matcher", "Describe setup targets, neural weights, and visual space alignment parameters.")}
-      
+      ${panelTitle("AI Vibe Matcher", "Describe your setup preferences, budget bounds, or target apps.")}
       <label>
-        Contextual Directives
-        <textarea id="query" rows="3" placeholder="e.g. lightweight machine, metal finish, deep trackpad">${escapeHtml(state.query)}</textarea>
+        Request
+        <textarea id="query" rows="5" placeholder="e.g. coding, 16gb, metal body, great screen">${escapeHtml(state.query)}</textarea>
       </label>
-
-      <!-- Updated Platform Controls Header: Operating System -->
-      <label>Operating System</label>
-      <div class="vibe-chip-group">
-        ${ecosystems.map(e => `
-          <button type="button" class="vibe-toggle-chip ${state.phoneSync === e ? "active" : ""}" data-vibe-type="phoneSync" data-vibe-value="${escapeHtml(e)}">
-            ${escapeHtml(e)}
-          </button>
-        `).join("")}
-      </div>
-
       ${budgetControl()}
-      <button class="primary-btn" style="margin-top:0.5rem;">Neural Scan</button>
+      <button class="primary-btn">Neural Scan</button>
     </form>
   `;
 }
@@ -892,7 +831,7 @@ function renderBranchPanel() {
   const profile = branchProfiles[state.branch];
   return `
     <div class="form">
-      ${panelTitle("Engineering", "Align hardware requirements automatically against college curriculums.")}
+      ${panelTitle("BTech Branch Finder", "Align hardware requirements automatically against college curriculums.")}
       <label>
         Branch
         <select id="branch">${Object.keys(branchProfiles).map((item) => `<option value="${item}" ${item === state.branch ? "selected" : ""}>${branchLabels[item]}</option>`).join("")}</select>
@@ -930,7 +869,7 @@ function panelTitle(title, detail) {
 function budgetControl() {
   return `
     <label>
-      <span class="budget-row"><span>Budget Ceiling</span><span class="budget-value" id="budget-val-label">${formatBudget(state.budget)}</span></span>
+      <span class="budget-row"><span>Budget Limit</span><span class="budget-value" id="budget-val-label">${formatBudget(state.budget)}</span></span>
       <input id="budget" type="range" min="25000" max="375000" step="5000" value="${state.budget}" />
     </label>
   `;
@@ -1042,7 +981,7 @@ function swipeCurrentLaptop(action) {
 
   window.setTimeout(() => {
     state.matchIndex += 1;
-    state.cardFlipped = false;
+    state.cardFlipped = false; // Reset flip vector layout for next sequence load
     render();
   }, 350);
 }
@@ -1165,20 +1104,13 @@ function initGlobalEvents() {
       return;
     }
 
-    // Capture Interactive Custom Chips
-    const vibeChip = event.target.closest(".vibe-toggle-chip");
-    if (vibeChip) {
-      const type = vibeChip.dataset.vibeType;
-      const value = vibeChip.dataset.vibeValue;
-      setState({ [type]: value, page: 1 });
-      return;
-    }
-
+    // Dynamic Toggle Interaction handling layout metrics
     if (event.target.closest(".emi-switch-trigger")) {
       setState({ showMonthlyCost: !state.showMonthlyCost });
       return;
     }
 
+    // Handle 3D rotation tracking activation mechanics 
     if (event.target.closest(".tinder-photo-box")) {
       setState({ cardFlipped: !state.cardFlipped });
       return;
@@ -1247,9 +1179,9 @@ fetch("./laptopsData.json")
       <main class="app">
         <div class="error">
           <h1>RigSwipe could not load the catalog.</h1>
-          <p>Please launch your local host server or verify configuration settings. Detail: ${escapeHtml(error.message)}</p>
+          <p>Please launch your local host server or verify Vercel configuration. Error detail: ${escapeHtml(error.message)}</p>
         </div>
       </main>
     `;
   });
-  
+
