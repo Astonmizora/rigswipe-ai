@@ -271,82 +271,10 @@ perfStyles.textContent = `
     border-color: #a78bfa;
     color: #c084fc;
   }
-
-  /* Premium Survey Card Styles inside Tinder Wrapper */
-  .survey-card-layout {
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    box-sizing: border-box;
-  }
-  
-  .survey-options-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .survey-select-row {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  /* High-End Match Found Overlay Screen */
-  .match-found-blur {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(3, 3, 5, 0.88);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    z-index: 100000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .match-found-blur.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .match-found-box {
-    text-align: center;
-    max-width: 380px;
-    padding: 2.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(167, 139, 250, 0.2);
-    border-radius: 28px;
-    box-shadow: 0 20px 50px rgba(167, 139, 250, 0.1);
-    transform: scale(0.92) translate3d(0, 10px, 0);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .match-found-blur.active .match-found-box {
-    transform: scale(1) translate3d(0, 0, 0);
-  }
-
-  .match-found-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.25rem;
-    text-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
-  }
 `;
 document.head.appendChild(perfStyles);
 
+// COMPLETE FLAWLESS ENGINEERING BRANCH PROFILE CURRICULUM ARCHITECTURE MAP
 const branchProfiles = {
   CSE: {
     software: ["VS Code", "Docker", "Git", "IntelliJ", "Kubernetes"],
@@ -475,14 +403,7 @@ const state = {
   showSplash: true,
   cardFlipped: false,
   showMonthlyCost: false,
-  phoneSync: "Mac OS",
-
-  // Real-Life Match Mode Survey Tracking State Properties
-  surveyCompleted: false,
-  surveyOS: "Windows",
-  surveyWorkload: "Coding",
-  surveyBudget: 150000,
-  lastMatchedName: ""
+  phoneSync: "Mac OS"
 };
 
 const root = document.getElementById("root");
@@ -580,11 +501,12 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     const targetBranchProfile = branchProfiles[state.branch];
     if (targetBranchProfile) {
       if (targetBranchProfile.biasType === "gpu-mandatory") {
+        // Absolute exclusion filter rule: penalize weak integrated graphic processors for hardware-rendering intense environments
         const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics") || blob.includes("apple pro") || blob.includes("apple max");
-        if (!hasDiscreteGpu) return -Infinity; 
+        if (!hasDiscreteGpu) return -Infinity; // Completely block options missing viewport rasterization accelerators
         powerWeight = 0.50; mobilityWeight = 0.05; efficiencyWeight = 0.05;
       } else if (targetBranchProfile.biasType === "cuda-heavy") {
-        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; 
+        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; // Flag non-CUDA tensor architectures downward
         powerWeight = 0.40; efficiencyWeight = 0.20;
       } else if (targetBranchProfile.biasType === "computational") {
         if (blob.includes("16gb") || blob.includes("32gb")) score += 35;
@@ -657,9 +579,7 @@ function setState(patch) {
       patch.branch !== undefined || 
       patch.purpose !== undefined || 
       patch.roast !== undefined ||
-      patch.phoneSync !== undefined ||
-      patch.surveyOS !== undefined ||
-      patch.surveyWorkload !== undefined
+      patch.phoneSync !== undefined
     ) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
@@ -735,24 +655,6 @@ function renderSplash() {
   `;
 }
 
-function renderMatchFoundOverlay() {
-  return `
-    <div class="match-found-blur" id="match-found-screen">
-      <div class="match-found-box">
-        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
-        <h2 class="match-found-title">Match Found!</h2>
-        <p style="color: #a78bfa; font-weight: 600; font-size: 1.1rem; margin-bottom: 0.75rem;">
-          ${escapeHtml(state.lastMatchedName)}
-        </p>
-        <p style="color: #a1a1aa; font-size: 0.85rem; line-height: 1.4; margin-bottom: 1.5rem;">
-          This laptop completely matches the demand parameters you initialized on your partner profile.
-        </p>
-        <button class="primary-btn" id="resume-swipe-btn" style="width: 100%;">Keep Swiping</button>
-      </div>
-    </div>
-  `;
-}
-
 function render() {
   if (state.showSplash) {
     root.innerHTML = renderSplash();
@@ -816,85 +718,81 @@ function renderPanel() {
 
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
-  
-  root.innerHTML = `
-    <main class="app">
-      ${renderNav()}
-      <section class="match-stage">
-        <div class="match-copy">
-          <p class="eyebrow">Interactive Tinder</p>
-          <h2>Match Mode</h2>
-          <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
-            Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
-          </p>
+  const matchStage = document.querySelector(".match-stage");
+
+  if (matchStage) {
+    document.querySelectorAll(".tabs .tab").forEach(button => {
+      button.classList.toggle("active", button.dataset.tab === state.activeTab);
+    });
+
+    const swipeZone = document.querySelector(".swipe-zone");
+    if (swipeZone) {
+      swipeZone.innerHTML = `
+        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+        <div class="swipe-actions">
+          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
         </div>
-        <div class="match-workspace">
-          <div class="swipe-zone">
-            ${!state.surveyCompleted ? renderOnboardingSurveyCard() : (laptop ? renderSwipeCard(laptop) : renderSwipeFinished())}
-            
-            ${state.surveyCompleted ? `
+      `;
+    }
+
+    const shortlistDrawer = document.querySelector(".shortlist-drawer");
+    if (shortlistDrawer) {
+      const count = state.savedMatches.length;
+      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
+      shortlistDrawer.innerHTML = `
+        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
+        ${state.drawerOpen ? `
+          <div class="shortlist-body">${
+            count
+              ? state.savedMatches
+                  .map((item) => `
+                    <article class="mini-card">
+                      <div>
+                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
+                        <h4>${escapeHtml(item.name)}</h4>
+                        <span>${formatPrice(item.price)}</span>
+                      </div>
+                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
+                    </article>
+                  `).join("")
+              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
+          }</div>` : ""}
+      `;
+    }
+  } else {
+    root.innerHTML = `
+      <main class="app">
+        ${renderNav()}
+        <section class="match-stage">
+          <div class="match-copy">
+            <p class="eyebrow">Interactive Tinder</p>
+            <h2>Match Mode</h2>
+            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+            </p>
+          </div>
+          <div class="match-workspace">
+            <div class="swipe-zone">
+              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
               <div class="swipe-actions">
                 <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
                 <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
               </div>
-            ` : ""}
+            </div>
+            ${renderShortlistDrawer()}
           </div>
-          ${renderShortlistDrawer()}
-        </div>
-      </section>
-      ${renderMatchFoundOverlay()}
-    </main>
-  `;
-
-  if (state.surveyCompleted) {
-    attachDragSwipe();
+        </section>
+      </main>
+    `;
   }
-}
-
-function renderOnboardingSurveyCard() {
-  return `
-    <div class="glass tinder-card text-left">
-      <div class="survey-card-layout">
-        <div>
-          <p class="eyebrow" style="color: #a78bfa; margin-bottom: 0.25rem;">Partner Setup Profile</p>
-          <h3 style="font-size: 1.35rem; line-height: 1.3; font-weight: 700;">How you want your lappy partner to be?</h3>
-          <p style="font-size: 0.75rem; color: #71717a; margin-top: 0.25rem;">Fill out this baseline survey card to calibrate the backend engine rules.</p>
-          
-          <div class="survey-options-grid">
-            <!-- Question 1: OS choice -->
-            <label style="font-size: 0.75rem; color: #a1a1aa;">Preferred Ecosystem Environment</label>
-            <div class="survey-select-row">
-              <button class="vibe-toggle-chip ${state.surveyOS === "Mac OS" ? "active" : ""}" data-survey-key="surveyOS" data-survey-val="Mac OS" style="flex:1;">Mac OS</button>
-              <button class="vibe-toggle-chip ${state.surveyOS === "Windows" ? "active" : ""}" data-survey-key="surveyOS" data-survey-val="Windows" style="flex:1;">Windows</button>
-            </div>
-
-            <!-- Question 2: Intended Demand workload target -->
-            <label style="font-size: 0.75rem; color: #a1a1aa; margin-top: 0.25rem;">Primary Curricular Workload Focus</label>
-            <div class="survey-select-row">
-              <button class="vibe-toggle-chip ${state.surveyWorkload === "Coding" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Coding" style="font-size:0.7rem; flex:1;">Coding Suite</button>
-              <button class="vibe-toggle-chip ${state.surveyWorkload === "Gaming" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Gaming" style="font-size:0.7rem; flex:1;">Gaming / FPS</button>
-              <button class="vibe-toggle-chip ${state.surveyWorkload === "Design" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Design" style="font-size:0.7rem; flex:1;">Design Viewports</button>
-            </div>
-
-            <!-- Question 3: Absolute Budget cap range allocation -->
-            <label style="font-size: 0.75rem; color: #a1a1aa; margin-top: 0.25rem;">Target Wallet Constraint Limit</label>
-            <div class="survey-select-row">
-              <button class="vibe-toggle-chip ${state.surveyBudget === 80000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="80000" style="font-size:0.7rem; flex:1;">₹80K Entry</button>
-              <button class="vibe-toggle-chip ${state.surveyBudget === 150000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="150000" style="font-size:0.7rem; flex:1;">₹1.5L Mid</button>
-              <button class="vibe-toggle-chip ${state.surveyBudget === 280000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="280000" style="font-size:0.7rem; flex:1;">₹2.8L Ultimate</button>
-            </div>
-          </div>
-        </div>
-
-        <button class="primary-btn" id="lock-survey-btn" style="width: 100%; font-size: 0.85rem; padding: 12px; margin-top: 0.5rem;">Lock In Demand & Shuffle Deck</button>
-      </div>
-    </div>
-  `;
+  attachDragSwipe();
 }
 
 function getCurrentSwipeLaptop() {
-  if (!state.laptops.length) return null;
-  return state.laptops[state.matchIndex % state.laptops.length];
+  const filtered = getMatches();
+  if (!filtered.length) return null;
+  return filtered[state.matchIndex % filtered.length];
 }
 
 function primaryHighlight(laptop) {
@@ -982,8 +880,8 @@ function renderSwipeFinished() {
     <div class="glass tinder-card empty-card">
       <div>
         <p class="eyebrow">Deck complete</p>
-        <h3>All randomized entries reviewed</h3>
-        <p class="hint">Liked laptops are saved inside your shortlist drawer component panel layout.</p>
+        <h3>All matching cards evaluated</h3>
+        <p class="hint">Adjust budget configuration sliders if you require additional recommendations.</p>
       </div>
     </div>
   `;
@@ -1197,35 +1095,8 @@ function swipeCurrentLaptop(action) {
   const card = document.getElementById("tinder-card");
   if (!laptop || !card || card.classList.contains("exiting")) return;
 
-  if (action === "match") {
-    if (!state.savedMatches.some((item) => item.id === laptop.id)) {
-      state.savedMatches.push(laptop);
-    }
-
-    // CHECK FOR MATCH WITH INITIALIZED DEMANDS
-    const blob = normalize(textBlob(laptop));
-    const matchesOS = (state.surveyOS === "Mac OS" && normalize(laptop.brand).includes("apple")) || 
-                     (state.surveyOS === "Windows" && !normalize(laptop.brand).includes("apple"));
-                     
-    const matchesWorkload = (state.surveyWorkload === "Coding" && (blob.includes("code") || blob.includes("cpu") || blob.includes("ram"))) ||
-                            (state.surveyWorkload === "Gaming" && (blob.includes("rtx") || blob.includes("refresh") || blob.includes("gaming"))) ||
-                            (state.surveyWorkload === "Design" && (blob.includes("oled") || blob.includes("color") || blob.includes("design")));
-                            
-    const matchesBudget = (laptop.price * USD_TO_INR) <= state.surveyBudget;
-
-    if (matchesOS && matchesWorkload && matchesBudget) {
-      state.lastMatchedName = laptop.name;
-      const modal = document.getElementById("match-found-screen");
-      if (modal) {
-        modal.innerHTML = renderMatchFoundOverlay().match(/<div class="match-found-box">[^]*<\/div>/)[0];
-        modal.classList.add("active");
-        
-        card.style.transform = "";
-        state.matchIndex += 1;
-        state.cardFlipped = false;
-        return;
-      }
-    }
+  if (action === "match" && !state.savedMatches.some((item) => item.id === laptop.id)) {
+    state.savedMatches.push(laptop);
   }
 
   card.classList.add("exiting", action === "match" ? "exit-right" : "exit-left");
@@ -1373,28 +1244,12 @@ function initGlobalEvents() {
       return;
     }
 
-    // Capture Interactive Onboarding Survey Selection Chips
-    const surveyChip = event.target.closest("[data-survey-key]");
-    if (surveyChip) {
-      const key = surveyChip.dataset.surveyKey;
-      let val = surveyChip.dataset.surveyVal;
-      if (key === "surveyBudget") val = Number(val);
-      setState({ [key]: val });
-      return;
-    }
-
-    // Complete Survey and Shuffle Deck Trigger
-    if (event.target.id === "lock-survey-btn") {
-      shuffle(state.laptops); // Present completely randomized cards
-      setState({ surveyCompleted: true });
-      return;
-    }
-
-    // Dismiss Match Found Pop-up Mode Overlay Screen
-    if (event.target.id === "resume-swipe-btn") {
-      const modal = document.getElementById("match-found-screen");
-      if (modal) modal.classList.remove("active");
-      render();
+    // Capture Interactive Custom Chips
+    const vibeChip = event.target.closest(".vibe-toggle-chip");
+    if (vibeChip) {
+      const type = vibeChip.dataset.vibeType;
+      const value = vibeChip.dataset.vibeValue;
+      setState({ [type]: value, page: 1 });
       return;
     }
 
