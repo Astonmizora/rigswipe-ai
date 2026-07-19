@@ -271,10 +271,32 @@ perfStyles.textContent = `
     border-color: #a78bfa;
     color: #c084fc;
   }
+
+  /* Premium Survey Card Styles inside Tinder Wrapper */
+  .survey-card-layout {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  
+  .survey-options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .survey-select-row {
+    display: flex;
+    gap: 0.5rem;
+  }
 `;
 document.head.appendChild(perfStyles);
 
-// COMPLETE FLAWLESS ENGINEERING BRANCH PROFILE CURRICULUM ARCHITECTURE MAP
 const branchProfiles = {
   CSE: {
     software: ["VS Code", "Docker", "Git", "IntelliJ", "Kubernetes"],
@@ -403,7 +425,13 @@ const state = {
   showSplash: true,
   cardFlipped: false,
   showMonthlyCost: false,
-  phoneSync: "Mac OS"
+  phoneSync: "Mac OS",
+
+  // Survey tracking parameters
+  surveyCompleted: false,
+  surveyOS: "Windows",
+  surveyWorkload: "Coding",
+  surveyBudget: 150000
 };
 
 const root = document.getElementById("root");
@@ -455,7 +483,6 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // STRICT ABSOLUTE CEILING: Hard drop anything exceeding allocated funding lines
   if (laptop.price > priceLimit) {
     return -Infinity;
   }
@@ -480,33 +507,41 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     }
   });
 
-  // Base text parsing layers
   const terms = rawQuery.split(/[^a-z0-9+]+/).filter(Boolean);
   terms.forEach((term) => { if (blob.includes(term)) score += 12; });
   weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
-  // 2. CONTEXT-AWARE ADAPTIVE WEIGHT PHYSICS 
+  // 2. ADAPTIVE PHYSICS WITH CROSS-OVER COMPATIBILITY SYNERGY INTERCEPTOR
   let powerWeight = 0.14;
   let mobilityWeight = 0.11;
   let efficiencyWeight = 0.12;
 
-  if (["game", "fps", "render", "cad", "heavy", "compile"].some(k => rawQuery.includes(k))) {
+  const requestsGaming = ["game", "fps", "render", "cad", "heavy", "compile", "gpu"].some(k => rawQuery.includes(k));
+  const requestsLight = ["travel", "battery", "carry", "light", "college", "cafe", "slim"].some(k => rawQuery.includes(k));
+
+  if (requestsGaming && requestsLight) {
+    powerWeight = 0.35; 
+    mobilityWeight = 0.30; 
+    efficiencyWeight = 0.25;
+    if ((blob.includes("rtx") || blob.includes("graphics")) && (blob.includes("thin") || blob.includes("slim") || blob.includes("lightweight") || laptop.scores.mobility > 70)) {
+      score += 50;
+    }
+  } else if (requestsGaming) {
     powerWeight = 0.45; mobilityWeight = 0.05; efficiencyWeight = 0.05;
-  } else if (["travel", "battery", "carry", "light", "college", "cafe"].some(k => rawQuery.includes(k))) {
+  } else if (requestsLight) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
-  // FLAWLESS ENGINEERING CURRICULUM WEIGHT TUNING OVERRIDES
+  // Engineering tab specific rules
   if (state.activeTab === "Engineering") {
     const targetBranchProfile = branchProfiles[state.branch];
     if (targetBranchProfile) {
       if (targetBranchProfile.biasType === "gpu-mandatory") {
-        // Absolute exclusion filter rule: penalize weak integrated graphic processors for hardware-rendering intense environments
         const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics") || blob.includes("apple pro") || blob.includes("apple max");
-        if (!hasDiscreteGpu) return -Infinity; // Completely block options missing viewport rasterization accelerators
+        if (!hasDiscreteGpu) return -Infinity; 
         powerWeight = 0.50; mobilityWeight = 0.05; efficiencyWeight = 0.05;
       } else if (targetBranchProfile.biasType === "cuda-heavy") {
-        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; // Flag non-CUDA tensor architectures downward
+        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; 
         powerWeight = 0.40; efficiencyWeight = 0.20;
       } else if (targetBranchProfile.biasType === "computational") {
         if (blob.includes("16gb") || blob.includes("32gb")) score += 35;
@@ -521,7 +556,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 
   score += laptop.scores.power * powerWeight + laptop.scores.mobility * mobilityWeight + laptop.scores.efficiency * efficiencyWeight;
 
-  // 3. VALUE STRUCTURAL MATCH CURVE (TARGET SWEET-SPOT OPTIMIZATION)
   const allocationRatio = laptop.price / priceLimit;
   if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
     score += 40; 
@@ -529,7 +563,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     score -= 30; 
   }
 
-  // Active platform sync checks
   if (state.activeTab === "AI Vibe Matcher") {
     if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) { score += 45; }
     if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) { score += 15; }
@@ -579,7 +612,9 @@ function setState(patch) {
       patch.branch !== undefined || 
       patch.purpose !== undefined || 
       patch.roast !== undefined ||
-      patch.phoneSync !== undefined
+      patch.phoneSync !== undefined ||
+      patch.surveyOS !== undefined ||
+      patch.surveyWorkload !== undefined
     ) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
@@ -718,81 +753,81 @@ function renderPanel() {
 
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
-  const matchStage = document.querySelector(".match-stage");
-
-  if (matchStage) {
-    document.querySelectorAll(".tabs .tab").forEach(button => {
-      button.classList.toggle("active", button.dataset.tab === state.activeTab);
-    });
-
-    const swipeZone = document.querySelector(".swipe-zone");
-    if (swipeZone) {
-      swipeZone.innerHTML = `
-        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-        <div class="swipe-actions">
-          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+  
+  root.innerHTML = `
+    <main class="app">
+      ${renderNav()}
+      <section class="match-stage">
+        <div class="match-copy">
+          <p class="eyebrow">Interactive Tinder</p>
+          <h2>Match Mode</h2>
+          <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+            Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+          </p>
         </div>
-      `;
-    }
-
-    const shortlistDrawer = document.querySelector(".shortlist-drawer");
-    if (shortlistDrawer) {
-      const count = state.savedMatches.length;
-      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
-      shortlistDrawer.innerHTML = `
-        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
-        ${state.drawerOpen ? `
-          <div class="shortlist-body">${
-            count
-              ? state.savedMatches
-                  .map((item) => `
-                    <article class="mini-card">
-                      <div>
-                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
-                        <h4>${escapeHtml(item.name)}</h4>
-                        <span>${formatPrice(item.price)}</span>
-                      </div>
-                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
-                    </article>
-                  `).join("")
-              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
-          }</div>` : ""}
-      `;
-    }
-  } else {
-    root.innerHTML = `
-      <main class="app">
-        ${renderNav()}
-        <section class="match-stage">
-          <div class="match-copy">
-            <p class="eyebrow">Interactive Tinder</p>
-            <h2>Match Mode</h2>
-            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
-              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
-            </p>
-          </div>
-          <div class="match-workspace">
-            <div class="swipe-zone">
-              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+        <div class="match-workspace">
+          <div class="swipe-zone">
+            ${!state.surveyCompleted ? renderOnboardingSurveyCard() : (laptop ? renderSwipeCard(laptop) : renderSwipeFinished())}
+            
+            ${state.surveyCompleted ? `
               <div class="swipe-actions">
                 <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
                 <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
               </div>
-            </div>
-            ${renderShortlistDrawer()}
+            ` : ""}
           </div>
-        </section>
-      </main>
-    `;
+          ${renderShortlistDrawer()}
+        </div>
+      </section>
+    </main>
+  `;
+
+  if (state.surveyCompleted) {
+    attachDragSwipe();
   }
-  attachDragSwipe();
+}
+
+function renderOnboardingSurveyCard() {
+  return `
+    <div class="glass tinder-card text-left">
+      <div class="survey-card-layout">
+        <div>
+          <p class="eyebrow" style="color: #a78bfa; margin-bottom: 0.25rem;">Partner Setup Profile</p>
+          <h3 style="font-size: 1.35rem; line-height: 1.3; font-weight: 700;">How you want your lappy partner to be?</h3>
+          <p style="font-size: 0.75rem; color: #71717a; margin-top: 0.25rem;">Fill out this baseline survey card to calibrate the backend engine rules.</p>
+          
+          <div class="survey-options-grid">
+            <label style="font-size: 0.75rem; color: #a1a1aa;">Preferred Ecosystem Environment</label>
+            <div class="survey-select-row">
+              <button class="vibe-toggle-chip ${state.surveyOS === "Mac OS" ? "active" : ""}" data-survey-key="surveyOS" data-survey-val="Mac OS" style="flex:1;">Mac OS</button>
+              <button class="vibe-toggle-chip ${state.surveyOS === "Windows" ? "active" : ""}" data-survey-key="surveyOS" data-survey-val="Windows" style="flex:1;">Windows</button>
+            </div>
+
+            <label style="font-size: 0.75rem; color: #a1a1aa; margin-top: 0.25rem;">Primary Curricular Workload Focus</label>
+            <div class="survey-select-row">
+              <button class="vibe-toggle-chip ${state.surveyWorkload === "Coding" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Coding" style="font-size:0.7rem; flex:1;">Coding Suite</button>
+              <button class="vibe-toggle-chip ${state.surveyWorkload === "Gaming" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Gaming" style="font-size:0.7rem; flex:1;">Gaming / FPS</button>
+              <button class="vibe-toggle-chip ${state.surveyWorkload === "Design" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Design" style="font-size:0.7rem; flex:1;">Design Viewports</button>
+            </div>
+
+            <label style="font-size: 0.75rem; color: #a1a1aa; margin-top: 0.25rem;">Target Wallet Constraint Limit</label>
+            <div class="survey-select-row">
+              <button class="vibe-toggle-chip ${state.surveyBudget === 80000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="80000" style="font-size:0.7rem; flex:1;">₹80K Entry</button>
+              <button class="vibe-toggle-chip ${state.surveyBudget === 150000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="150000" style="font-size:0.7rem; flex:1;">₹1.5L Mid</button>
+              <button class="vibe-toggle-chip ${state.surveyBudget === 280000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="280000" style="font-size:0.7rem; flex:1;">₹2.8L Ultimate</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="primary-btn" id="lock-survey-btn" style="width: 100%; font-size: 0.85rem; padding: 12px; margin-top: 0.5rem;">Lock In Demand & Shuffle Deck</button>
+      </div>
+    </div>
+  `;
 }
 
 function getCurrentSwipeLaptop() {
-  const filtered = getMatches();
-  if (!filtered.length) return null;
-  return filtered[state.matchIndex % filtered.length];
+  if (!state.laptops.length) return null;
+  return state.laptops[state.matchIndex % state.laptops.length];
 }
 
 function primaryHighlight(laptop) {
@@ -880,8 +915,8 @@ function renderSwipeFinished() {
     <div class="glass tinder-card empty-card">
       <div>
         <p class="eyebrow">Deck complete</p>
-        <h3>All matching cards evaluated</h3>
-        <p class="hint">Adjust budget configuration sliders if you require additional recommendations.</p>
+        <h3>All randomized entries reviewed</h3>
+        <p class="hint">Liked laptops are saved inside your shortlist drawer component panel layout.</p>
       </div>
     </div>
   `;
@@ -1244,12 +1279,20 @@ function initGlobalEvents() {
       return;
     }
 
-    // Capture Interactive Custom Chips
-    const vibeChip = event.target.closest(".vibe-toggle-chip");
-    if (vibeChip) {
-      const type = vibeChip.dataset.vibeType;
-      const value = vibeChip.dataset.vibeValue;
-      setState({ [type]: value, page: 1 });
+    // Capture Interactive Onboarding Survey Selection Chips
+    const surveyChip = event.target.closest("[data-survey-key]");
+    if (surveyChip) {
+      const key = surveyChip.dataset.surveyKey;
+      let val = surveyChip.dataset.surveyVal;
+      if (key === "surveyBudget") val = Number(val);
+      setState({ [key]: val });
+      return;
+    }
+
+    // Complete Survey and Shuffle Deck Trigger
+    if (event.target.id === "lock-survey-btn") {
+      shuffle(state.laptops); 
+      setState({ surveyCompleted: true });
       return;
     }
 
