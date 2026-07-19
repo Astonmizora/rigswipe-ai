@@ -33,6 +33,48 @@ perfStyles.textContent = `
     100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
   }
 
+  /* Core Design Tokens: Default Dark Mode */
+  :root {
+    --bg-main: #030305;
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --accent-core: #a78bfa;
+    --accent-glow: rgba(167, 139, 250, 0.12);
+    --text-highlight: #c084fc;
+    --laser-color: linear-gradient(90deg, transparent, #a78bfa, transparent);
+  }
+
+  /* Dynamic Theme Override: GTA 6 Neon Synthwave Aesthetics */
+  body.gta6-theme-active {
+    --bg-main: #0b0410;
+    --border-glass: rgba(255, 0, 127, 0.15);
+    --accent-core: #ff007f;
+    --accent-glow: rgba(255, 0, 127, 0.12);
+    --text-highlight: #00f0ff;
+    --laser-color: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent);
+  }
+
+  body {
+    background-color: var(--bg-main);
+    transition: background-color 0.5s ease;
+  }
+
+  /* Strict Single-Line Navigation Track Override */
+  .nav .tabs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    scrollbar-width: none; /* Hide scrollbars across modern tracks */
+  }
+  .nav .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto !important;
+  }
+
   /* Minimalist Splash */
   .splash-screen {
     position: fixed;
@@ -87,18 +129,26 @@ perfStyles.textContent = `
   .card, .tinder-card {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
                 box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.4s ease !important;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-glass) !important;
   }
 
   .card:hover {
     transform: translate3d(0, -6px, 0) !important;
-    border-color: rgba(139, 92, 246, 0.25) !important;
-    box-shadow: 0 12px 30px rgba(139, 92, 246, 0.06), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    border-color: var(--accent-core) !important;
+    box-shadow: 0 12px 30px var(--accent-glow), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
   }
 
   /* Tab Indicator Organic Fluidity */
   .tab {
     transition: color 0.25s ease, background-color 0.25s ease !important;
+  }
+  .tab.active {
+    color: var(--text-highlight) !important;
+    border-color: var(--accent-core) !important;
+    background: var(--accent-glow) !important;
   }
 
   .tab:active, .primary-btn:active {
@@ -112,7 +162,7 @@ perfStyles.textContent = `
     left: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+    background: var(--laser-color);
     animation: scanningLaser 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
@@ -147,14 +197,31 @@ perfStyles.textContent = `
   }
   .gta6-success {
     background: rgba(34, 197, 94, 0.04) !important;
-    border: 1px solid rgba(34, 197, 94, 0.3) !important;
+    border: 1px solid rgba(34, 197, 94, 0.4) !important;
     color: #4ade80 !important;
     animation: successPulse 2s infinite;
   }
   .gta6-fail {
-    background: rgba(239, 68, 68, 0.04) !important;
-    border: 1px solid rgba(239, 68, 68, 0.3) !important;
-    color: #fca5a5 !important;
+    background: rgba(255, 0, 127, 0.04) !important;
+    border: 1px solid rgba(255, 0, 127, 0.4) !important;
+    color: #ff80bf !important;
+  }
+
+  .primary-btn {
+    background-color: var(--accent-core) !important;
+    color: #ffffff !important;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .primary-btn:hover {
+    box-shadow: 0 0 15px var(--accent-core);
+  }
+
+  .chip {
+    background: var(--accent-glow) !important;
+    color: var(--text-highlight) !important;
+    border: 1px solid var(--border-glass) !important;
   }
 
   /* Modular Interface Extensions */
@@ -188,14 +255,14 @@ perfStyles.textContent = `
   .tinder-card-back {
     transform: rotateY(180deg);
     background: #09090b !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid var(--border-glass) !important;
     padding: 1.5rem;
   }
 
   .xray-header {
     font-family: monospace;
     font-size: 0.8rem;
-    color: #a78bfa;
+    color: var(--accent-core);
     margin-bottom: 0.5rem;
     letter-spacing: 0.05em;
   }
@@ -204,7 +271,7 @@ perfStyles.textContent = `
     margin: 0.75rem 0;
     padding: 0.85rem;
     background: rgba(255, 255, 255, 0.02);
-    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border: 1px dashed var(--border-glass);
     border-radius: 8px;
   }
 
@@ -221,7 +288,7 @@ perfStyles.textContent = `
     border-radius: 4px;
     font-weight: 600;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-glass);
   }
 
   .upgrade-status-pill.pass-check {
@@ -246,7 +313,7 @@ perfStyles.textContent = `
   .cost-toggle-switch {
     display: flex;
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-glass);
     border-radius: 6px;
     padding: 2px;
     cursor: pointer;
@@ -278,7 +345,7 @@ perfStyles.textContent = `
     font-size: 0.75rem;
     padding: 0.4rem 0.75rem;
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-glass);
     color: #a1a1aa;
     border-radius: 8px;
     cursor: pointer;
@@ -292,9 +359,9 @@ perfStyles.textContent = `
   }
 
   .vibe-toggle-chip.active {
-    background: rgba(167, 139, 250, 0.12);
-    border-color: #a78bfa;
-    color: #c084fc;
+    background: var(--accent-glow);
+    border-color: var(--accent-core);
+    color: var(--text-highlight);
   }
 `;
 document.head.appendChild(perfStyles);
@@ -484,7 +551,6 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // If active mode is GTA 6, remove budget caps to return absolute performant hardware suggestions
   if (state.activeTab !== "GTA 6" && laptop.price > priceLimit) {
     return -Infinity;
   }
@@ -545,7 +611,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 
   score += laptop.scores.power * powerWeight + laptop.scores.mobility * mobilityWeight + laptop.scores.efficiency * efficiencyWeight;
 
-  // Unconstrained sorting parameters when suggesting systems under GTA 6 benchmarks
   if (state.activeTab !== "GTA 6") {
     const allocationRatio = laptop.price / priceLimit;
     if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
@@ -554,7 +619,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
       score -= 30; 
     }
   } else {
-    // Elevate hyper-performance configurations if mapping recommendations for GTA 6
     if (blob.includes("rtx 40") || blob.includes("rtx 50") || blob.includes("ryzen 9") || blob.includes("core i9")) {
       score += 100;
     }
@@ -586,7 +650,6 @@ function getMatches() {
   }
 
   if (state.activeTab === "GTA 6") {
-    // Explicitly target extreme hardware nodes that pass generation requirements comfortably
     return state.laptops
       .map((laptop) => ({
         laptop,
@@ -611,6 +674,13 @@ function setState(patch) {
   if (state.showSplash) {
     render();
     return;
+  }
+
+  // Intercept theme changes on navigation toggle loops
+  if (state.activeTab === "GTA 6") {
+    document.body.classList.add("gta6-theme-active");
+  } else {
+    document.body.classList.remove("gta6-theme-active");
   }
 
   if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
@@ -1103,7 +1173,6 @@ function showScan() {
 function computeGta6Baseline(input) {
   const text = normalize(input);
   
-  // High-precision hardware checking filters
   const hasEliteGpu = ["rtx 40", "rtx 3070", "rtx 3080", "rtx 3090", "rx 6800", "rx 6900", "rx 7800", "rx 7900", "apple max", "apple ultra"].some(k => text.includes(k));
   const hasMidGpu = ["rtx 3060", "rtx 2060", "rtx 2070", "rtx 2080", "rx 6700", "rx 6600", "rx 7600"].some(k => text.includes(k));
   const hasLowGpu = ["gtx 1650", "gtx 1060", "gtx 1050", "mx350", "mx450", "intel iris", "radeon graphics", "integrated"].some(k => text.includes(k));
@@ -1125,7 +1194,6 @@ function computeGta6Baseline(input) {
     };
   }
 
-  // Fallback to entry baseline clear
   return {
     status: "pass",
     message: "System baseline verified. Your build passes the minimum thresholds required to execute GTA 6 smoothly. You will be able to play at stable settings, though upgrading your GPU configuration will secure maximum performance stability."
