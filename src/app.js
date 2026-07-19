@@ -137,14 +137,6 @@ perfStyles.textContent = `
     animation: scanningLaser 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
-  /* GPU Rendering optimizers */
-  .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
-    transform: translate3d(0, 0, 0);
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-
   /* Cybernetic Roast terminal entry style */
   .roast-output {
     margin-top: 1.5rem;
@@ -562,7 +554,7 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   const rawQuery = normalize(query);
   let score = 0;
 
-  // 1. EXTENSIVE INTENT SEMANTIC EXPANSION PARSING MATRIX DICTIONARY
+  // EXTENSIVE INTENT SEMANTIC EXPANSION PARSING MATRIX DICTIONARY
   const expansionMatrix = [
     { keys: ["ml", "ai", "learning", "data", "compile", "python", "neural", "tensor", "deep", "virtualization", "docker", "developer", "backend"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9", "pro", "max"] },
     { keys: ["edit", "design", "render", "creator", "blend", "photoshop", "premiere", "lumion", "3d", "cad", "solidworks", "display", "screen", "color", "accurate"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro", "vision", "studio"] },
@@ -708,6 +700,7 @@ function setState(patch) {
 
 function updateResultsOnly() {
   if (state.activeTab === "Match Mode") {
+    renderMatchMode();
     return; 
   }
 
@@ -955,7 +948,7 @@ function renderSwipeCard(laptop) {
   const hasHighRam = blob.includes("16gb") || blob.includes("32gb") || blob.includes("64gb");
   
   const isGta6Compatible = !isAppleMac && hasDiscreteGpu && hasHighRam;
-  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin", "portable", "carry", "silent", "quiet"].some(k => blob.includes(k));
+  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin", "portable", "carry"].some(k => blob.includes(k));
 
   let customModifierClass = "";
   if (isGta6Compatible) {
@@ -1036,6 +1029,37 @@ function renderSwipeFinished() {
         <p class="hint">Adjust budget configuration sliders if you require additional recommendations.</p>
       </div>
     </div>
+  `;
+}
+
+function renderShortlistDrawer() {
+  const count = state.savedMatches.length;
+  const body = state.drawerOpen
+    ? `<div class="shortlist-body">${
+        count
+          ? state.savedMatches
+              .map(
+                (laptop) => `
+                  <article class="mini-card">
+                    <div>
+                      <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
+                      <h4>${escapeHtml(laptop.name)}</h4>
+                      <span>${formatPrice(laptop.price)}</span>
+                    </div>
+                    <button class="mini-detail" data-detail-id="${laptop.id}">View Details</button>
+                  </article>
+                `
+              )
+              .join("")
+          : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
+      }</div>`
+    : "";
+
+  return `
+    <aside class="glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}">
+      <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
+      ${body}
+    </aside>
   `;
 }
 
@@ -1377,8 +1401,11 @@ function initGlobalEvents() {
       labels.forEach(el => el.textContent = formatBudget(state.budget));
     } else if (target.id === "query") {
       state.query = target.value;
-      // Fixed: Debounces template array re-renders instantly on input keys rather than freezing
-      debounceRender();
+      if (state.activeTab === "Match Mode") {
+        renderMatchMode();
+      } else {
+        debounceRender();
+      }
     } else if (target.id === "roast-input") {
       state.roastInput = target.value;
     } else if (target.id === "gta6-input") {
@@ -1409,7 +1436,6 @@ function initGlobalEvents() {
       event.preventDefault();
       const inputEl = document.getElementById("roast-input");
       if (inputEl) state.roastInput = inputEl.value;
-      // Fixed: Redraws view templates dynamically upon submission to pull active text strings into view
       setState({ roast: buildRoast(state.roastInput) });
     } else if (target.id === "gta6-form") {
       event.preventDefault();
