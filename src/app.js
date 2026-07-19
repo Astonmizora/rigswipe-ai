@@ -440,34 +440,61 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // STRICT CEILING REGULATOR: Block entry to laptops that exceed the budget ceiling
+  // STRICT ABSOLUTE CEILING: Hard drop anything exceeding allocated funding lines
   if (laptop.price > priceLimit) {
     return -Infinity;
   }
 
   const blob = normalize(textBlob(laptop));
-  const terms = normalize(query).split(/[^a-z0-9+]+/).filter(Boolean);
+  const rawQuery = normalize(query);
   let score = 0;
 
-  terms.forEach((term) => {
-    if (blob.includes(term)) score += 12;
+  // 1. ADVANCED INTENT SEMANTIC EXPANSION DICTIONARY
+  const expansionMatrix = [
+    { keys: ["ml", "ai", "learning", "data", "compile"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
+    { keys: ["edit", "design", "render", "creator", "blend"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
+    { keys: ["game", "fps", "play", "steam", "refresh"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
+    { keys: ["travel", "battery", "carry", "lightweight", "slim"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon"] }
+  ];
+
+  expansionMatrix.forEach(node => {
+    if (node.keys.some(k => rawQuery.includes(k))) {
+      node.targets.forEach(t => {
+        if (blob.includes(t)) score += 20; // Inject massive point rewards for semantic target indicators
+      });
+    }
   });
 
-  weightedTerms.forEach((term) => {
-    if (blob.includes(normalize(term))) score += 18;
-  });
+  // Base text parsing layers
+  const terms = rawQuery.split(/[^a-z0-9+]+/).filter(Boolean);
+  terms.forEach((term) => { if (blob.includes(term)) score += 12; });
+  weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
-  const priceFit = Math.max(0, priceLimit - laptop.price);
-  score += (priceFit / Math.max(priceLimit, 1)) * 18;
-  score += laptop.scores.power * 0.14 + laptop.scores.mobility * 0.11 + laptop.scores.efficiency * 0.12;
+  // 2. CONTEXT-AWARE ADAPTIVE WEIGHT PHYSICS 
+  let powerWeight = 0.14;
+  let mobilityWeight = 0.11;
+  let efficiencyWeight = 0.12;
 
+  if (["game", "fps", "render", "cad", "heavy", "compile"].some(k => rawQuery.includes(k))) {
+    powerWeight = 0.45; mobilityWeight = 0.05; efficiencyWeight = 0.05;
+  } else if (["travel", "battery", "carry", "light", "college", "cafe"].some(k => rawQuery.includes(k))) {
+    powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
+  }
+
+  score += laptop.scores.power * powerWeight + laptop.scores.mobility * mobilityWeight + laptop.scores.efficiency * efficiencyWeight;
+
+  // 3. VALUE STRUCTURAL MATCH CURVE (TARGET SWEET-SPOT OPTIMIZATION)
+  const allocationRatio = laptop.price / priceLimit;
+  if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
+    score += 40; // Reward machines that maximize your purchasing threshold with elite hardware tier configurations
+  } else if (allocationRatio < 0.50) {
+    score -= 30; // Soft penalization for configurations too far below your allocated investment lines
+  }
+
+  // Active platform sync checks
   if (state.activeTab === "AI Vibe Matcher") {
-    if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) {
-      score += 45; 
-    }
-    if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) {
-      score += 15;
-    }
+    if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) { score += 45; }
+    if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) { score += 15; }
   }
 
   return score;
