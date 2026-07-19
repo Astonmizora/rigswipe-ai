@@ -1,4 +1,4 @@
-const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode"];
+const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode", "GTA 6 Mode"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
@@ -25,6 +25,12 @@ perfStyles.textContent = `
     5% { opacity: 1; }
     95% { opacity: 1; }
     100% { top: 105%; opacity: 0; }
+  }
+
+  @keyframes successPulse {
+    0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(74, 222, 128, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
   }
 
   /* Minimalist Splash */
@@ -271,6 +277,97 @@ perfStyles.textContent = `
     border-color: #a78bfa;
     color: #c084fc;
   }
+
+  /* =========================================================
+     NEW COMPONENT ARCHITECTURE: GTA 6 NAVIGATION & OVERLAYS 
+     ========================================================= */
+  body {
+    transition: background-image 0.5s ease, background-color 0.5s ease;
+  }
+
+  body.gta6-theme-active {
+    background-color: #0b0410 !important;
+    background-image: linear-gradient(135deg, rgba(11, 4, 16, 0.65), rgba(11, 4, 16, 0.85)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+  }
+
+  .nav .tabs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    scrollbar-width: none;
+  }
+  .nav .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto !important;
+  }
+
+  body.gta6-theme-active .nav,
+  body.gta6-theme-active .panel,
+  body.gta6-theme-active .results-head,
+  body.gta6-theme-active .card,
+  body.gta6-theme-active .tinder-card,
+  body.gta6-theme-active .shortlist-drawer {
+    background-color: rgba(11, 4, 16, 0.75) !important;
+    border-color: rgba(255, 0, 127, 0.3) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  body.gta6-theme-active .tab.active {
+    color: #00f0ff !important;
+    border-color: #ff007f !important;
+    background: rgba(255, 0, 127, 0.15) !important;
+  }
+
+  body.gta6-theme-active .scan-horizon-laser {
+    background: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent) !important;
+  }
+
+  .gta6-popup-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100000;
+    animation: fadeOutSplash 0.3s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards;
+  }
+
+  .gta6-popup-content {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(0, 240, 255, 0.15)), #0b0410;
+    border: 1px solid rgba(255, 0, 127, 0.4);
+    border-radius: 16px; padding: 2.5rem; text-align: center;
+    max-width: 450px; color: #ffffff;
+    box-shadow: 0 10px 40px rgba(255, 0, 127, 0.25);
+    animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .gta6-popup-content h2 {
+    color: #00f0ff; font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem;
+    margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .gta6-popup-content p { color: #e2e8f0; font-size: 1rem; line-height: 1.5; margin-bottom: 2rem; }
+
+  .gta6-popup-close {
+    background: #ff007f; color: #ffffff; border: none;
+    padding: 0.75rem 2rem; border-radius: 8px; font-weight: 700;
+    font-size: 1rem; cursor: pointer; transition: all 0.2s ease;
+  }
+
+  .gta6-popup-close:hover { background: #ff1a8c; box-shadow: 0 0 15px rgba(255, 0, 127, 0.6); }
+
+  .gta6-container { margin-top: 1.5rem; padding: 1.5rem; border-radius: 16px; animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .gta6-success { background: rgba(34, 197, 94, 0.1) !important; border: 1px solid rgba(34, 197, 94, 0.5) !important; color: #4ade80 !important; animation: successPulse 2s infinite; }
+  .gta6-fail { background: rgba(255, 0, 127, 0.1) !important; border: 1px solid rgba(255, 0, 127, 0.5) !important; color: #ff80bf !important; }
 `;
 document.head.appendChild(perfStyles);
 
@@ -403,7 +500,11 @@ const state = {
   showSplash: true,
   cardFlipped: false,
   showMonthlyCost: false,
-  phoneSync: "Mac OS"
+  phoneSync: "Mac OS",
+  
+  // GTA 6 Properties
+  gta6Input: "Intel i5, 8GB RAM, GTX 1650, 512GB SSD",
+  gta6Status: null
 };
 
 const root = document.getElementById("root");
@@ -455,8 +556,7 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // STRICT ABSOLUTE CEILING: Hard drop anything exceeding allocated funding lines
-  if (laptop.price > priceLimit) {
+  if (state.activeTab !== "GTA 6 Mode" && laptop.price > priceLimit) {
     return -Infinity;
   }
 
@@ -464,7 +564,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   const rawQuery = normalize(query);
   let score = 0;
 
-  // 1. ADVANCED INTENT SEMANTIC EXPANSION DICTIONARY
   const expansionMatrix = [
     { keys: ["ml", "ai", "learning", "data", "compile"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
     { keys: ["edit", "design", "render", "creator", "blend"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
@@ -480,12 +579,10 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     }
   });
 
-  // Base text parsing layers
   const terms = rawQuery.split(/[^a-z0-9+]+/).filter(Boolean);
   terms.forEach((term) => { if (blob.includes(term)) score += 12; });
   weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
-  // 2. CONTEXT-AWARE ADAPTIVE WEIGHT PHYSICS 
   let powerWeight = 0.14;
   let mobilityWeight = 0.11;
   let efficiencyWeight = 0.12;
@@ -496,17 +593,15 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
-  // FLAWLESS ENGINEERING CURRICULUM WEIGHT TUNING OVERRIDES
   if (state.activeTab === "Engineering") {
     const targetBranchProfile = branchProfiles[state.branch];
     if (targetBranchProfile) {
       if (targetBranchProfile.biasType === "gpu-mandatory") {
-        // Absolute exclusion filter rule: penalize weak integrated graphic processors for hardware-rendering intense environments
         const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics") || blob.includes("apple pro") || blob.includes("apple max");
-        if (!hasDiscreteGpu) return -Infinity; // Completely block options missing viewport rasterization accelerators
+        if (!hasDiscreteGpu) return -Infinity; 
         powerWeight = 0.50; mobilityWeight = 0.05; efficiencyWeight = 0.05;
       } else if (targetBranchProfile.biasType === "cuda-heavy") {
-        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; // Flag non-CUDA tensor architectures downward
+        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; 
         powerWeight = 0.40; efficiencyWeight = 0.20;
       } else if (targetBranchProfile.biasType === "computational") {
         if (blob.includes("16gb") || blob.includes("32gb")) score += 35;
@@ -521,15 +616,19 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 
   score += laptop.scores.power * powerWeight + laptop.scores.mobility * mobilityWeight + laptop.scores.efficiency * efficiencyWeight;
 
-  // 3. VALUE STRUCTURAL MATCH CURVE (TARGET SWEET-SPOT OPTIMIZATION)
-  const allocationRatio = laptop.price / priceLimit;
-  if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
-    score += 40; 
-  } else if (allocationRatio < 0.50) {
-    score -= 30; 
+  if (state.activeTab !== "GTA 6 Mode") {
+    const allocationRatio = laptop.price / priceLimit;
+    if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
+      score += 40; 
+    } else if (allocationRatio < 0.50) {
+      score -= 30; 
+    }
+  } else {
+    if (blob.includes("rtx 40") || blob.includes("rtx 3080") || blob.includes("rtx 3090") || blob.includes("rx 7") || blob.includes("apple max")) {
+      score += 150;
+    }
   }
 
-  // Active platform sync checks
   if (state.activeTab === "AI Vibe Matcher") {
     if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) { score += 45; }
     if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) { score += 15; }
@@ -555,6 +654,17 @@ function getMatches() {
       .map(({ laptop }) => laptop);
   }
 
+  if (state.activeTab === "GTA 6 Mode") {
+    return state.laptops
+      .map((laptop) => ({
+        laptop,
+        rank: scoreLaptop(laptop, "gaming rtx 4070 4080 4090 32gb 16gb", Infinity)
+      }))
+      .filter(({ rank }) => rank !== -Infinity && rank > 50)
+      .sort((a, b) => b.rank - a.rank)
+      .map(({ laptop }) => laptop);
+  }
+
   return state.laptops
     .map((laptop) => ({ laptop, rank: scoreLaptop(laptop, state.query, currentBudgetUsd) }))
     .filter(({ rank }) => rank !== -Infinity)
@@ -571,6 +681,12 @@ function setState(patch) {
     return;
   }
 
+  if (state.activeTab === "GTA 6 Mode") {
+    document.body.classList.add("gta6-theme-active");
+  } else {
+    document.body.classList.remove("gta6-theme-active");
+  }
+
   if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
     state.cardFlipped = false;
     render();
@@ -579,7 +695,8 @@ function setState(patch) {
       patch.branch !== undefined || 
       patch.purpose !== undefined || 
       patch.roast !== undefined ||
-      patch.phoneSync !== undefined
+      patch.phoneSync !== undefined ||
+      patch.gta6Status !== undefined
     ) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
@@ -590,8 +707,7 @@ function setState(patch) {
 
 function updateResultsOnly() {
   if (state.activeTab === "Match Mode") {
-    render();
-    return;
+    return; 
   }
 
   const matches = getMatches();
@@ -601,11 +717,12 @@ function updateResultsOnly() {
 
   const resultsHead = document.querySelector(".results-head");
   if (resultsHead) {
+    const subtitle = state.activeTab === "GTA 6 Mode" ? "Recommended GTA 6 Ready Upgrades" : "Matched Shortlist";
     resultsHead.innerHTML = `
       <div class="results-row">
         <div>
           <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
-          <h2>Matched Shortlist</h2>
+          <h2>${subtitle}</h2>
         </div>
         <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
       </div>
@@ -681,6 +798,7 @@ function render() {
   const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
   if (state.page > totalPages) state.page = totalPages;
   const visible = matches.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
+  const subtitle = state.activeTab === "GTA 6 Mode" ? "Recommended GTA 6 Ready Upgrades" : "Matched Shortlist";
 
   root.innerHTML = `
     <main class="app">
@@ -693,7 +811,7 @@ function render() {
             <div class="results-row">
               <div>
                 <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
-                <h2>Matched Shortlist</h2>
+                <h2>${subtitle}</h2>
               </div>
               <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
             </div>
@@ -713,79 +831,96 @@ function render() {
 function renderPanel() {
   if (state.activeTab === "Engineering") return renderBranchPanel();
   if (state.activeTab === "Rig Roast") return renderRoastPanel();
+  if (state.activeTab === "GTA 6 Mode") return renderGta6Panel();
   return renderMatcherPanel();
+}
+
+function renderGta6Panel() {
+  let feedbackHtml = "";
+  if (state.gta6Status === "fail") {
+    feedbackHtml = `
+      <div class="roast-output" style="color: #ff80bf !important; border-color: rgba(255,0,127,0.5) !important;">
+        Hardware Limit Encountered. Your current setup does not meet the necessary graphical horsepower or memory footprint required for Grand Theft Auto VI. Look to the right for extreme unconstrained recommendations!
+      </div>
+    `;
+  }
+
+  return `
+    <form class="form" id="gta6-form">
+      ${panelTitle("GTA 6 Hardware Check", "Enter your current desktop or laptop specifications to see if you can run Vice City flawlessly.")}
+      <textarea id="gta6-input" rows="5" placeholder="e.g. Intel i5, 8GB RAM, GTX 1650">${escapeHtml(state.gta6Input)}</textarea>
+      <button class="primary-btn" style="background:#ff007f;">Check Specifications</button>
+      ${feedbackHtml}
+    </form>
+  `;
+}
+
+function showGtaSuccessPopup() {
+  const overlay = document.createElement("div");
+  overlay.className = "gta6-popup-overlay";
+  overlay.innerHTML = `
+    <div class="gta6-popup-content">
+      <h2>🎉 CONGRATULATIONS!</h2>
+      <p>Your rig meets the extreme hardware requirements for Grand Theft Auto VI. Get ready for Vice City, frame rates are uncapped!</p>
+      <button class="gta6-popup-close">Close & Continue</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  
+  overlay.querySelector(".gta6-popup-close").addEventListener("click", () => overlay.remove());
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) overlay.remove();
+  });
+}
+
+function computeGta6Baseline(input) {
+  const text = normalize(input);
+  
+  const hasEliteGpu = ["rtx 40", "rtx 3070", "rtx 3080", "rtx 3090", "rx 68", "rx 69", "rx 78", "rx 79", "apple max", "apple ultra"].some(k => text.includes(k));
+  const hasGoodGpu = ["rtx 3060", "rtx 2070", "rtx 2080", "rx 6700", "rx 7600"].some(k => text.includes(k));
+  const hasLowGpu = ["gtx", "mx", "intel iris", "radeon graphics", "integrated"].some(k => text.includes(k));
+  
+  const hasLowRam = ["4gb", "8gb"].some(k => text.includes(k));
+  const hasHighRam = ["16gb", "32gb", "64gb"].some(k => text.includes(k));
+
+  if (hasLowGpu || hasLowRam || text.includes("i3") || text.includes("celeron")) {
+    return "fail";
+  }
+
+  if ((hasEliteGpu || hasGoodGpu) && hasHighRam) {
+    return "pass";
+  }
+
+  return "fail";
 }
 
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
-  const matchStage = document.querySelector(".match-stage");
-
-  if (matchStage) {
-    document.querySelectorAll(".tabs .tab").forEach(button => {
-      button.classList.toggle("active", button.dataset.tab === state.activeTab);
-    });
-
-    const swipeZone = document.querySelector(".swipe-zone");
-    if (swipeZone) {
-      swipeZone.innerHTML = `
-        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-        <div class="swipe-actions">
-          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+  
+  root.innerHTML = `
+    <main class="app">
+      ${renderNav()}
+      <section class="match-stage">
+        <div class="match-copy">
+          <p class="eyebrow">Interactive Tinder</p>
+          <h2>Match Mode</h2>
+          <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+            Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+          </p>
         </div>
-      `;
-    }
-
-    const shortlistDrawer = document.querySelector(".shortlist-drawer");
-    if (shortlistDrawer) {
-      const count = state.savedMatches.length;
-      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
-      shortlistDrawer.innerHTML = `
-        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
-        ${state.drawerOpen ? `
-          <div class="shortlist-body">${
-            count
-              ? state.savedMatches
-                  .map((item) => `
-                    <article class="mini-card">
-                      <div>
-                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
-                        <h4>${escapeHtml(item.name)}</h4>
-                        <span>${formatPrice(item.price)}</span>
-                      </div>
-                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
-                    </article>
-                  `).join("")
-              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
-          }</div>` : ""}
-      `;
-    }
-  } else {
-    root.innerHTML = `
-      <main class="app">
-        ${renderNav()}
-        <section class="match-stage">
-          <div class="match-copy">
-            <p class="eyebrow">Interactive Tinder</p>
-            <h2>Match Mode</h2>
-            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
-              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
-            </p>
-          </div>
-          <div class="match-workspace">
-            <div class="swipe-zone">
-              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-              <div class="swipe-actions">
-                <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-                <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
-              </div>
+        <div class="match-workspace">
+          <div class="swipe-zone">
+            ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+            <div class="swipe-actions">
+              <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+              <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
             </div>
-            ${renderShortlistDrawer()}
           </div>
-        </section>
-      </main>
-    `;
-  }
+          ${renderShortlistDrawer()}
+        </div>
+      </section>
+    </main>
+  `;
   attachDragSwipe();
 }
 
@@ -812,8 +947,24 @@ function renderSwipeCard(laptop) {
   const ramLower = normalize(laptop.ram);
   const isSoldered = ramLower.includes("soldered") || ramLower.includes("onboard") || ramLower.includes("lpddr");
 
+  const blob = normalize(textBlob(laptop));
+  const isAppleMac = normalize(laptop.brand).includes("apple");
+  
+  const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx");
+  const hasHighRam = blob.includes("16gb") || blob.includes("32gb") || blob.includes("64gb");
+  
+  const isGta6Compatible = !isAppleMac && hasDiscreteGpu && hasHighRam;
+  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin", "portable", "carry"].some(k => blob.includes(k));
+
+  let customModifierClass = "";
+  if (isGta6Compatible) {
+    customModifierClass = "gta6-compatible";
+  } else if (isPortableValue) {
+    customModifierClass = "portable-value";
+  }
+
   return `
-    <article class="glass tinder-card ${state.cardFlipped ? "flipped" : ""}" id="tinder-card" data-card-id="${laptop.id}">
+    <article class="glass tinder-card ${state.cardFlipped ? "flipped" : ""} ${customModifierClass}" id="tinder-card" data-card-id="${laptop.id}">
       <div class="tinder-card-inner">
         
         <!-- FRONT CARD DISPLAY LAYER -->
@@ -1159,62 +1310,16 @@ function showScan() {
   window.setTimeout(() => overlay.remove(), 1200);
 }
 
-function buildRoast(input) {
-  const text = normalize(input);
-  
-  const ramRoasts = [
-    "That RAM layout is barely holding your active baseline background elements alive.",
-    "8GB RAM? Your memory metrics look ready to drop into a system paging file cycle.",
-    "An execution sandbox footprint like that is begging for memory leaks."
-  ];
-  const storageRoasts = [
-    "Running a spinning mechanical sector drive in this decade belongs in a legacy museum archive.",
-    "A slow storage controller pool means your data lines move like dial-up packets.",
-    "Your disk controllers are throttling everything. Get ready for buffer queues."
-  ];
-  const cpuRoasts = [
-    "That processor architecture processes data vectors at the speed of bureaucracy.",
-    "Your processing core density is screaming out for a thread scheduler update.",
-    "Silicon limits encountered. That logic block can barely calculate code loops."
-  ];
-
-  const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const burns = [];
-
-  if (text.includes("4gb") || text.includes("8gb")) burns.push(randomPick(ramRoasts));
-  if (text.includes("hdd") || text.includes("256gb")) burns.push(randomPick(storageRoasts));
-  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push(randomPick(cpuRoasts));
-  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The chassis thermals emulate a turbine block but performance metrics remain stagnant.");
-  
-  if (!burns.length) burns.push("Chassis density is baseline structural config, but lacking top-tier performance cache pools entirely.");
-
-  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
-}
-
-function recommendUpgrade(text) {
-  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40/50-series graphics module, 32GB RAM, and 144Hz+ high-refresh display";
-  if (text.includes("code") || text.includes("coding")) return "Adopt 16GB dual-channel memory, SSD storage, and balanced thermal limits";
-  if (text.includes("design") || text.includes("edit")) return "Choose color-certified hardware (OLED or IPS), high memory headroom, and discrete graphics";
-  return "Modernize with 16GB RAM, fast PCIe NVMe storage, and high-efficiency CPU structures";
-}
-
-let debounceTimer;
-function debounceRender() {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    setState({ page: 1 });
-  }, 200);
-}
-
 function initGlobalEvents() {
   document.addEventListener("click", (event) => {
-    const tabBtn = event.target.closest("[data-tab]");
+    const target = event.target;
+    const tabBtn = target.closest("[data-tab]");
     if (tabBtn) {
       setState({ activeTab: tabBtn.dataset.tab, page: 1 });
       return;
     }
 
-    const pageBtn = event.target.closest("[data-page]");
+    const pageBtn = target.closest("[data-page]");
     if (pageBtn) {
       const matches = getMatches();
       const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
@@ -1225,27 +1330,26 @@ function initGlobalEvents() {
       return;
     }
 
-    const swipeBtn = event.target.closest("[data-swipe]");
+    const swipeBtn = target.closest("[data-swipe]");
     if (swipeBtn) {
       swipeCurrentLaptop(swipeBtn.dataset.swipe);
       return;
     }
 
-    const drawerToggle = event.target.closest("#drawer-toggle");
+    const drawerToggle = target.closest("#drawer-toggle");
     if (drawerToggle) {
       setState({ drawerOpen: !state.drawerOpen });
       return;
     }
 
-    const detailBtn = event.target.closest("[data-detail-id]");
+    const detailBtn = target.closest("[data-detail-id]");
     if (detailBtn) {
       const laptop = state.laptops.find((item) => item.id === Number(detailBtn.dataset.detailId));
       if (laptop) showLaptopDetails(laptop);
       return;
     }
 
-    // Capture Interactive Custom Chips
-    const vibeChip = event.target.closest(".vibe-toggle-chip");
+    const vibeChip = target.closest(".vibe-toggle-chip");
     if (vibeChip) {
       const type = vibeChip.dataset.vibeType;
       const value = vibeChip.dataset.vibeValue;
@@ -1253,12 +1357,12 @@ function initGlobalEvents() {
       return;
     }
 
-    if (event.target.closest(".emi-switch-trigger")) {
+    if (target.closest(".emi-switch-trigger")) {
       setState({ showMonthlyCost: !state.showMonthlyCost });
       return;
     }
 
-    if (event.target.closest(".tinder-photo-box")) {
+    if (target.closest(".tinder-photo-box")) {
       setState({ cardFlipped: !state.cardFlipped });
       return;
     }
@@ -1275,6 +1379,8 @@ function initGlobalEvents() {
       debounceRender();
     } else if (target.id === "roast-input") {
       state.roastInput = target.value;
+    } else if (target.id === "gta6-input") {
+      state.gta6Input = target.value;
     }
   });
 
@@ -1302,6 +1408,19 @@ function initGlobalEvents() {
       const inputEl = document.getElementById("roast-input");
       if (inputEl) state.roastInput = inputEl.value;
       setState({ roast: buildRoast(state.roastInput) });
+    } else if (target.id === "gta6-form") {
+      event.preventDefault();
+      const inputEl = document.getElementById("gta6-input");
+      if (inputEl) {
+        state.gta6Input = inputEl.value;
+      }
+      
+      const status = computeGta6Baseline(state.gta6Input);
+      setState({ gta6Status: status, page: 1 });
+      
+      if (status === "pass") {
+        showGtaSuccessPopup();
+      }
     }
   });
 }
