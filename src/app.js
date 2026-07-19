@@ -131,6 +131,133 @@ perfStyles.textContent = `
     animation: logoReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     box-shadow: 0 4px 20px rgba(239, 68, 68, 0.03);
   }
+
+  /* ==========================================
+     START OF REMOVABLE FEATURE OVERLAYS STYLES
+     ========================================== */
+  .tinder-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .tinder-card.xray-active .tinder-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .tinder-card-front, .tinder-card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: inherit;
+  }
+
+  .tinder-card-back {
+    transform: rotateY(180deg);
+    background: #0d0d12 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .xray-schematic-frame {
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: #a1a1aa;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 0.75rem;
+    line-height: 1.4;
+    flex-grow: 1;
+  }
+
+  .xray-tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+
+  .spark-blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 3, 5, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 100000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .spark-blur-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .spark-card-popup {
+    text-align: center;
+    max-width: 360px;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    transform: scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .spark-blur-overlay.active .spark-card-popup {
+    transform: scale(1);
+  }
+
+  .spark-venn-diagram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    height: 60px;
+    position: relative;
+  }
+
+  .spark-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    position: absolute;
+  }
+
+  .spark-circle.user-node {
+    transform: translateX(-16px);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .spark-circle.spec-node {
+    transform: translateX(16px);
+    border: 1.5px solid #a78bfa;
+    box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+  }
+  /* ==========================================
+     END OF REMOVABLE FEATURE OVERLAYS STYLES
+     ========================================== */
 `;
 document.head.appendChild(perfStyles);
 
@@ -561,6 +688,11 @@ function renderMatchMode() {
     `;
   }
   attachDragSwipe();
+  
+  // Dynamic feature attachment execution link hook
+  if (typeof injectXRayAndSparkFeatures === "function" && laptop) {
+    injectXRayAndSparkFeatures(laptop);
+  }
 }
 
 function getCurrentSwipeLaptop() {
@@ -575,25 +707,47 @@ function primaryHighlight(laptop) {
 }
 
 function renderSwipeCard(laptop) {
+  // Built with modular card-inner front/back architecture frames
   return `
     <article class="glass tinder-card" id="tinder-card" data-card-id="${laptop.id}">
-      <div class="photo-placeholder">
-        <div class="laptop-shell">
-          <div class="laptop-screen"></div>
-          <div class="laptop-base"></div>
-        </div>
-        <span>${escapeHtml(laptop.brand)}</span>
-      </div>
-      <div class="tinder-info">
-        <div class="card-top">
-          <div>
-            <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
-            <h3>${escapeHtml(laptop.name)}</h3>
+      <div class="tinder-card-inner">
+        <div class="tinder-card-front">
+          <div class="photo-placeholder card-xray-trigger" style="cursor: pointer;">
+            <div class="laptop-shell">
+              <div class="laptop-screen"></div>
+              <div class="laptop-base"></div>
+            </div>
+            <span>${escapeHtml(laptop.brand)} <br><span style="font-size: 0.75rem; opacity: 0.6;">🔍 Tap area to X-Ray specs</span></span>
           </div>
-          <div class="price">${formatPrice(laptop.price)}</div>
+          <div class="tinder-info">
+            <div class="card-top">
+              <div>
+                <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
+                <h3>${escapeHtml(laptop.name)}</h3>
+              </div>
+              <div class="price">${formatPrice(laptop.price)}</div>
+            </div>
+            <p class="highlight">${escapeHtml(primaryHighlight(laptop))}</p>
+            <div class="chips">${laptop.idealFor.slice(0, 3).map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}</div>
+          </div>
         </div>
-        <p class="highlight">${escapeHtml(primaryHighlight(laptop))}</p>
-        <div class="chips">${laptop.idealFor.slice(0, 3).map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}</div>
+        
+        <div class="tinder-card-back">
+          <div class="photo-placeholder card-xray-trigger" style="height: 50px; min-height: 50px; cursor: pointer;">
+            <span style="font-size: 0.8rem;">⬅ Tap to Flip Front</span>
+          </div>
+          <div class="xray-schematic-frame">
+            <div style="font-weight: bold; color: #ffffff; margin-bottom: 0.4rem;">> COMPONENT MAP SETUP</div>
+            <div>BUS PIPELINE STATUS: VERIFIED</div>
+            <div>COOLING SYSTEM: DUAL THERMAL RAYS</div>
+            <span class="xray-tag">MEMORY ARCHITECTURE: UPGRADEABLE READY</span>
+          </div>
+          <div class="tinder-info" style="padding-top: 0.5rem;">
+            <h3>${escapeHtml(laptop.name)} Hardware</h3>
+            <p style="font-size: 0.8rem; margin: 0.2rem 0;">GPU Core: ${escapeHtml(laptop.graphics)}</p>
+            <p style="font-size: 0.8rem; margin: 0;">Panel Display: ${escapeHtml(laptop.screen)}</p>
+          </div>
+        </div>
       </div>
     </article>
   `;
@@ -754,6 +908,7 @@ function attachDragSwipe() {
   let rafId = null;
 
   card.addEventListener("pointerdown", (event) => {
+    if (event.target.closest(".card-xray-trigger")) return; // skip drag if flipping
     dragging = true;
     startX = event.clientX;
     currentX = 0;
@@ -801,8 +956,22 @@ function swipeCurrentLaptop(action) {
   const card = document.getElementById("tinder-card");
   if (!laptop || !card || card.classList.contains("exiting")) return;
 
-  if (action === "match" && !state.savedMatches.some((item) => item.id === laptop.id)) {
-    state.savedMatches.push(laptop);
+  if (action === "match") {
+    if (!state.savedMatches.some((item) => item.id === laptop.id)) {
+      state.savedMatches.push(laptop);
+    }
+    // High performance criteria match filter triggers overlay spark window
+    if (laptop.scores.power >= 80) {
+      const sparkOverlay = document.getElementById("spark-blur-overlay");
+      if (sparkOverlay) {
+        sparkOverlay.innerHTML = renderSparkOverlayHTML(laptop);
+        sparkOverlay.classList.add("active");
+        
+        card.style.transform = "";
+        state.matchIndex += 1;
+        return;
+      }
+    }
   }
 
   card.classList.add("exiting", action === "match" ? "exit-right" : "exit-left");
@@ -973,6 +1142,56 @@ function initGlobalEvents() {
     }
   });
 }
+
+/* =======================================================
+   REMOVABLE OPTIONAL EXTRA FEATURES IMPLEMENTATION BLOCK
+   ======================================================= */
+function injectXRayAndSparkFeatures(laptop) {
+  // Ensure DOM container for the blur overlay safely exists
+  if (!document.getElementById("spark-blur-overlay")) {
+    const container = document.createElement("div");
+    container.id = "spark-blur-overlay";
+    container.className = "spark-blur-overlay";
+    document.body.appendChild(container);
+
+    container.addEventListener("click", (e) => {
+      if (e.target.id === "close-spark-btn" || e.target === container) {
+        container.classList.remove("active");
+        render();
+      }
+    });
+  }
+
+  // Handle front/back X-Ray card flip triggers cleanly
+  const currentCard = document.getElementById("tinder-card");
+  if (currentCard) {
+    currentCard.querySelectorAll(".card-xray-trigger").forEach(trigger => {
+      trigger.onclick = (e) => {
+        e.stopPropagation();
+        currentCard.classList.toggle("xray-active");
+      };
+    });
+  }
+}
+
+function renderSparkOverlayHTML(laptop) {
+  return `
+    <div class="spark-card-popup">
+      <div class="spark-venn-diagram">
+        <div class="spark-circle user-node"></div>
+        <div class="spark-circle spec-node"></div>
+      </div>
+      <h3 class="spark-title" style="margin-bottom:0.5rem; color:#fff;">Perfect Spec Match</h3>
+      <p class="spark-desc" style="color:#a1a1aa; margin-bottom:1.5rem;">
+        System configuration verified. ${escapeHtml(laptop.name)} matches your heavy engineering and compiling pipelines perfectly.
+      </p>
+      <button class="primary-btn" id="close-spark-btn" style="width:100%;">Resume Swiping</button>
+    </div>
+  `;
+}
+/* =======================================================
+   END OF REMOVABLE OPTIONAL EXTRA FEATURES BLOCK
+   ======================================================= */
 
 if (!window.__eventsInitialized) {
   initGlobalEvents();
