@@ -274,77 +274,92 @@ perfStyles.textContent = `
 `;
 document.head.appendChild(perfStyles);
 
+// COMPLETE FLAWLESS ENGINEERING BRANCH PROFILE CURRICULUM ARCHITECTURE MAP
 const branchProfiles = {
   CSE: {
-    terms: ["Coding", "Data Science", "AI Workloads", "Software Engineering", "Machine Learning", "Linux"],
-    vibes: ["fast", "keyboard", "battery", "portable", "ai", "linux"],
-    power: 74,
-  },
-  ECE: {
-    terms: ["Engineering", "Coding", "CAD", "School/Work"],
-    vibes: ["balanced", "portable", "reliable", "battery"],
-    power: 70,
-  },
-  Mechanical: {
-    terms: ["CAD", "Engineering", "3D Design", "Workstation"],
-    vibes: ["workstation", "powerful", "certified", "cooling"],
-    power: 84,
-  },
-  Design: {
-    terms: ["Design", "Digital Art", "Creator", "Photo Editing", "Video Editing", "Animation"],
-    vibes: ["oled", "color", "creator", "premium"],
-    power: 78,
-  },
-  Business: {
-    terms: ["Business", "School/Work", "Travel", "Writing"],
-    vibes: ["battery", "lightweight", "secure", "keyboard", "quiet"],
-    power: 58,
-  },
-  IT: {
-    terms: ["Coding", "Software Engineering", "Cybersecurity", "Business", "Data Analysis"],
-    vibes: ["fast", "keyboard", "battery", "secure", "portable"],
-    power: 72,
+    software: ["VS Code", "Docker", "Git", "IntelliJ", "Kubernetes"],
+    hardwareRequirements: ["16GB+ RAM Mandatory", "Multi-Threaded CPU Focus"],
+    terms: ["Coding", "Data Science", "Software Engineering", "Linux", "16GB", "32GB"],
+    biasType: "computational"
   },
   AI: {
-    terms: ["AI Workloads", "Machine Learning", "Data Science", "Coding", "Engineering"],
-    vibes: ["ai", "fast", "powerful", "efficient", "premium"],
-    power: 82,
+    software: ["TensorFlow", "PyTorch", "Jupyter Labs", "CUDA Toolkit", "Python"],
+    hardwareRequirements: ["Nvidia Tensor Cores Highly Recommended", "High VRAM Baseline"],
+    terms: ["AI Workloads", "Machine Learning", "Data Science", "Nvidia", "RTX", "CUDA"],
+    biasType: "cuda-heavy"
   },
-  DataScience: {
-    terms: ["Data Science", "Machine Learning", "Coding", "Data Analysis", "AI Workloads"],
-    vibes: ["fast", "battery", "keyboard", "efficient"],
-    power: 78,
+  IT: {
+    software: ["Wireshark", "VirtualBox", "AWS CLI", "MySQL", "Ubuntu Server"],
+    hardwareRequirements: ["High SSD Speed & Core Density Priority"],
+    terms: ["Coding", "Software Engineering", "Cybersecurity", "Data Analysis", "16GB"],
+    biasType: "computational"
   },
-  Cybersecurity: {
-    terms: ["Cybersecurity", "Coding", "Linux", "Business", "School/Work"],
-    vibes: ["secure", "linux", "keyboard", "battery", "durable"],
-    power: 70,
+  ECE: {
+    software: ["MATLAB", "Xilinx Vivado", "Logisim", "LTSpice", "Keil uVision"],
+    hardwareRequirements: ["High Single-Core Clock Speed Priority"],
+    terms: ["Engineering", "Coding", "CAD", "Balanced Thermal limits", "MATLAB"],
+    biasType: "math-heavy"
   },
   Electrical: {
-    terms: ["Engineering", "CAD", "Coding", "School/Work", "Data Analysis"],
-    vibes: ["balanced", "reliable", "durable", "portable"],
-    power: 72,
+    software: ["MATLAB", "Simulink", "LabVIEW", "ETAP", "AutoCAD Electrical"],
+    hardwareRequirements: ["Sustained Processing Thermal Scaling Required"],
+    terms: ["Engineering", "CAD", "Data Analysis", "Reliable Processing"],
+    biasType: "math-heavy"
+  },
+  Mechanical: {
+    software: ["SolidWorks", "ANSYS", "AutoCAD 3D", "Fusion 360", "CATIA"],
+    hardwareRequirements: ["Dedicated GPU Mandatory", "Avoid Integrated Graphics"],
+    terms: ["CAD", "Engineering", "3D Design", "Workstation", "RTX", "Discrete"],
+    biasType: "gpu-mandatory"
   },
   Civil: {
-    terms: ["CAD", "Engineering", "School/Work", "3D Design", "Business"],
-    vibes: ["durable", "large-screen", "value", "reliable"],
-    power: 76,
-  },
-  Chemical: {
-    terms: ["Engineering", "Data Analysis", "School/Work", "Coding", "Business"],
-    vibes: ["balanced", "battery", "reliable", "portable"],
-    power: 68,
-  },
-  Biotechnology: {
-    terms: ["Data Analysis", "School/Work", "Coding", "Research", "Business"],
-    vibes: ["battery", "portable", "efficient", "quiet"],
-    power: 66,
+    software: ["AutoCAD 2D/3D", "STAAD Pro", "Revit", "ETABS", "ArcGIS"],
+    hardwareRequirements: ["High Resolution VRAM Framebuffer Priority"],
+    terms: ["CAD", "Engineering", "3D Design", "Large-screen Rendering"],
+    biasType: "gpu-mandatory"
   },
   Architecture: {
-    terms: ["CAD", "3D Design", "Design", "Creator", "Digital Art"],
-    vibes: ["color", "oled", "workstation", "large-screen", "creator"],
-    power: 86,
+    software: ["Rhino 3D", "V-Ray", "Lumion", "SketchUp", "Adobe Creative Suite"],
+    hardwareRequirements: ["Maximum VRAM Check & Color-Accurate Display Baseline"],
+    terms: ["CAD", "3D Design", "Design", "Creator", "Color", "OLED", "Workstation"],
+    biasType: "gpu-mandatory"
   },
+  Design: {
+    software: ["Figma", "Adobe Illustrator", "After Effects", "Blender", "Premiere Pro"],
+    hardwareRequirements: ["Color Certified Panel (OLED/IPS P3) Baseline Required"],
+    terms: ["Design", "Digital Art", "Creator", "Photo Editing", "Video Editing"],
+    biasType: "creator-heavy"
+  },
+  Business: {
+    software: ["Excel Macro Suite", "Tableau", "PowerBI", "SAP", "Slack"],
+    hardwareRequirements: ["Extreme Battery Lifespan Focus Over Power"],
+    terms: ["Business", "Travel", "Writing", "Battery", "Lightweight"],
+    biasType: "efficiency-focused"
+  },
+  Cybersecurity: {
+    software: ["Kali Linux", "Metasploit", "Burp Suite", "Gidhra", "Hashcat"],
+    hardwareRequirements: ["Hardware Virtualization (VT-x/AMD-V) Baseline Mandatory"],
+    terms: ["Cybersecurity", "Linux", "Secure Architecture", "Keyboard"],
+    biasType: "computational"
+  },
+  DataScience: {
+    software: ["RStudio", "Apache Spark", "Hadoop", "Tableau", "Python Suite"],
+    hardwareRequirements: ["High Dual-Channel Bus Memory Throughput Mandatory"],
+    terms: ["Data Science", "Machine Learning", "Coding", "Data Analysis"],
+    biasType: "computational"
+  },
+  Chemical: {
+    software: ["ASPEN Plus", "CHEMCAD", "MATLAB", "COMSOL Multiphysics"],
+    hardwareRequirements: ["Vector Processing Throughput Focus"],
+    terms: ["Engineering", "Data Analysis", "Coding", "Balanced System"],
+    biasType: "math-heavy"
+  },
+  Biotechnology: {
+    software: ["BLAST", "PyMOL", "SnapGene", "MATLAB", "BioPython Suite"],
+    hardwareRequirements: ["Highly Efficient Battery and Silent Acoustics Baseline"],
+    terms: ["Data Analysis", "Research", "Efficient Architecture", "Quiet"],
+    biasType: "efficiency-focused"
+  }
 };
 
 const purposeProfiles = {
@@ -460,7 +475,7 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   expansionMatrix.forEach(node => {
     if (node.keys.some(k => rawQuery.includes(k))) {
       node.targets.forEach(t => {
-        if (blob.includes(t)) score += 20; // Inject massive point rewards for semantic target indicators
+        if (blob.includes(t)) score += 20; 
       });
     }
   });
@@ -481,14 +496,37 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
+  // FLAWLESS ENGINEERING CURRICULUM WEIGHT TUNING OVERRIDES
+  if (state.activeTab === "Engineering") {
+    const targetBranchProfile = branchProfiles[state.branch];
+    if (targetBranchProfile) {
+      if (targetBranchProfile.biasType === "gpu-mandatory") {
+        // Absolute exclusion filter rule: penalize weak integrated graphic processors for hardware-rendering intense environments
+        const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics") || blob.includes("apple pro") || blob.includes("apple max");
+        if (!hasDiscreteGpu) return -Infinity; // Completely block options missing viewport rasterization accelerators
+        powerWeight = 0.50; mobilityWeight = 0.05; efficiencyWeight = 0.05;
+      } else if (targetBranchProfile.biasType === "cuda-heavy") {
+        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; // Flag non-CUDA tensor architectures downward
+        powerWeight = 0.40; efficiencyWeight = 0.20;
+      } else if (targetBranchProfile.biasType === "computational") {
+        if (blob.includes("16gb") || blob.includes("32gb")) score += 35;
+        powerWeight = 0.30; efficiencyWeight = 0.20;
+      } else if (targetBranchProfile.biasType === "math-heavy") {
+        powerWeight = 0.35; efficiencyWeight = 0.25;
+      } else if (targetBranchProfile.biasType === "efficiency-focused") {
+        powerWeight = 0.05; mobilityWeight = 0.45; efficiencyWeight = 0.40;
+      }
+    }
+  }
+
   score += laptop.scores.power * powerWeight + laptop.scores.mobility * mobilityWeight + laptop.scores.efficiency * efficiencyWeight;
 
   // 3. VALUE STRUCTURAL MATCH CURVE (TARGET SWEET-SPOT OPTIMIZATION)
   const allocationRatio = laptop.price / priceLimit;
   if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
-    score += 40; // Reward machines that maximize your purchasing threshold with elite hardware tier configurations
+    score += 40; 
   } else if (allocationRatio < 0.50) {
-    score -= 30; // Soft penalization for configurations too far below your allocated investment lines
+    score -= 30; 
   }
 
   // Active platform sync checks
@@ -505,14 +543,14 @@ function getMatches() {
   
   if (state.activeTab === "Engineering") {
     const profile = branchProfiles[state.branch];
-    const terms = [...profile.terms, ...profile.vibes, ...purposeProfiles[state.purpose]];
+    const terms = [...profile.terms, ...purposeProfiles[state.purpose]];
     
     return state.laptops
       .map((laptop) => ({
         laptop,
-        rank: scoreLaptop(laptop, `${state.branch} ${state.purpose}`, currentBudgetUsd, terms) + Math.max(0, laptop.scores.power - profile.power) * 0.2,
+        rank: scoreLaptop(laptop, `${state.branch} ${state.purpose}`, currentBudgetUsd, terms),
       }))
-      .filter(({ rank }) => rank !== -Infinity && rank > 28)
+      .filter(({ rank }) => rank !== -Infinity)
       .sort((a, b) => b.rank - a.rank)
       .map(({ laptop }) => laptop);
   }
@@ -922,7 +960,10 @@ function renderBranchPanel() {
         <select id="purpose">${Object.keys(purposeProfiles).map((item) => `<option ${item === state.purpose ? "selected" : ""}>${item}</option>`).join("")}</select>
       </label>
       ${budgetControl()}
-      <div class="note">Workloads map to: ${profile.terms.slice(0, 3).join(", ")} requirements.</div>
+      <div class="note" style="margin-top: 0.5rem; font-family: monospace; font-size: 0.75rem; color: #a78bfa;">
+        <b>Target Branch Tools:</b> ${profile.software.join(", ")} <br>
+        <b>Validation Guardrails:</b> ${profile.hardwareRequirements.join(" | ")}
+      </div>
     </div>
   `;
 }
@@ -1121,7 +1162,6 @@ function showScan() {
 function buildRoast(input) {
   const text = normalize(input);
   
-  // DYNAMIC COMPONENT ROAST ARRAY SELECTION MATRIX
   const ramRoasts = [
     "That RAM layout is barely holding your active baseline background elements alive.",
     "8GB RAM? Your memory metrics look ready to drop into a system paging file cycle.",
