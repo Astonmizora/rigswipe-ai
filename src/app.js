@@ -373,6 +373,9 @@ const branchLabels = {
   Architecture: "Architecture / Planning",
 };
 
+// Renamed "BTech Branch Finder" panel layout view string context mapping tab indices
+const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode"];
+
 const state = {
   laptops: [],
   activeTab: TABS[0],
@@ -390,8 +393,7 @@ const state = {
   cardFlipped: false,
   showMonthlyCost: false,
   
-  // AI Vibe System Configuration Fields
-  deskAesthetic: "Minimalist OLED Black",
+  // Custom execution configuration maps
   phoneSync: "Mac OS"
 };
 
@@ -465,16 +467,10 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   score += (priceFit / Math.max(priceLimit, 1)) * 18;
   score += laptop.scores.power * 0.14 + laptop.scores.mobility * 0.11 + laptop.scores.efficiency * 0.12;
 
-  // Process Advanced AI Vibe Context Factors if active
+  // Process Advanced Operating System Configuration Weights
   if (state.activeTab === "AI Vibe Matcher") {
-    // 1. Desk Aesthetic Tuning
-    if (state.deskAesthetic === "Minimalist OLED Black" && (blob.includes("oled") || blob.includes("matte") || blob.includes("stealth"))) score += 25;
-    if (state.deskAesthetic === "Industrial Matte Metallic" && (blob.includes("aluminum") || blob.includes("metal") || blob.includes("carbon"))) score += 25;
-    if (state.deskAesthetic === "Natural Wood Warmth" && (blob.includes("slim") || blob.includes("silver") || blob.includes("glass"))) score += 15;
-    
-    // 2. Phone Sync Synergy Ecosystem Hooks (Mac OS / Windows Ecosystem Mapping)
     if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) {
-      score += 45; // Give significant synergy priority to ecosystem matching hardware
+      score += 45; 
     }
     if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) {
       score += 15;
@@ -487,7 +483,7 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 function getMatches() {
   const currentBudgetUsd = budgetInUsd();
   
-  if (state.activeTab === "BTech Branch Finder") {
+  if (state.activeTab === "Engineering") {
     const profile = branchProfiles[state.branch];
     const terms = [...profile.terms, ...profile.vibes, ...purposeProfiles[state.purpose]];
     
@@ -501,7 +497,6 @@ function getMatches() {
       .map(({ laptop }) => laptop);
   }
 
-  // AI Vibe Matcher and default pipelines
   return state.laptops
     .map((laptop) => ({ laptop, rank: scoreLaptop(laptop, state.query, currentBudgetUsd) }))
     .filter(({ rank }) => rank !== -Infinity)
@@ -526,7 +521,6 @@ function setState(patch) {
       patch.branch !== undefined || 
       patch.purpose !== undefined || 
       patch.roast !== undefined ||
-      patch.deskAesthetic !== undefined ||
       patch.phoneSync !== undefined
     ) {
       const panel = document.querySelector(".panel");
@@ -659,7 +653,7 @@ function render() {
 }
 
 function renderPanel() {
-  if (state.activeTab === "BTech Branch Finder") return renderBranchPanel();
+  if (state.activeTab === "Engineering") return renderBranchPanel();
   if (state.activeTab === "Rig Roast") return renderRoastPanel();
   return renderMatcherPanel();
 }
@@ -867,7 +861,6 @@ function renderShortlistDrawer() {
 }
 
 function renderMatcherPanel() {
-  const aesthetics = ["Minimalist OLED Black", "Natural Wood Warmth", "Industrial Matte Metallic"];
   const ecosystems = ["Mac OS", "Windows"];
 
   return `
@@ -879,18 +872,8 @@ function renderMatcherPanel() {
         <textarea id="query" rows="3" placeholder="e.g. lightweight machine, metal finish, deep trackpad">${escapeHtml(state.query)}</textarea>
       </label>
 
-      <!-- 1. Desk Aesthetic Interactive Chips -->
-      <label>Desk Aesthetic Vibe</label>
-      <div class="vibe-chip-group">
-        ${aesthetics.map(v => `
-          <button type="button" class="vibe-toggle-chip ${state.deskAesthetic === v ? "active" : ""}" data-vibe-type="deskAesthetic" data-vibe-value="${escapeHtml(v)}">
-            ${escapeHtml(v)}
-          </button>
-        `).join("")}
-      </div>
-
-      <!-- 2. Phone Sync Synergy Platform Chips (Mac OS & Windows Mapping) -->
-      <label>Phone Sync Integration</label>
+      <!-- Updated Platform Controls Header: Operating System -->
+      <label>Operating System</label>
       <div class="vibe-chip-group">
         ${ecosystems.map(e => `
           <button type="button" class="vibe-toggle-chip ${state.phoneSync === e ? "active" : ""}" data-vibe-type="phoneSync" data-vibe-value="${escapeHtml(e)}">
@@ -909,7 +892,7 @@ function renderBranchPanel() {
   const profile = branchProfiles[state.branch];
   return `
     <div class="form">
-      ${panelTitle("BTech Branch Finder", "Align hardware requirements automatically against college curriculums.")}
+      ${panelTitle("Engineering", "Align hardware requirements automatically against college curriculums.")}
       <label>
         Branch
         <select id="branch">${Object.keys(branchProfiles).map((item) => `<option value="${item}" ${item === state.branch ? "selected" : ""}>${branchLabels[item]}</option>`).join("")}</select>
@@ -1182,7 +1165,7 @@ function initGlobalEvents() {
       return;
     }
 
-    // Capture Interactive Modular AI Vibe Selector Clicks
+    // Capture Interactive Custom Chips
     const vibeChip = event.target.closest(".vibe-toggle-chip");
     if (vibeChip) {
       const type = vibeChip.dataset.vibeType;
