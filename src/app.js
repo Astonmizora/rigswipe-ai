@@ -1,4 +1,4 @@
-const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode"];
+const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode", "GTA 6 Mode"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
@@ -271,6 +271,82 @@ perfStyles.textContent = `
     border-color: #a78bfa;
     color: #c084fc;
   }
+
+  /* =========================================================
+     NEW: GTA 6 MODE THEME OVERRIDES & POPUP STYLES 
+     ========================================================= */
+  body {
+    transition: background-image 0.5s ease, background-color 0.5s ease;
+  }
+
+  body.gta6-theme-active {
+    background-color: #0b0410 !important;
+    background-image: linear-gradient(rgba(11, 4, 16, 0.65), rgba(11, 4, 16, 0.85)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+  }
+
+  .gta6-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000;
+    animation: fadeOutSplash 0.3s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards;
+  }
+
+  .gta6-popup-content {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(0, 240, 255, 0.15)), #0b0410;
+    border: 1px solid rgba(255, 0, 127, 0.4);
+    border-radius: 16px;
+    padding: 2.5rem;
+    text-align: center;
+    max-width: 450px;
+    color: #ffffff;
+    box-shadow: 0 10px 40px rgba(255, 0, 127, 0.25);
+    animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .gta6-popup-content h2 {
+    color: #00f0ff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .gta6-popup-content p {
+    color: #e2e8f0;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+
+  .gta6-popup-close {
+    background: #ff007f;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .gta6-popup-close:hover {
+    background: #ff1a8c;
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+  }
 `;
 document.head.appendChild(perfStyles);
 
@@ -403,7 +479,11 @@ const state = {
   showSplash: true,
   cardFlipped: false,
   showMonthlyCost: false,
-  phoneSync: "Mac OS"
+  phoneSync: "Mac OS",
+  
+  // GTA 6 State Trackers
+  gta6Input: "Intel i5, 8GB RAM, GTX 1650, 512GB SSD",
+  gta6Status: null
 };
 
 const root = document.getElementById("root");
@@ -455,8 +535,8 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // STRICT ABSOLUTE CEILING: Hard drop anything exceeding allocated funding lines
-  if (laptop.price > priceLimit) {
+  // If in GTA 6 Mode, ignore budget ceiling entirely to suggest powerful rigs
+  if (state.activeTab !== "GTA 6 Mode" && laptop.price > priceLimit) {
     return -Infinity;
   }
 
@@ -501,12 +581,11 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     const targetBranchProfile = branchProfiles[state.branch];
     if (targetBranchProfile) {
       if (targetBranchProfile.biasType === "gpu-mandatory") {
-        // Absolute exclusion filter rule: penalize weak integrated graphic processors for hardware-rendering intense environments
         const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics") || blob.includes("apple pro") || blob.includes("apple max");
-        if (!hasDiscreteGpu) return -Infinity; // Completely block options missing viewport rasterization accelerators
+        if (!hasDiscreteGpu) return -Infinity; 
         powerWeight = 0.50; mobilityWeight = 0.05; efficiencyWeight = 0.05;
       } else if (targetBranchProfile.biasType === "cuda-heavy") {
-        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; // Flag non-CUDA tensor architectures downward
+        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; 
         powerWeight = 0.40; efficiencyWeight = 0.20;
       } else if (targetBranchProfile.biasType === "computational") {
         if (blob.includes("16gb") || blob.includes("32gb")) score += 35;
@@ -522,11 +601,18 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   score += laptop.scores.power * powerWeight + laptop.scores.mobility * mobilityWeight + laptop.scores.efficiency * efficiencyWeight;
 
   // 3. VALUE STRUCTURAL MATCH CURVE (TARGET SWEET-SPOT OPTIMIZATION)
-  const allocationRatio = laptop.price / priceLimit;
-  if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
-    score += 40; 
-  } else if (allocationRatio < 0.50) {
-    score -= 30; 
+  if (state.activeTab !== "GTA 6 Mode") {
+    const allocationRatio = laptop.price / priceLimit;
+    if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
+      score += 40; 
+    } else if (allocationRatio < 0.50) {
+      score -= 30; 
+    }
+  } else {
+    // Extreme Hardware Matching for GTA 6
+    if (blob.includes("rtx 40") || blob.includes("rtx 3080") || blob.includes("rtx 3090") || blob.includes("rx 7") || blob.includes("apple max")) {
+      score += 150;
+    }
   }
 
   // Active platform sync checks
@@ -555,6 +641,18 @@ function getMatches() {
       .map(({ laptop }) => laptop);
   }
 
+  if (state.activeTab === "GTA 6 Mode") {
+    // Force specific extreme gaming keywords to surface the best hardware
+    return state.laptops
+      .map((laptop) => ({
+        laptop,
+        rank: scoreLaptop(laptop, "gaming rtx 4070 4080 4090 32gb 16gb", Infinity)
+      }))
+      .filter(({ rank }) => rank !== -Infinity && rank > 50)
+      .sort((a, b) => b.rank - a.rank)
+      .map(({ laptop }) => laptop);
+  }
+
   return state.laptops
     .map((laptop) => ({ laptop, rank: scoreLaptop(laptop, state.query, currentBudgetUsd) }))
     .filter(({ rank }) => rank !== -Infinity)
@@ -571,6 +669,13 @@ function setState(patch) {
     return;
   }
 
+  // Handle GTA 6 Theme Switching seamlessly
+  if (state.activeTab === "GTA 6 Mode") {
+    document.body.classList.add("gta6-theme-active");
+  } else {
+    document.body.classList.remove("gta6-theme-active");
+  }
+
   if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
     state.cardFlipped = false;
     render();
@@ -579,7 +684,8 @@ function setState(patch) {
       patch.branch !== undefined || 
       patch.purpose !== undefined || 
       patch.roast !== undefined ||
-      patch.phoneSync !== undefined
+      patch.phoneSync !== undefined ||
+      patch.gta6Status !== undefined
     ) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
@@ -601,11 +707,12 @@ function updateResultsOnly() {
 
   const resultsHead = document.querySelector(".results-head");
   if (resultsHead) {
+    const subtitle = state.activeTab === "GTA 6 Mode" ? "Recommended GTA 6 Ready Upgrades" : "Matched Shortlist";
     resultsHead.innerHTML = `
       <div class="results-row">
         <div>
           <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
-          <h2>Matched Shortlist</h2>
+          <h2>${subtitle}</h2>
         </div>
         <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
       </div>
@@ -681,6 +788,7 @@ function render() {
   const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
   if (state.page > totalPages) state.page = totalPages;
   const visible = matches.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
+  const subtitle = state.activeTab === "GTA 6 Mode" ? "Recommended GTA 6 Ready Upgrades" : "Matched Shortlist";
 
   root.innerHTML = `
     <main class="app">
@@ -693,7 +801,7 @@ function render() {
             <div class="results-row">
               <div>
                 <p class="eyebrow">${escapeHtml(state.activeTab)}</p>
-                <h2>Matched Shortlist</h2>
+                <h2>${subtitle}</h2>
               </div>
               <p class="result-meta">${matches.length} matches - page ${state.page} of ${totalPages}</p>
             </div>
@@ -713,7 +821,67 @@ function render() {
 function renderPanel() {
   if (state.activeTab === "Engineering") return renderBranchPanel();
   if (state.activeTab === "Rig Roast") return renderRoastPanel();
+  if (state.activeTab === "GTA 6 Mode") return renderGta6Panel();
   return renderMatcherPanel();
+}
+
+function renderGta6Panel() {
+  let feedbackHtml = "";
+  if (state.gta6Status === "fail") {
+    feedbackHtml = `
+      <div class="roast-output" style="color: #ff80bf !important; border-color: rgba(255,0,127,0.5) !important;">
+        Hardware Limit Encountered. Your current setup does not meet the necessary graphical horsepower or memory footprint required for Grand Theft Auto VI. Look to the right for extreme unconstrained recommendations!
+      </div>
+    `;
+  }
+
+  return `
+    <form class="form" id="gta6-form">
+      ${panelTitle("GTA 6 Hardware Check", "Enter your current desktop or laptop specifications to see if you can run Vice City flawlessly.")}
+      <textarea id="gta6-input" rows="5" placeholder="e.g. Intel i5, 8GB RAM, GTX 1650">${escapeHtml(state.gta6Input)}</textarea>
+      <button class="primary-btn" style="background:#ff007f;">Check Specifications</button>
+      ${feedbackHtml}
+    </form>
+  `;
+}
+
+function showGtaSuccessPopup() {
+  const overlay = document.createElement("div");
+  overlay.className = "gta6-popup-overlay";
+  overlay.innerHTML = `
+    <div class="gta6-popup-content">
+      <h2>🎉 CONGRATULATIONS!</h2>
+      <p>Your rig meets the extreme hardware requirements for Grand Theft Auto VI. Get ready for Vice City, frame rates are uncapped!</p>
+      <button class="gta6-popup-close">Close & Continue</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  
+  overlay.querySelector(".gta6-popup-close").addEventListener("click", () => overlay.remove());
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) overlay.remove();
+  });
+}
+
+function computeGta6Baseline(input) {
+  const text = normalize(input);
+  
+  const hasEliteGpu = ["rtx 40", "rtx 3070", "rtx 3080", "rtx 3090", "rx 68", "rx 69", "rx 78", "rx 79", "apple max", "apple ultra"].some(k => text.includes(k));
+  const hasGoodGpu = ["rtx 3060", "rtx 2070", "rtx 2080", "rx 6700", "rx 7600"].some(k => text.includes(k));
+  const hasLowGpu = ["gtx", "mx", "intel iris", "radeon graphics", "integrated"].some(k => text.includes(k));
+  
+  const hasLowRam = ["4gb", "8gb"].some(k => text.includes(k));
+  const hasHighRam = ["16gb", "32gb", "64gb"].some(k => text.includes(k));
+
+  if (hasLowGpu || hasLowRam || text.includes("i3") || text.includes("celeron")) {
+    return "fail";
+  }
+
+  if ((hasEliteGpu || hasGoodGpu) && hasHighRam) {
+    return "pass";
+  }
+
+  return "fail";
 }
 
 function renderMatchMode() {
@@ -1208,13 +1376,14 @@ function debounceRender() {
 
 function initGlobalEvents() {
   document.addEventListener("click", (event) => {
-    const tabBtn = event.target.closest("[data-tab]");
+    const target = event.target;
+    const tabBtn = target.closest("[data-tab]");
     if (tabBtn) {
       setState({ activeTab: tabBtn.dataset.tab, page: 1 });
       return;
     }
 
-    const pageBtn = event.target.closest("[data-page]");
+    const pageBtn = target.closest("[data-page]");
     if (pageBtn) {
       const matches = getMatches();
       const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
@@ -1275,6 +1444,8 @@ function initGlobalEvents() {
       debounceRender();
     } else if (target.id === "roast-input") {
       state.roastInput = target.value;
+    } else if (target.id === "gta6-input") {
+      state.gta6Input = target.value;
     }
   });
 
@@ -1302,6 +1473,17 @@ function initGlobalEvents() {
       const inputEl = document.getElementById("roast-input");
       if (inputEl) state.roastInput = inputEl.value;
       setState({ roast: buildRoast(state.roastInput) });
+    } else if (target.id === "gta6-form") {
+      event.preventDefault();
+      const inputEl = document.getElementById("gta6-input");
+      if (inputEl) state.gta6Input = inputEl.value;
+      
+      const status = computeGta6Baseline(state.gta6Input);
+      setState({ gta6Status: status, page: 1 });
+      
+      if (status === "pass") {
+        showGtaSuccessPopup();
+      }
     }
   });
 }
