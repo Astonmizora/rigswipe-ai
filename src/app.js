@@ -271,6 +271,52 @@ perfStyles.textContent = `
     border-color: #a78bfa;
     color: #c084fc;
   }
+
+  /* Single line navigation scroll container style locks */
+  .nav .tabs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    scrollbar-width: none;
+  }
+  .nav .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto !important;
+  }
+
+  /* Compatibility mode visualization cards setup */
+  .tinder-card.gta6-compatible {
+    border-color: #ff007f !important;
+    box-shadow: 0 8px 24px rgba(255, 0, 127, 0.12) !important;
+  }
+  .tinder-card.gta6-compatible .eyebrow {
+    color: #ff007f !important;
+  }
+  .tinder-card.gta6-compatible .photo-placeholder {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.1), rgba(0, 240, 255, 0.1)) !important;
+    border-color: rgba(255, 0, 127, 0.2) !important;
+  }
+  .tinder-card.gta6-compatible .photo-placeholder span {
+    color: #00f0ff !important;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+  }
+
+  .tinder-card.portable-value {
+    border-color: #22c55e !important;
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.12) !important;
+  }
+  .tinder-card.portable-value .eyebrow {
+    color: #22c55e !important;
+  }
+  .tinder-card.portable-value .photo-placeholder {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(255, 255, 255, 0.02)) !important;
+    border-color: rgba(34, 197, 94, 0.2) !important;
+  }
 `;
 document.head.appendChild(perfStyles);
 
@@ -455,7 +501,6 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // STRICT ABSOLUTE CEILING: Hard drop anything exceeding allocated funding lines
   if (laptop.price > priceLimit) {
     return -Infinity;
   }
@@ -464,25 +509,27 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   const rawQuery = normalize(query);
   let score = 0;
 
-  // 1. ADVANCED INTENT SEMANTIC EXPANSION DICTIONARY
+  // 1. EXTENSIVE INTENT SEMANTIC EXPANSION PARSING MATRIX DICTIONARY
   const expansionMatrix = [
-    { keys: ["ml", "ai", "learning", "data", "compile"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
-    { keys: ["edit", "design", "render", "creator", "blend"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
-    { keys: ["game", "fps", "play", "steam", "refresh"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
-    { keys: ["travel", "battery", "carry", "lightweight", "slim"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon"] }
+    { keys: ["ml", "ai", "learning", "data", "compile", "python", "neural", "tensor", "deep", "virtualization", "docker", "developer", "backend"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9", "pro", "max"] },
+    { keys: ["edit", "design", "render", "creator", "blend", "photoshop", "premiere", "lumion", "3d", "cad", "solidworks", "display", "screen", "color", "accurate"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro", "vision", "studio"] },
+    { keys: ["game", "fps", "play", "steam", "refresh", "warzone", "valorant", "gta", "gpu", "graphics", "performance", "gaming", "csgo"], targets: ["rtx", "4050", "4060", "4070", "4080", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
+    { keys: ["travel", "battery", "carry", "lightweight", "slim", "portable", "silent", "quiet", "cafe", "thin", "office", "sleek", "durable"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon", "ultra", "u-series"] },
+    { keys: ["premium", "luxury", "metal", "aluminum", "bright", "4k", "hdr", "expensive", "buildquality", "chassis"], targets: ["oled", "ips", "macbook", "zenbook", "spectre", "metal", "carbon", "titanium"] },
+    { keys: ["cheap", "budget", "survival", "affordable", "low price", "student", "discount", "value", "saves"], targets: ["cheap", "value", "vivobook", "ideapad", "8gb", "integrated", "aspire"] }
   ];
 
   expansionMatrix.forEach(node => {
     if (node.keys.some(k => rawQuery.includes(k))) {
       node.targets.forEach(t => {
-        if (blob.includes(t)) score += 20; 
+        if (blob.includes(t)) score += 30; // Secure deep hardware alignment parameters mapping
       });
     }
   });
 
-  // Base text parsing layers
+  // Split context directives elegantly into singular words to track containment indexes
   const terms = rawQuery.split(/[^a-z0-9+]+/).filter(Boolean);
-  terms.forEach((term) => { if (blob.includes(term)) score += 12; });
+  terms.forEach((term) => { if (blob.includes(term)) score += 15; });
   weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
   // 2. CONTEXT-AWARE ADAPTIVE WEIGHT PHYSICS 
@@ -490,9 +537,9 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   let mobilityWeight = 0.11;
   let efficiencyWeight = 0.12;
 
-  if (["game", "fps", "render", "cad", "heavy", "compile"].some(k => rawQuery.includes(k))) {
+  if (["game", "fps", "render", "cad", "heavy", "compile", "3d", "gpu", "ml", "ai"].some(k => rawQuery.includes(k))) {
     powerWeight = 0.45; mobilityWeight = 0.05; efficiencyWeight = 0.05;
-  } else if (["travel", "battery", "carry", "light", "college", "cafe"].some(k => rawQuery.includes(k))) {
+  } else if (["travel", "battery", "carry", "light", "college", "cafe", "portable", "silent", "quiet"].some(k => rawQuery.includes(k))) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
@@ -501,12 +548,11 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     const targetBranchProfile = branchProfiles[state.branch];
     if (targetBranchProfile) {
       if (targetBranchProfile.biasType === "gpu-mandatory") {
-        // Absolute exclusion filter rule: penalize weak integrated graphic processors for hardware-rendering intense environments
         const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics") || blob.includes("apple pro") || blob.includes("apple max");
-        if (!hasDiscreteGpu) return -Infinity; // Completely block options missing viewport rasterization accelerators
+        if (!hasDiscreteGpu) return -Infinity; 
         powerWeight = 0.50; mobilityWeight = 0.05; efficiencyWeight = 0.05;
       } else if (targetBranchProfile.biasType === "cuda-heavy") {
-        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; // Flag non-CUDA tensor architectures downward
+        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; 
         powerWeight = 0.40; efficiencyWeight = 0.20;
       } else if (targetBranchProfile.biasType === "computational") {
         if (blob.includes("16gb") || blob.includes("32gb")) score += 35;
@@ -529,7 +575,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     score -= 30; 
   }
 
-  // Active platform sync checks
   if (state.activeTab === "AI Vibe Matcher") {
     if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) { score += 45; }
     if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) { score += 15; }
@@ -718,74 +763,31 @@ function renderPanel() {
 
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
-  const matchStage = document.querySelector(".match-stage");
-
-  if (matchStage) {
-    document.querySelectorAll(".tabs .tab").forEach(button => {
-      button.classList.toggle("active", button.dataset.tab === state.activeTab);
-    });
-
-    const swipeZone = document.querySelector(".swipe-zone");
-    if (swipeZone) {
-      swipeZone.innerHTML = `
-        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-        <div class="swipe-actions">
-          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+  
+  root.innerHTML = `
+    <main class="app">
+      ${renderNav()}
+      <section class="match-stage">
+        <div class="match-copy">
+          <p class="eyebrow">Interactive Tinder</p>
+          <h2>Match Mode</h2>
+          <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+            Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+          </p>
         </div>
-      `;
-    }
-
-    const shortlistDrawer = document.querySelector(".shortlist-drawer");
-    if (shortlistDrawer) {
-      const count = state.savedMatches.length;
-      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
-      shortlistDrawer.innerHTML = `
-        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
-        ${state.drawerOpen ? `
-          <div class="shortlist-body">${
-            count
-              ? state.savedMatches
-                  .map((item) => `
-                    <article class="mini-card">
-                      <div>
-                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
-                        <h4>${escapeHtml(item.name)}</h4>
-                        <span>${formatPrice(item.price)}</span>
-                      </div>
-                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
-                    </article>
-                  `).join("")
-              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
-          }</div>` : ""}
-      `;
-    }
-  } else {
-    root.innerHTML = `
-      <main class="app">
-        ${renderNav()}
-        <section class="match-stage">
-          <div class="match-copy">
-            <p class="eyebrow">Interactive Tinder</p>
-            <h2>Match Mode</h2>
-            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
-              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
-            </p>
-          </div>
-          <div class="match-workspace">
-            <div class="swipe-zone">
-              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-              <div class="swipe-actions">
-                <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-                <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
-              </div>
+        <div class="match-workspace">
+          <div class="swipe-zone">
+            ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+            <div class="swipe-actions">
+              <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+              <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
             </div>
-            ${renderShortlistDrawer()}
           </div>
-        </section>
-      </main>
-    `;
-  }
+          ${renderShortlistDrawer()}
+        </div>
+      </section>
+    </main>
+  `;
   attachDragSwipe();
 }
 
@@ -812,8 +814,26 @@ function renderSwipeCard(laptop) {
   const ramLower = normalize(laptop.ram);
   const isSoldered = ramLower.includes("soldered") || ramLower.includes("onboard") || ramLower.includes("lpddr");
 
+  const blob = normalize(textBlob(laptop));
+  const isAppleMac = normalize(laptop.brand).includes("apple");
+  
+  const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx");
+  const hasHighRam = blob.includes("16gb") || blob.includes("32gb") || blob.includes("64gb");
+  
+  // Explicit constraint ruleset: Mac systems fail validation matching parameters completely
+  const isGta6Compatible = !isAppleMac && hasDiscreteGpu && hasHighRam;
+  
+  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin", "portable", "carry", "silent", "quiet"].some(k => blob.includes(k));
+
+  let customModifierClass = "";
+  if (isGta6Compatible) {
+    customModifierClass = "gta6-compatible";
+  } else if (isPortableValue) {
+    customModifierClass = "portable-value";
+  }
+
   return `
-    <article class="glass tinder-card ${state.cardFlipped ? "flipped" : ""}" id="tinder-card" data-card-id="${laptop.id}">
+    <article class="glass tinder-card ${state.cardFlipped ? "flipped" : ""} ${customModifierClass}" id="tinder-card" data-card-id="${laptop.id}">
       <div class="tinder-card-inner">
         
         <!-- FRONT CARD DISPLAY LAYER -->
@@ -1159,62 +1179,16 @@ function showScan() {
   window.setTimeout(() => overlay.remove(), 1200);
 }
 
-function buildRoast(input) {
-  const text = normalize(input);
-  
-  const ramRoasts = [
-    "That RAM layout is barely holding your active baseline background elements alive.",
-    "8GB RAM? Your memory metrics look ready to drop into a system paging file cycle.",
-    "An execution sandbox footprint like that is begging for memory leaks."
-  ];
-  const storageRoasts = [
-    "Running a spinning mechanical sector drive in this decade belongs in a legacy museum archive.",
-    "A slow storage controller pool means your data lines move like dial-up packets.",
-    "Your disk controllers are throttling everything. Get ready for buffer queues."
-  ];
-  const cpuRoasts = [
-    "That processor architecture processes data vectors at the speed of bureaucracy.",
-    "Your processing core density is screaming out for a thread scheduler update.",
-    "Silicon limits encountered. That logic block can barely calculate code loops."
-  ];
-
-  const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const burns = [];
-
-  if (text.includes("4gb") || text.includes("8gb")) burns.push(randomPick(ramRoasts));
-  if (text.includes("hdd") || text.includes("256gb")) burns.push(randomPick(storageRoasts));
-  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push(randomPick(cpuRoasts));
-  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The chassis thermals emulate a turbine block but performance metrics remain stagnant.");
-  
-  if (!burns.length) burns.push("Chassis density is baseline structural config, but lacking top-tier performance cache pools entirely.");
-
-  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
-}
-
-function recommendUpgrade(text) {
-  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40/50-series graphics module, 32GB RAM, and 144Hz+ high-refresh display";
-  if (text.includes("code") || text.includes("coding")) return "Adopt 16GB dual-channel memory, SSD storage, and balanced thermal limits";
-  if (text.includes("design") || text.includes("edit")) return "Choose color-certified hardware (OLED or IPS), high memory headroom, and discrete graphics";
-  return "Modernize with 16GB RAM, fast PCIe NVMe storage, and high-efficiency CPU structures";
-}
-
-let debounceTimer;
-function debounceRender() {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    setState({ page: 1 });
-  }, 200);
-}
-
 function initGlobalEvents() {
   document.addEventListener("click", (event) => {
-    const tabBtn = event.target.closest("[data-tab]");
+    const target = event.target;
+    const tabBtn = target.closest("[data-tab]");
     if (tabBtn) {
       setState({ activeTab: tabBtn.dataset.tab, page: 1 });
       return;
     }
 
-    const pageBtn = event.target.closest("[data-page]");
+    const pageBtn = target.closest("[data-page]");
     if (pageBtn) {
       const matches = getMatches();
       const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
@@ -1225,19 +1199,19 @@ function initGlobalEvents() {
       return;
     }
 
-    const swipeBtn = event.target.closest("[data-swipe]");
+    const swipeBtn = target.closest("[data-swipe]");
     if (swipeBtn) {
       swipeCurrentLaptop(swipeBtn.dataset.swipe);
       return;
     }
 
-    const drawerToggle = event.target.closest("#drawer-toggle");
+    const drawerToggle = target.closest("#drawer-toggle");
     if (drawerToggle) {
       setState({ drawerOpen: !state.drawerOpen });
       return;
     }
 
-    const detailBtn = event.target.closest("[data-detail-id]");
+    const detailBtn = target.closest("[data-detail-id]");
     if (detailBtn) {
       const laptop = state.laptops.find((item) => item.id === Number(detailBtn.dataset.detailId));
       if (laptop) showLaptopDetails(laptop);
@@ -1245,7 +1219,7 @@ function initGlobalEvents() {
     }
 
     // Capture Interactive Custom Chips
-    const vibeChip = event.target.closest(".vibe-toggle-chip");
+    const vibeChip = target.closest(".vibe-toggle-chip");
     if (vibeChip) {
       const type = vibeChip.dataset.vibeType;
       const value = vibeChip.dataset.vibeValue;
@@ -1253,12 +1227,12 @@ function initGlobalEvents() {
       return;
     }
 
-    if (event.target.closest(".emi-switch-trigger")) {
+    if (target.closest(".emi-switch-trigger")) {
       setState({ showMonthlyCost: !state.showMonthlyCost });
       return;
     }
 
-    if (event.target.closest(".tinder-photo-box")) {
+    if (target.closest(".tinder-photo-box")) {
       setState({ cardFlipped: !state.cardFlipped });
       return;
     }
@@ -1272,7 +1246,7 @@ function initGlobalEvents() {
       labels.forEach(el => el.textContent = formatBudget(state.budget));
     } else if (target.id === "query") {
       state.query = target.value;
-      debounceRender();
+      debounceRender(); // Instantly captures character arrays to map text pipelines
     } else if (target.id === "roast-input") {
       state.roastInput = target.value;
     }
