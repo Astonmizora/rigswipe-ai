@@ -33,24 +33,24 @@ perfStyles.textContent = `
     100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
   }
 
-  /* Core Design Tokens: Default Dark Mode */
+  /* Core Design Tokens: Clean White Base Code Background */
   :root {
-    --bg-main: #030305;
+    --bg-main: #ffffff;
     --bg-image: none;
-    --border-glass: rgba(255, 255, 255, 0.08);
+    --border-glass: rgba(0, 0, 0, 0.08);
     --accent-core: #a78bfa;
     --accent-glow: rgba(167, 139, 250, 0.12);
     --text-highlight: #c084fc;
     --laser-color: linear-gradient(90deg, transparent, #a78bfa, transparent);
   }
 
-  /* Dynamic Theme Override: GTA 6 Neon Synthwave + Key-Art Background */
+  /* Dynamic Theme Override: Highly Colorful & Saturated GTA 6 Key-Art Concept */
   body.gta6-theme-active {
     --bg-main: #0b0410;
-    --bg-image: linear-gradient(rgba(11, 4, 16, 0.82), rgba(11, 4, 16, 0.82)), url('https://images.alphacoders.com/134/1344207.jpeg');
-    --border-glass: rgba(255, 0, 127, 0.15);
+    --bg-image: linear-gradient(135deg, rgba(255, 0, 127, 0.45), rgba(0, 240, 255, 0.45)), url('https://images.alphacoders.com/134/1344207.jpeg');
+    --border-glass: rgba(255, 0, 127, 0.3);
     --accent-core: #ff007f;
-    --accent-glow: rgba(255, 0, 127, 0.12);
+    --accent-glow: rgba(255, 0, 127, 0.2);
     --text-highlight: #00f0ff;
     --laser-color: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent);
   }
@@ -61,7 +61,12 @@ perfStyles.textContent = `
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    transition: background-color 0.5s ease, background-image 0.5s ease;
+    transition: background-color 0.4s ease, background-image 0.4s ease;
+    color: #111111;
+  }
+  
+  body.gta6-theme-active {
+    color: #ffffff;
   }
 
   /* Strict Single-Line Navigation Track Override */
@@ -137,21 +142,26 @@ perfStyles.textContent = `
                 box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
                 border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 background-color 0.4s ease !important;
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-glass) !important;
+  }
+  
+  body.gta6-theme-active .card, body.gta6-theme-active .tinder-card {
+    background-color: rgba(11, 4, 16, 0.6);
   }
 
   .card:hover {
     transform: translate3d(0, -6px, 0) !important;
     border-color: var(--accent-core) !important;
-    box-shadow: 0 12px 30px var(--accent-glow), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 12px 30px var(--accent-glow), 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   }
 
   /* Tab Indicator Organic Fluidity */
   .tab {
     transition: color 0.25s ease, background-color 0.25s ease !important;
+    color: #4b5563;
   }
   .tab.active {
     color: var(--text-highlight) !important;
@@ -189,11 +199,14 @@ perfStyles.textContent = `
     background: rgba(239, 68, 68, 0.04) !important;
     border: 1px dashed rgba(239, 68, 68, 0.25) !important;
     border-radius: 12px;
-    color: #fca5a5 !important;
+    color: #b91c1c !important;
     font-size: 0.95rem;
     line-height: 1.6;
     animation: logoReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.03);
+  }
+  
+  body.gta6-theme-active .roast-output {
+    color: #fca5a5 !important;
   }
 
   /* GTA 6 Mode Layout Extensions */
@@ -204,14 +217,20 @@ perfStyles.textContent = `
     animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .gta6-success {
-    background: rgba(34, 197, 94, 0.04) !important;
-    border: 1px solid rgba(34, 197, 94, 0.4) !important;
-    color: #4ade80 !important;
+    background: rgba(34, 197, 94, 0.1) !important;
+    border: 1px solid rgba(34, 197, 94, 0.5) !important;
+    color: #16a34a !important;
     animation: successPulse 2s infinite;
   }
+  body.gta6-theme-active .gta6-success {
+    color: #4ade80 !important;
+  }
   .gta6-fail {
-    background: rgba(255, 0, 127, 0.04) !important;
-    border: 1px solid rgba(255, 0, 127, 0.4) !important;
+    background: rgba(255, 0, 127, 0.1) !important;
+    border: 1px solid rgba(255, 0, 127, 0.5) !important;
+    color: #df006f !important;
+  }
+  body.gta6-theme-active .gta6-fail {
     color: #ff80bf !important;
   }
 
@@ -262,9 +281,13 @@ perfStyles.textContent = `
 
   .tinder-card-back {
     transform: rotateY(180deg);
-    background: #09090b !important;
+    background: #ffffff !important;
     border: 1px solid var(--border-glass) !important;
     padding: 1.5rem;
+  }
+  
+  body.gta6-theme-active .tinder-card-back {
+    background: #09090b !important;
   }
 
   .xray-header {
@@ -278,7 +301,7 @@ perfStyles.textContent = `
   .upgrade-path-map {
     margin: 0.75rem 0;
     padding: 0.85rem;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(0, 0, 0, 0.02);
     border: 1px dashed var(--border-glass);
     border-radius: 8px;
   }
@@ -295,20 +318,20 @@ perfStyles.textContent = `
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     font-weight: 600;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.05);
     border: 1px solid var(--border-glass);
   }
 
   .upgrade-status-pill.pass-check {
     background: rgba(34, 197, 94, 0.1);
-    color: #4ade80;
+    color: #22c55e;
     border-color: rgba(34, 197, 94, 0.2);
   }
 
   .upgrade-status-pill.fail-check {
-    background: rgba(239, 68, 68, 0.1);
-    color: #fca5a5;
-    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    border-color: rgba(220, 38, 38, 0.2);
   }
 
   .price-matrix-container {
@@ -320,7 +343,7 @@ perfStyles.textContent = `
 
   .cost-toggle-switch {
     display: flex;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.04);
     border: 1px solid var(--border-glass);
     border-radius: 6px;
     padding: 2px;
@@ -331,13 +354,18 @@ perfStyles.textContent = `
     font-size: 0.65rem;
     padding: 0.15rem 0.4rem;
     border-radius: 4px;
-    color: #71717a;
+    color: #4b5563;
     transition: all 0.2s ease;
     font-weight: 600;
   }
 
   .cost-toggle-opt.selected {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.08);
+    color: #111111;
+  }
+  
+  body.gta6-theme-active .cost-toggle-opt.selected {
+    background: rgba(255, 255, 255, 0.15);
     color: #ffffff;
   }
 
@@ -352,9 +380,9 @@ perfStyles.textContent = `
   .vibe-toggle-chip {
     font-size: 0.75rem;
     padding: 0.4rem 0.75rem;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(0, 0, 0, 0.03);
     border: 1px solid var(--border-glass);
-    color: #a1a1aa;
+    color: #4b5563;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
@@ -362,8 +390,8 @@ perfStyles.textContent = `
   }
 
   .vibe-toggle-chip:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #111111;
   }
 
   .vibe-toggle-chip.active {
@@ -864,6 +892,7 @@ function renderGta6Panel() {
   `;
 }
 
+// Fixed Match Mode tab toggle router to allow direct mounting across separate panels
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
   
@@ -1133,9 +1162,6 @@ function spec(label, value) {
   return `<div class="spec"><b>${escapeHtml(label)}:</b> ${escapeHtml(value)}</div>`;
 }
 
-// ==========================================
-// 8. TACTILE GESTURE SWIPING INTERFACE ENGINE
-// ==========================================
 function scoreBar(label, value, type) {
   return `
     <div>
