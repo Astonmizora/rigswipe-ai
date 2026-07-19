@@ -16,8 +16,8 @@ perfStyles.textContent = `
   }
 
   @keyframes fadeOutSplash {
-    0% { opacity: 1; transform: scale(1); filter: blur(0px); }
-    100% { opacity: 0; transform: scale(1.02); filter: blur(8px); visibility: hidden; }
+    0% { opacity: 1; filter: blur(0px); }
+    100% { opacity: 0; filter: blur(8px); visibility: hidden; }
   }
 
   @keyframes scanningLaser {
@@ -92,7 +92,7 @@ perfStyles.textContent = `
 
   /* Tab Indicator Organic Fluidity */
   .tab {
-    transition: color 0.25s ease, background-color 0.25s ease, transform 0.15s active !important;
+    transition: color 0.25s ease, background-color 0.25s ease !important;
   }
 
   .tab:active, .primary-btn:active {
@@ -133,17 +133,18 @@ perfStyles.textContent = `
   }
 
   /* ==========================================
-     START OF REMOVABLE FEATURE OVERLAYS STYLES
+     START OF NEW MODULAR FEASIBILITY FEATURES
      ========================================== */
   .tinder-card-inner {
     width: 100%;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: inherit;
   }
   
-  .tinder-card.xray-active .tinder-card-inner {
+  .tinder-card.flipped .tinder-card-inner {
     transform: rotateY(180deg);
   }
 
@@ -155,108 +156,96 @@ perfStyles.textContent = `
     height: 100%;
     backface-visibility: hidden;
     border-radius: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
   }
 
   .tinder-card-back {
     transform: rotateY(180deg);
-    background: #0d0d12 !important;
+    background: #09090b !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
 
-  .xray-schematic-frame {
+  /* Upgrade Path System Elements */
+  .xray-header {
     font-family: monospace;
-    font-size: 0.78rem;
-    color: #a1a1aa;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px dashed rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-top: 0.75rem;
-    line-height: 1.4;
-    flex-grow: 1;
+    font-size: 0.8rem;
+    color: #a78bfa;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
   }
 
-  .xray-tag {
-    font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    background: rgba(34, 197, 94, 0.1);
-    color: #4ade80;
-    border: 1px solid rgba(34, 197, 94, 0.2);
-    display: inline-block;
+  .upgrade-path-map {
+    margin: 0.75rem 0;
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+  }
+
+  .upgrade-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-top: 0.5rem;
   }
 
-  .spark-blur-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(3, 3, 5, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    z-index: 100000;
+  .upgrade-status-pill {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .upgrade-status-pill.pass-check {
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.2);
+  }
+
+  .upgrade-status-pill.fail-check {
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+
+  /* Dynamic Price/EMI Toggle Layout */
+  .price-matrix-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
   }
 
-  .spark-blur-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .spark-card-popup {
-    text-align: center;
-    max-width: 360px;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.03);
+  .cost-toggle-switch {
+    display: flex;
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    transform: scale(0.95);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 6px;
+    padding: 2px;
+    cursor: pointer;
   }
 
-  .spark-blur-overlay.active .spark-card-popup {
-    transform: scale(1);
+  .cost-toggle-opt {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    color: #71717a;
+    transition: all 0.2s ease;
+    font-weight: 600;
   }
 
-  .spark-venn-diagram {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    height: 60px;
-    position: relative;
-  }
-
-  .spark-circle {
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    position: absolute;
-  }
-
-  .spark-circle.user-node {
-    transform: translateX(-16px);
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-  }
-
-  .spark-circle.spec-node {
-    transform: translateX(16px);
-    border: 1.5px solid #a78bfa;
-    box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+  .cost-toggle-opt.selected {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
   }
   /* ==========================================
-     END OF REMOVABLE FEATURE OVERLAYS STYLES
+     END OF NEW MODULAR FEASIBILITY FEATURES
      ========================================== */
 `;
 document.head.appendChild(perfStyles);
@@ -373,6 +362,9 @@ const state = {
   savedMatches: [],
   drawerOpen: true,
   showSplash: true,
+  // New runtime tracking state flags
+  cardFlipped: false,
+  showMonthlyCost: false
 };
 
 const root = document.getElementById("root");
@@ -481,6 +473,7 @@ function setState(patch) {
   }
 
   if (patch.activeTab !== undefined && patch.activeTab !== oldTab) {
+    state.cardFlipped = false; // Reset flip states on tab changes
     render();
   } else {
     if (patch.branch !== undefined || patch.purpose !== undefined || patch.roast !== undefined) {
@@ -671,7 +664,9 @@ function renderMatchMode() {
           <div class="match-copy">
             <p class="eyebrow">Interactive Tinder</p>
             <h2>Match Mode</h2>
-            <p>Swipe through the catalog one laptop at a time. Match what feels right, pass what does not.</p>
+            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+            </p>
           </div>
           <div class="match-workspace">
             <div class="swipe-zone">
@@ -688,11 +683,6 @@ function renderMatchMode() {
     `;
   }
   attachDragSwipe();
-  
-  // Dynamic feature attachment execution link hook
-  if (typeof injectXRayAndSparkFeatures === "function" && laptop) {
-    injectXRayAndSparkFeatures(laptop);
-  }
 }
 
 function getCurrentSwipeLaptop() {
@@ -707,17 +697,28 @@ function primaryHighlight(laptop) {
 }
 
 function renderSwipeCard(laptop) {
-  // Built with modular card-inner front/back architecture frames
+  const rawPriceInInr = laptop.price * USD_TO_INR;
+  const computedEmiString = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(Math.round(rawPriceInInr / 12));
+  
+  const displayPriceText = state.showMonthlyCost 
+    ? `${computedEmiString} / month` 
+    : formatPrice(laptop.price);
+
+  const ramLower = normalize(laptop.ram);
+  const isSoldered = ramLower.includes("soldered") || ramLower.includes("onboard") || ramLower.includes("lpddr");
+
   return `
-    <article class="glass tinder-card" id="tinder-card" data-card-id="${laptop.id}">
+    <article class="glass tinder-card ${state.cardFlipped ? "flipped" : ""}" id="tinder-card" data-card-id="${laptop.id}">
       <div class="tinder-card-inner">
+        
+        <!-- FRONT CARD DISPLAY LAYER -->
         <div class="tinder-card-front">
-          <div class="photo-placeholder card-xray-trigger" style="cursor: pointer;">
+          <div class="photo-placeholder tinder-photo-box" style="cursor: pointer;">
             <div class="laptop-shell">
               <div class="laptop-screen"></div>
               <div class="laptop-base"></div>
             </div>
-            <span>${escapeHtml(laptop.brand)} <br><span style="font-size: 0.75rem; opacity: 0.6;">🔍 Tap area to X-Ray specs</span></span>
+            <span>${escapeHtml(laptop.brand)}</span>
           </div>
           <div class="tinder-info">
             <div class="card-top">
@@ -725,29 +726,45 @@ function renderSwipeCard(laptop) {
                 <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
                 <h3>${escapeHtml(laptop.name)}</h3>
               </div>
-              <div class="price">${formatPrice(laptop.price)}</div>
+              <div class="price-matrix-container">
+                <div class="price">${displayPriceText}</div>
+                <div class="cost-toggle-switch emi-switch-trigger">
+                  <span class="cost-toggle-opt ${!state.showMonthlyCost ? "selected" : ""}">Total</span>
+                  <span class="cost-toggle-opt ${state.showMonthlyCost ? "selected" : ""}">EMI</span>
+                </div>
+              </div>
             </div>
             <p class="highlight">${escapeHtml(primaryHighlight(laptop))}</p>
             <div class="chips">${laptop.idealFor.slice(0, 3).map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}</div>
           </div>
         </div>
         
+        <!-- BACK CARD DISPLAY LAYER (Upgrade Path Map Features Attached) -->
         <div class="tinder-card-back">
-          <div class="photo-placeholder card-xray-trigger" style="height: 50px; min-height: 50px; cursor: pointer;">
-            <span style="font-size: 0.8rem;">⬅ Tap to Flip Front</span>
+          <div class="photo-placeholder tinder-photo-box" style="height: 50px; min-height: 50px; cursor: pointer;">
+            <span style="font-size: 0.75rem; letter-spacing:0.02em;">← Return to Image view</span>
           </div>
-          <div class="xray-schematic-frame">
-            <div style="font-weight: bold; color: #ffffff; margin-bottom: 0.4rem;">> COMPONENT MAP SETUP</div>
-            <div>BUS PIPELINE STATUS: VERIFIED</div>
-            <div>COOLING SYSTEM: DUAL THERMAL RAYS</div>
-            <span class="xray-tag">MEMORY ARCHITECTURE: UPGRADEABLE READY</span>
+          
+          <div class="upgrade-path-map">
+            <div class="xray-header">> CORE SUSTAINABILITY INDEX</div>
+            <div class="upgrade-badge-row">
+              ${isSoldered 
+                ? `<span class="upgrade-status-pill fail-check">RAM: Soldered ❌</span>` 
+                : `<span class="upgrade-status-pill pass-check">RAM: Upgradeable to 32GB</span>`}
+              <span class="upgrade-status-pill pass-check">Storage: 1x Open M.2 Slot</span>
+            </div>
           </div>
-          <div class="tinder-info" style="padding-top: 0.5rem;">
-            <h3>${escapeHtml(laptop.name)} Hardware</h3>
-            <p style="font-size: 0.8rem; margin: 0.2rem 0;">GPU Core: ${escapeHtml(laptop.graphics)}</p>
-            <p style="font-size: 0.8rem; margin: 0;">Panel Display: ${escapeHtml(laptop.screen)}</p>
+
+          <div class="tinder-info" style="padding-top: 0.25rem;">
+            <div class="card-top" style="margin-bottom:0.5rem;">
+              <h4>${escapeHtml(laptop.name)} Specifications</h4>
+              <div class="price" style="font-size:0.95rem;">${displayPriceText}</div>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.2rem 0; color:#a1a1aa;"><b>GPU Architecture:</b> ${escapeHtml(laptop.graphics)}</p>
+            <p style="font-size: 0.8rem; margin: 0; color:#a1a1aa;"><b>Panel Core Build:</b> ${escapeHtml(laptop.screen)}</p>
           </div>
         </div>
+
       </div>
     </article>
   `;
@@ -908,7 +925,7 @@ function attachDragSwipe() {
   let rafId = null;
 
   card.addEventListener("pointerdown", (event) => {
-    if (event.target.closest(".card-xray-trigger")) return; // skip drag if flipping
+    if (event.target.closest(".tinder-photo-box") || event.target.closest(".emi-switch-trigger")) return;
     dragging = true;
     startX = event.clientX;
     currentX = 0;
@@ -956,28 +973,15 @@ function swipeCurrentLaptop(action) {
   const card = document.getElementById("tinder-card");
   if (!laptop || !card || card.classList.contains("exiting")) return;
 
-  if (action === "match") {
-    if (!state.savedMatches.some((item) => item.id === laptop.id)) {
-      state.savedMatches.push(laptop);
-    }
-    // High performance criteria match filter triggers overlay spark window
-    if (laptop.scores.power >= 80) {
-      const sparkOverlay = document.getElementById("spark-blur-overlay");
-      if (sparkOverlay) {
-        sparkOverlay.innerHTML = renderSparkOverlayHTML(laptop);
-        sparkOverlay.classList.add("active");
-        
-        card.style.transform = "";
-        state.matchIndex += 1;
-        return;
-      }
-    }
+  if (action === "match" && !state.savedMatches.some((item) => item.id === laptop.id)) {
+    state.savedMatches.push(laptop);
   }
 
   card.classList.add("exiting", action === "match" ? "exit-right" : "exit-left");
 
   window.setTimeout(() => {
     state.matchIndex += 1;
+    state.cardFlipped = false; // Reset flip vector layout for next sequence load
     render();
   }, 350);
 }
@@ -1099,6 +1103,18 @@ function initGlobalEvents() {
       if (laptop) showLaptopDetails(laptop);
       return;
     }
+
+    // Dynamic Toggle Interaction handling layout metrics
+    if (event.target.closest(".emi-switch-trigger")) {
+      setState({ showMonthlyCost: !state.showMonthlyCost });
+      return;
+    }
+
+    // Handle 3D rotation tracking activation mechanics 
+    if (event.target.closest(".tinder-photo-box")) {
+      setState({ cardFlipped: !state.cardFlipped });
+      return;
+    }
   });
 
   document.addEventListener("input", (event) => {
@@ -1142,56 +1158,6 @@ function initGlobalEvents() {
     }
   });
 }
-
-/* =======================================================
-   REMOVABLE OPTIONAL EXTRA FEATURES IMPLEMENTATION BLOCK
-   ======================================================= */
-function injectXRayAndSparkFeatures(laptop) {
-  // Ensure DOM container for the blur overlay safely exists
-  if (!document.getElementById("spark-blur-overlay")) {
-    const container = document.createElement("div");
-    container.id = "spark-blur-overlay";
-    container.className = "spark-blur-overlay";
-    document.body.appendChild(container);
-
-    container.addEventListener("click", (e) => {
-      if (e.target.id === "close-spark-btn" || e.target === container) {
-        container.classList.remove("active");
-        render();
-      }
-    });
-  }
-
-  // Handle front/back X-Ray card flip triggers cleanly
-  const currentCard = document.getElementById("tinder-card");
-  if (currentCard) {
-    currentCard.querySelectorAll(".card-xray-trigger").forEach(trigger => {
-      trigger.onclick = (e) => {
-        e.stopPropagation();
-        currentCard.classList.toggle("xray-active");
-      };
-    });
-  }
-}
-
-function renderSparkOverlayHTML(laptop) {
-  return `
-    <div class="spark-card-popup">
-      <div class="spark-venn-diagram">
-        <div class="spark-circle user-node"></div>
-        <div class="spark-circle spec-node"></div>
-      </div>
-      <h3 class="spark-title" style="margin-bottom:0.5rem; color:#fff;">Perfect Spec Match</h3>
-      <p class="spark-desc" style="color:#a1a1aa; margin-bottom:1.5rem;">
-        System configuration verified. ${escapeHtml(laptop.name)} matches your heavy engineering and compiling pipelines perfectly.
-      </p>
-      <button class="primary-btn" id="close-spark-btn" style="width:100%;">Resume Swiping</button>
-    </div>
-  `;
-}
-/* =======================================================
-   END OF REMOVABLE OPTIONAL EXTRA FEATURES BLOCK
-   ======================================================= */
 
 if (!window.__eventsInitialized) {
   initGlobalEvents();
