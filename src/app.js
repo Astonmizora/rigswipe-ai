@@ -272,9 +272,24 @@ perfStyles.textContent = `
     color: #c084fc;
   }
 
-  /* =========================================================
-     COMPATIBILITY COLOURED TRACK OVERRIDES
-     ========================================================= */
+  /* Navigation strict layout locking style rules */
+  .nav .tabs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    scrollbar-width: none;
+  }
+  .nav .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto !important;
+  }
+
+  /* Compatibility coloured track styles */
   .tinder-card.gta6-compatible {
     border-color: #ff007f !important;
     box-shadow: 0 8px 24px rgba(255, 0, 127, 0.12) !important;
@@ -494,32 +509,36 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   const rawQuery = normalize(query);
   let score = 0;
 
+  // ENHANCED INTENT SEMANTIC EXPANSION PARSING DICTIONARY MATRIX
   const expansionMatrix = [
-    { keys: ["ml", "ai", "learning", "data", "compile"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
-    { keys: ["edit", "design", "render", "creator", "blend"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
-    { keys: ["game", "fps", "play", "steam", "refresh"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
-    { keys: ["travel", "battery", "carry", "lightweight", "slim"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon"] }
+    { keys: ["ml", "ai", "learning", "data", "compile", "python", "neural", "tensor"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
+    { keys: ["edit", "design", "render", "creator", "blend", "photoshop", "premiere", "lumion", "3d"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
+    { keys: ["game", "fps", "play", "steam", "refresh", "warzone", "valorant", "gta", "gpu"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
+    { keys: ["travel", "battery", "carry", "lightweight", "slim", "portable", "silent", "quiet", "cafe", "thin"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon"] },
+    { keys: ["premium", "luxury", "metal", "aluminum", "display", "screen", "bright", "4k", "hdr"], targets: ["oled", "ips", "macbook", "zenbook", "spectre", "metal"] },
+    { keys: ["cheap", "budget", "survival", "affordable", "low price"], targets: ["cheap", "value", "vivobook", "ideapad", "8gb"] }
   ];
 
   expansionMatrix.forEach(node => {
     if (node.keys.some(k => rawQuery.includes(k))) {
       node.targets.forEach(t => {
-        if (blob.includes(t)) score += 20; 
+        if (blob.includes(t)) score += 30; // Boost key parameter alignments upward
       });
     }
   });
 
+  // Split query gracefully via regex to secure phrase containment checking
   const terms = rawQuery.split(/[^a-z0-9+]+/).filter(Boolean);
-  terms.forEach((term) => { if (blob.includes(term)) score += 12; });
+  terms.forEach((term) => { if (blob.includes(term)) score += 15; });
   weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
   let powerWeight = 0.14;
   let mobilityWeight = 0.11;
   let efficiencyWeight = 0.12;
 
-  if (["game", "fps", "render", "cad", "heavy", "compile"].some(k => rawQuery.includes(k))) {
+  if (["game", "fps", "render", "cad", "heavy", "compile", "3d", "gpu"].some(k => rawQuery.includes(k))) {
     powerWeight = 0.45; mobilityWeight = 0.05; efficiencyWeight = 0.05;
-  } else if (["travel", "battery", "carry", "light", "college", "cafe"].some(k => rawQuery.includes(k))) {
+  } else if (["travel", "battery", "carry", "light", "college", "cafe", "portable", "silent"].some(k => rawQuery.includes(k))) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
@@ -741,74 +760,31 @@ function renderPanel() {
 
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
-  const matchStage = document.querySelector(".match-stage");
-
-  if (matchStage) {
-    document.querySelectorAll(".tabs .tab").forEach(button => {
-      button.classList.toggle("active", button.dataset.tab === state.activeTab);
-    });
-
-    const swipeZone = document.querySelector(".swipe-zone");
-    if (swipeZone) {
-      swipeZone.innerHTML = `
-        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-        <div class="swipe-actions">
-          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+  
+  root.innerHTML = `
+    <main class="app">
+      ${renderNav()}
+      <section class="match-stage">
+        <div class="match-copy">
+          <p class="eyebrow">Interactive Tinder</p>
+          <h2>Match Mode</h2>
+          <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+            Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+          </p>
         </div>
-      `;
-    }
-
-    const shortlistDrawer = document.querySelector(".shortlist-drawer");
-    if (shortlistDrawer) {
-      const count = state.savedMatches.length;
-      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
-      shortlistDrawer.innerHTML = `
-        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
-        ${state.drawerOpen ? `
-          <div class="shortlist-body">${
-            count
-              ? state.savedMatches
-                  .map((item) => `
-                    <article class="mini-card">
-                      <div>
-                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
-                        <h4>${escapeHtml(item.name)}</h4>
-                        <span>${formatPrice(item.price)}</span>
-                      </div>
-                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
-                    </article>
-                  `).join("")
-              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
-          }</div>` : ""}
-      `;
-    }
-  } else {
-    root.innerHTML = `
-      <main class="app">
-        ${renderNav()}
-        <section class="match-stage">
-          <div class="match-copy">
-            <p class="eyebrow">Interactive Tinder</p>
-            <h2>Match Mode</h2>
-            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
-              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
-            </p>
-          </div>
-          <div class="match-workspace">
-            <div class="swipe-zone">
-              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-              <div class="swipe-actions">
-                <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-                <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
-              </div>
+        <div class="match-workspace">
+          <div class="swipe-zone">
+            ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+            <div class="swipe-actions">
+              <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+              <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
             </div>
-            ${renderShortlistDrawer()}
           </div>
-        </section>
-      </main>
-    `;
-  }
+          ${renderShortlistDrawer()}
+        </div>
+      </section>
+    </main>
+  `;
   attachDragSwipe();
 }
 
@@ -845,7 +821,7 @@ function renderSwipeCard(laptop) {
   // Explicit constraint ruleset: Mac systems drop straight to false
   const isGta6Compatible = !isAppleMac && hasDiscreteGpu && hasHighRam;
   
-  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin"].some(k => blob.includes(k));
+  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin", "portable", "carry"].some(k => blob.includes(k));
 
   let customModifierClass = "";
   if (isGta6Compatible) {
@@ -1240,7 +1216,6 @@ function initGlobalEvents() {
       return;
     }
 
-    // Capture Interactive Custom Chips
     const vibeChip = target.closest(".vibe-toggle-chip");
     if (vibeChip) {
       const type = vibeChip.dataset.vibeType;
@@ -1268,7 +1243,7 @@ function initGlobalEvents() {
       labels.forEach(el => el.textContent = formatBudget(state.budget));
     } else if (target.id === "query") {
       state.query = target.value;
-      debounceRender();
+      debounceRender(); // Instantly captures vibe character entries on change
     } else if (target.id === "roast-input") {
       state.roastInput = target.value;
     }
@@ -1297,6 +1272,7 @@ function initGlobalEvents() {
       event.preventDefault();
       const inputEl = document.getElementById("roast-input");
       if (inputEl) state.roastInput = inputEl.value;
+      // Fixed: Re-renders state immediately upon submission to draw calculated jokes
       setState({ roast: buildRoast(state.roastInput) });
     }
   });
