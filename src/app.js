@@ -392,8 +392,7 @@ const state = {
   
   // AI Vibe System Configuration Fields
   deskAesthetic: "Minimalist OLED Black",
-  phoneSync: "iOS",
-  noiseProfile: "Strict Library Quiet"
+  phoneSync: "Mac OS"
 };
 
 const root = document.getElementById("root");
@@ -473,22 +472,12 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     if (state.deskAesthetic === "Industrial Matte Metallic" && (blob.includes("aluminum") || blob.includes("metal") || blob.includes("carbon"))) score += 25;
     if (state.deskAesthetic === "Natural Wood Warmth" && (blob.includes("slim") || blob.includes("silver") || blob.includes("glass"))) score += 15;
     
-    // 2. Phone Sync Synergy Ecosystem Hooks
-    if (state.phoneSync === "iOS" && normalize(laptop.brand).includes("apple")) {
+    // 2. Phone Sync Synergy Ecosystem Hooks (Mac OS / Windows Ecosystem Mapping)
+    if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) {
       score += 45; // Give significant synergy priority to ecosystem matching hardware
     }
-    if (state.phoneSync === "Android" && !normalize(laptop.brand).includes("apple")) {
+    if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) {
       score += 15;
-    }
-
-    // 3. Noise Profile Atmosphere Checks
-    if (state.noiseProfile === "Strict Library Quiet") {
-      if (laptop.scores.efficiency > 75 || blob.includes("fanless") || blob.includes("air")) {
-        score += 30;
-      }
-      if (blob.includes("gaming") || blob.includes("strix") || blob.includes("legion") || laptop.scores.power > 85) {
-        score -= 50; // Heavily penalize screaming turbine fans in quiet profiles
-      }
     }
   }
 
@@ -538,8 +527,7 @@ function setState(patch) {
       patch.purpose !== undefined || 
       patch.roast !== undefined ||
       patch.deskAesthetic !== undefined ||
-      patch.phoneSync !== undefined ||
-      patch.noiseProfile !== undefined
+      patch.phoneSync !== undefined
     ) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
@@ -787,7 +775,7 @@ function renderSwipeCard(laptop) {
           </div>
           <div class="tinder-info">
             <div class="card-top">
-              <div>
+              <div class="card-headings">
                 <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
                 <h3>${escapeHtml(laptop.name)}</h3>
               </div>
@@ -880,8 +868,7 @@ function renderShortlistDrawer() {
 
 function renderMatcherPanel() {
   const aesthetics = ["Minimalist OLED Black", "Natural Wood Warmth", "Industrial Matte Metallic"];
-  const ecosystems = ["iOS", "Android"];
-  const noiseProfiles = ["Strict Library Quiet", "General Cafe Buzz"];
+  const ecosystems = ["Mac OS", "Windows"];
 
   return `
     <form class="form" id="matcher-form">
@@ -902,22 +889,12 @@ function renderMatcherPanel() {
         `).join("")}
       </div>
 
-      <!-- 2. Phone Sync Synergy Platform Chips -->
+      <!-- 2. Phone Sync Synergy Platform Chips (Mac OS & Windows Mapping) -->
       <label>Phone Sync Integration</label>
       <div class="vibe-chip-group">
         ${ecosystems.map(e => `
           <button type="button" class="vibe-toggle-chip ${state.phoneSync === e ? "active" : ""}" data-vibe-type="phoneSync" data-vibe-value="${escapeHtml(e)}">
             ${escapeHtml(e)}
-          </button>
-        `).join("")}
-      </div>
-
-      <!-- 3. Acoustic Atmosphere Simulation Chips -->
-      <label>Workspace Noise Profile Environment</label>
-      <div class="vibe-chip-group">
-        ${noiseProfiles.map(n => `
-          <button type="button" class="vibe-toggle-chip ${state.noiseProfile === n ? "active" : ""}" data-vibe-type="noiseProfile" data-vibe-value="${escapeHtml(n)}">
-            ${escapeHtml(n)}
           </button>
         `).join("")}
       </div>
@@ -970,7 +947,7 @@ function panelTitle(title, detail) {
 function budgetControl() {
   return `
     <label>
-      <span class="budget-row"><span>Strict Budget Ceiling</span><span class="budget-value" id="budget-val-label">${formatBudget(state.budget)}</span></span>
+      <span class="budget-row"><span>Budget Ceiling</span><span class="budget-value" id="budget-val-label">${formatBudget(state.budget)}</span></span>
       <input id="budget" type="range" min="25000" max="375000" step="5000" value="${state.budget}" />
     </label>
   `;
