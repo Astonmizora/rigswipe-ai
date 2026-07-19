@@ -33,75 +33,54 @@ perfStyles.textContent = `
     100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
   }
 
-  /* Core Design Tokens: Default Dark Mode */
-  :root {
-    --bg-main: #030305;
-    --border-glass: rgba(255, 255, 255, 0.08);
-    --accent-core: #a78bfa;
-    --accent-glow: rgba(167, 139, 250, 0.12);
-    --text-highlight: #c084fc;
-    --laser-color: linear-gradient(90deg, transparent, #a78bfa, transparent);
+  /* Minimalist Splash */
+  .splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #030305;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    overflow: hidden;
   }
 
-  /* Dynamic Theme Override: GTA 6 Neon Synthwave + Key-Art Background */
-  body.gta6-theme-active {
-    --bg-main: #0b0410;
-    --border-glass: rgba(255, 0, 127, 0.3);
-    --accent-core: #ff007f;
-    --accent-glow: rgba(255, 0, 127, 0.2);
-    --text-highlight: #00f0ff;
-    --laser-color: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent);
+  .splash-screen.fade-out {
+    animation: fadeOutSplash 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    pointer-events: none;
   }
 
-  body {
-    background-color: var(--bg-main);
-    transition: background-color 0.5s ease;
-    min-height: 100vh;
+  .splash-container {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
   }
 
-  body.gta6-theme-active {
-    background-image: linear-gradient(135deg, rgba(255, 0, 127, 0.45), rgba(0, 240, 255, 0.45)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
+  .splash-logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 3.5rem;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    text-transform: uppercase;
   }
 
-  /* Strict Single-Line Navigation Track Override */
-  .nav .tabs {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 0.5rem;
-    scrollbar-width: none;
-  }
-  .nav .tabs::-webkit-scrollbar {
-    display: none;
-  }
-  .tab {
-    flex: 0 0 auto !important;
-  }
-
-  body.gta6-theme-active .nav,
-  body.gta6-theme-active .panel,
-  body.gta6-theme-active .results-head,
-  body.gta6-theme-active .card,
-  body.gta6-theme-active .tinder-card,
-  body.gta6-theme-active .shortlist-drawer {
-    background-color: rgba(11, 4, 16, 0.75) !important;
-    border-color: rgba(255, 0, 127, 0.3) !important;
-    backdrop-filter: blur(12px);
-  }
-
-  body.gta6-theme-active .tab.active {
-    color: #00f0ff !important;
-    border-color: #ff007f !important;
-    background: rgba(255, 0, 127, 0.15) !important;
-  }
-
-  body.gta6-theme-active .scan-horizon-laser {
-    background: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent) !important;
+  .splash-sub-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    color: #a78bfa;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    opacity: 0;
   }
 
   /* Premium Elevation Physics */
@@ -299,23 +278,96 @@ perfStyles.textContent = `
     color: #c084fc;
   }
 
-  .gta6-container {
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-    border-radius: 16px;
+  /* =========================================================
+     EXTENSIONS: SINGLE LINE TABS, TRANSITIONS & POPUPS
+     ========================================================= */
+  body {
+    transition: background-image 0.5s ease, background-color 0.5s ease;
+  }
+
+  body.gta6-theme-active {
+    background-color: #0b0410 !important;
+    background-image: linear-gradient(135deg, rgba(11, 4, 16, 0.65), rgba(11, 4, 16, 0.85)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+  }
+
+  .nav .tabs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    scrollbar-width: none;
+  }
+  .nav .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto !important;
+  }
+
+  body.gta6-theme-active .nav,
+  body.gta6-theme-active .panel,
+  body.gta6-theme-active .results-head,
+  body.gta6-theme-active .card,
+  body.gta6-theme-active .tinder-card,
+  body.gta6-theme-active .shortlist-drawer {
+    background-color: rgba(11, 4, 16, 0.75) !important;
+    border-color: rgba(255, 0, 127, 0.3) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  body.gta6-theme-active .tab.active {
+    color: #00f0ff !important;
+    border-color: #ff007f !important;
+    background: rgba(255, 0, 127, 0.15) !important;
+  }
+
+  body.gta6-theme-active .scan-horizon-laser {
+    background: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent) !important;
+  }
+
+  .gta6-popup-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100000;
+    animation: fadeOutSplash 0.3s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards;
+  }
+
+  .gta6-popup-content {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(0, 240, 255, 0.15)), #0b0410;
+    border: 1px solid rgba(255, 0, 127, 0.4);
+    border-radius: 16px; padding: 2.5rem; text-align: center;
+    max-width: 450px; color: #ffffff;
+    box-shadow: 0 10px 40px rgba(255, 0, 127, 0.25);
     animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  .gta6-success {
-    background: rgba(34, 197, 94, 0.1) !important;
-    border: 1px solid rgba(34, 197, 94, 0.5) !important;
-    color: #4ade80 !important;
-    animation: successPulse 2s infinite;
+
+  .gta6-popup-content h2 {
+    color: #00f0ff; font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem;
+    margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;
   }
-  .gta6-fail {
-    background: rgba(255, 0, 127, 0.1) !important;
-    border: 1px solid rgba(255, 0, 127, 0.5) !important;
-    color: #ff80bf !important;
+
+  .gta6-popup-content p { color: #e2e8f0; font-size: 1rem; line-height: 1.5; margin-bottom: 2rem; }
+
+  .gta6-popup-close {
+    background: #ff007f; color: #ffffff; border: none;
+    padding: 0.75rem 2rem; border-radius: 8px; font-weight: 700;
+    font-size: 1rem; cursor: pointer; transition: all 0.2s ease;
   }
+
+  .gta6-popup-close:hover { background: #ff1a8c; box-shadow: 0 0 15px rgba(255, 0, 127, 0.6); }
+
+  .gta6-container { margin-top: 1.5rem; padding: 1.5rem; border-radius: 16px; animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .gta6-success { background: rgba(34, 197, 94, 0.1) !important; border: 1px solid rgba(34, 197, 94, 0.5) !important; color: #4ade80 !important; animation: successPulse 2s infinite; }
+  .gta6-fail { background: rgba(255, 0, 127, 0.1) !important; border: 1px solid rgba(255, 0, 127, 0.5) !important; color: #ff80bf !important; }
 `;
 document.head.appendChild(perfStyles);
 
@@ -450,6 +502,7 @@ const state = {
   showMonthlyCost: false,
   phoneSync: "Mac OS",
   
+  // GTA 6 State Tracking
   gta6Input: "Intel i5, 8GB RAM, GTX 1650, 512GB SSD",
   gta6Status: null
 };
@@ -479,7 +532,6 @@ function normalize(text) {
   return String(text || "").toLowerCase();
 }
 
-// Escapes special parameters to avoid input node logic manipulation
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -655,7 +707,7 @@ function setState(patch) {
 
 function updateResultsOnly() {
   if (state.activeTab === "Match Mode") {
-    return; // Structural updates route via renderMatchMode explicitly
+    return; 
   }
 
   const matches = getMatches();
@@ -842,7 +894,6 @@ function computeGta6Baseline(input) {
   return "fail";
 }
 
-// Absolute full view reconstruction handler to protect Match Mode transitions across separate form structures
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
   
@@ -1072,6 +1123,9 @@ function panelTitle(title, detail) {
   `;
 }
 
+// ==========================================
+// 8. DATA CONTROLS LAYOUT LAYER
+// ==========================================
 function budgetControl() {
   return `
     <label>
@@ -1243,53 +1297,9 @@ function showScan() {
   window.setTimeout(() => overlay.remove(), 1200);
 }
 
-function buildRoast(input) {
-  const text = normalize(input);
-  
-  const ramRoasts = [
-    "That RAM layout is barely holding your active baseline background elements alive.",
-    "8GB RAM? Your memory metrics look ready to drop into a system paging file cycle.",
-    "An execution sandbox footprint like that is begging for memory leaks."
-  ];
-  const storageRoasts = [
-    "Running a spinning mechanical sector drive in this decade belongs in a legacy museum archive.",
-    "A slow storage controller pool means your data lines move like dial-up packets.",
-    "Your disk controllers are throttling everything. Get ready for buffer queues."
-  ];
-  const cpuRoasts = [
-    "That processor architecture processes data vectors at the speed of bureaucracy.",
-    "Your processing core density is screaming out for a thread scheduler update.",
-    "Silicon limits encountered. That logic block can barely calculate code loops."
-  ];
-
-  const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const burns = [];
-
-  if (text.includes("4gb") || text.includes("8gb")) burns.push(randomPick(ramRoasts));
-  if (text.includes("hdd") || text.includes("256gb")) burns.push(randomPick(storageRoasts));
-  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push(randomPick(cpuRoasts));
-  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The chassis thermals emulate a turbine block but performance metrics remain stagnant.");
-  
-  if (!burns.length) burns.push("Chassis density is baseline structural config, but lacking top-tier performance cache pools entirely.");
-
-  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
-}
-
-function recommendUpgrade(text) {
-  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40/50-series graphics module, 32GB RAM, and 144Hz+ high-refresh display";
-  if (text.includes("code") || text.includes("coding")) return "Adopt 16GB dual-channel memory, SSD storage, and balanced thermal limits";
-  if (text.includes("design") || text.includes("edit")) return "Choose color-certified hardware (OLED or IPS), high memory headroom, and discrete graphics";
-  return "Modernize with 16GB RAM, fast PCIe NVMe storage, and high-efficiency CPU structures";
-}
-
-let debounceTimer;
-function debounceRender() {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    setState({ page: 1 });
-  }, 200);
-}
-
+// ==========================================
+// 10. UNIFIED COMPONENT INTERACTION INTERCEPTORS
+// ==========================================
 function initGlobalEvents() {
   document.addEventListener("click", (event) => {
     const target = event.target;
@@ -1337,12 +1347,14 @@ function initGlobalEvents() {
       return;
     }
 
-    if (event.target.closest(".emi-switch-trigger")) {
+    // Fixed EMI Global delegation handler
+    if (target.closest(".emi-switch-trigger")) {
       setState({ showMonthlyCost: !state.showMonthlyCost });
       return;
     }
 
-    if (event.target.closest(".tinder-photo-box")) {
+    // Fixed dynamic flip targeting to trigger views comfortably inside absolute stages
+    if (target.closest(".tinder-photo-box")) {
       setState({ cardFlipped: !state.cardFlipped });
       return;
     }
@@ -1391,7 +1403,6 @@ function initGlobalEvents() {
     } else if (target.id === "gta6-form") {
       event.preventDefault();
       const inputEl = document.getElementById("gta6-input");
-      // Explicit element verification guards to prevent execution frame drops when switching panels mid-session
       if (inputEl) {
         state.gta6Input = inputEl.value;
       }
