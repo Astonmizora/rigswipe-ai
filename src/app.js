@@ -27,18 +27,6 @@ perfStyles.textContent = `
     100% { top: 105%; opacity: 0; }
   }
 
-  /* Premium Hyper-Drive Glow Animation for Elite Tier Silicon */
-  @keyframes hyperPulse {
-    0% { transform: scale(1); box-shadow: 0 0 0px rgba(167, 139, 250, 0); border-color: rgba(167, 139, 250, 0.2); }
-    50% { transform: scale(1.015); box-shadow: 0 0 40px rgba(167, 139, 250, 0.4); border-color: #a78bfa; }
-    100% { transform: scale(1); box-shadow: 0 0 0px rgba(167, 139, 250, 0); border-color: rgba(167, 139, 250, 0.2); }
-  }
-
-  .tinder-card.hyper-drive-active {
-    animation: hyperPulse 0.7s cubic-bezier(0.16, 1, 0.3, 1) double;
-    z-index: 1000;
-  }
-
   /* Minimalist Splash */
   .splash-screen {
     position: fixed;
@@ -452,13 +440,8 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // STRICT CEILING REGULATOR: Block entry to lower sub-tiers if luxury budget is allocated
+  // STRICT CEILING REGULATOR: Block entry to laptops that exceed the budget ceiling
   if (laptop.price > priceLimit) {
-    return -Infinity;
-  }
-  
-  // BUDGET LOWER THRESHOLD PROTECTOR: Prevent cheap/budget setups from leaking into high budget limits
-  if (priceLimit >= (250000 / USD_TO_INR) && (laptop.price * USD_TO_INR) < 135000) {
     return -Infinity;
   }
 
@@ -996,7 +979,7 @@ function attachDragSwipe() {
   let rafId = null;
 
   card.addEventListener("pointerdown", (event) => {
-    if (event.target.closest(".tinder-photo-box") || event.target.closest(".emi-switch-trigger") || card.classList.contains("hyper-drive-active")) return;
+    if (event.target.closest(".tinder-photo-box") || event.target.closest(".emi-switch-trigger")) return;
     dragging = true;
     startX = event.clientX;
     currentX = 0;
@@ -1044,26 +1027,8 @@ function swipeCurrentLaptop(action) {
   const card = document.getElementById("tinder-card");
   if (!laptop || !card || card.classList.contains("exiting")) return;
 
-  if (action === "match") {
-    if (!state.savedMatches.some((item) => item.id === laptop.id)) {
-      state.savedMatches.push(laptop);
-    }
-
-    // CHECK FOR ELITE EXTRA EXPENSIVE HARDWARE: Trigger premium scan animations
-    const isEliteTier = laptop.price >= (250000 / USD_TO_INR) || laptop.scores.power >= 90 || normalize(laptop.graphics).includes("5080") || normalize(laptop.graphics).includes("5090");
-    if (isEliteTier) {
-      card.classList.add("hyper-drive-active");
-      window.setTimeout(() => {
-        card.classList.remove("hyper-drive-active");
-        card.classList.add("exiting", "exit-right");
-        window.setTimeout(() => {
-          state.matchIndex += 1;
-          state.cardFlipped = false;
-          render();
-        }, 350);
-      }, 700);
-      return;
-    }
+  if (action === "match" && !state.savedMatches.some((item) => item.id === laptop.id)) {
+    state.savedMatches.push(laptop);
   }
 
   card.classList.add("exiting", action === "match" ? "exit-right" : "exit-left");
@@ -1136,7 +1101,7 @@ function buildRoast(input) {
     "An execution sandbox footprint like that is begging for memory leaks."
   ];
   const storageRoasts = [
-    "Running a spinning mechanical sector drive in this architecture belongs in a legacy museum archive.",
+    "Running a spinning mechanical sector drive in this decade belongs in a legacy museum archive.",
     "A slow storage controller pool means your data lines move like dial-up packets.",
     "Your disk controllers are throttling everything. Get ready for buffer queues."
   ];
@@ -1156,7 +1121,7 @@ function buildRoast(input) {
   
   if (!burns.length) burns.push("Chassis density is baseline structural config, but lacking top-tier performance cache pools entirely.");
 
-  return `${burns.join(" ")} Operational Suggestion: ${recommendUpgrade(text)}.`;
+  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
 }
 
 function recommendUpgrade(text) {
