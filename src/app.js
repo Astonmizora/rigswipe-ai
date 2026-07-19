@@ -1,4 +1,4 @@
-const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode", "GTA 6 Mode"];
+const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode", "GTA 6 "];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
@@ -25,6 +25,12 @@ perfStyles.textContent = `
     5% { opacity: 1; }
     95% { opacity: 1; }
     100% { top: 105%; opacity: 0; }
+  }
+
+  @keyframes successPulse {
+    0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(74, 222, 128, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
   }
 
   /* Minimalist Splash */
@@ -273,7 +279,7 @@ perfStyles.textContent = `
   }
 
   /* =========================================================
-     NEW: GTA 6 MODE THEME OVERRIDES & POPUP STYLES 
+     EXTENSIONS: SINGLE LINE TABS, TRANSITIONS & POPUPS
      ========================================================= */
   body {
     transition: background-image 0.5s ease, background-color 0.5s ease;
@@ -281,24 +287,56 @@ perfStyles.textContent = `
 
   body.gta6-theme-active {
     background-color: #0b0410 !important;
-    background-image: linear-gradient(rgba(11, 4, 16, 0.65), rgba(11, 4, 16, 0.85)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
+    background-image: linear-gradient(135deg, rgba(255, 0, 127, 0.45), rgba(0, 240, 255, 0.45)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
     background-attachment: fixed !important;
   }
 
+  .nav .tabs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    scrollbar-width: none;
+  }
+  .nav .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto !important;
+  }
+
+  body.gta6-theme-active .nav,
+  body.gta6-theme-active .panel,
+  body.gta6-theme-active .results-head,
+  body.gta6-theme-active .card,
+  body.gta6-theme-active .tinder-card,
+  body.gta6-theme-active .shortlist-drawer {
+    background-color: rgba(11, 4, 16, 0.75) !important;
+    border-color: rgba(255, 0, 127, 0.3) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  body.gta6-theme-active .tab.active {
+    color: #00f0ff !important;
+    border-color: #ff007f !important;
+    background: rgba(255, 0, 127, 0.15) !important;
+  }
+
+  body.gta6-theme-active .scan-horizon-laser {
+    background: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent) !important;
+  }
+
   .gta6-popup-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(0, 0, 0, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
     z-index: 100000;
     animation: fadeOutSplash 0.3s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards;
   }
@@ -306,47 +344,30 @@ perfStyles.textContent = `
   .gta6-popup-content {
     background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(0, 240, 255, 0.15)), #0b0410;
     border: 1px solid rgba(255, 0, 127, 0.4);
-    border-radius: 16px;
-    padding: 2.5rem;
-    text-align: center;
-    max-width: 450px;
-    color: #ffffff;
+    border-radius: 16px; padding: 2.5rem; text-align: center;
+    max-width: 450px; color: #ffffff;
     box-shadow: 0 10px 40px rgba(255, 0, 127, 0.25);
     animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .gta6-popup-content h2 {
-    color: #00f0ff;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: #00f0ff; font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem;
+    margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;
   }
 
-  .gta6-popup-content p {
-    color: #e2e8f0;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 2rem;
-  }
+  .gta6-popup-content p { color: #e2e8f0; font-size: 1rem; line-height: 1.5; margin-bottom: 2rem; }
 
   .gta6-popup-close {
-    background: #ff007f;
-    color: #ffffff;
-    border: none;
-    padding: 0.75rem 2rem;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    background: #ff007f; color: #ffffff; border: none;
+    padding: 0.75rem 2rem; border-radius: 8px; font-weight: 700;
+    font-size: 1rem; cursor: pointer; transition: all 0.2s ease;
   }
 
-  .gta6-popup-close:hover {
-    background: #ff1a8c;
-    box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
-  }
+  .gta6-popup-close:hover { background: #ff1a8c; box-shadow: 0 0 15px rgba(255, 0, 127, 0.6); }
+
+  .gta6-container { margin-top: 1.5rem; padding: 1.5rem; border-radius: 16px; animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .gta6-success { background: rgba(34, 197, 94, 0.1) !important; border: 1px solid rgba(34, 197, 94, 0.5) !important; color: #4ade80 !important; animation: successPulse 2s infinite; }
+  .gta6-fail { background: rgba(255, 0, 127, 0.1) !important; border: 1px solid rgba(255, 0, 127, 0.5) !important; color: #ff80bf !important; }
 `;
 document.head.appendChild(perfStyles);
 
@@ -481,7 +502,7 @@ const state = {
   showMonthlyCost: false,
   phoneSync: "Mac OS",
   
-  // GTA 6 State Trackers
+  // GTA 6 State Tracking
   gta6Input: "Intel i5, 8GB RAM, GTX 1650, 512GB SSD",
   gta6Status: null
 };
@@ -535,7 +556,6 @@ function textBlob(laptop) {
 }
 
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
-  // If in GTA 6 Mode, ignore budget ceiling entirely to suggest powerful rigs
   if (state.activeTab !== "GTA 6 Mode" && laptop.price > priceLimit) {
     return -Infinity;
   }
@@ -544,7 +564,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   const rawQuery = normalize(query);
   let score = 0;
 
-  // 1. ADVANCED INTENT SEMANTIC EXPANSION DICTIONARY
   const expansionMatrix = [
     { keys: ["ml", "ai", "learning", "data", "compile"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
     { keys: ["edit", "design", "render", "creator", "blend"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
@@ -560,12 +579,10 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     }
   });
 
-  // Base text parsing layers
   const terms = rawQuery.split(/[^a-z0-9+]+/).filter(Boolean);
   terms.forEach((term) => { if (blob.includes(term)) score += 12; });
   weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
-  // 2. CONTEXT-AWARE ADAPTIVE WEIGHT PHYSICS 
   let powerWeight = 0.14;
   let mobilityWeight = 0.11;
   let efficiencyWeight = 0.12;
@@ -576,7 +593,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
-  // FLAWLESS ENGINEERING CURRICULUM WEIGHT TUNING OVERRIDES
   if (state.activeTab === "Engineering") {
     const targetBranchProfile = branchProfiles[state.branch];
     if (targetBranchProfile) {
@@ -600,7 +616,6 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 
   score += laptop.scores.power * powerWeight + laptop.scores.mobility * mobilityWeight + laptop.scores.efficiency * efficiencyWeight;
 
-  // 3. VALUE STRUCTURAL MATCH CURVE (TARGET SWEET-SPOT OPTIMIZATION)
   if (state.activeTab !== "GTA 6 Mode") {
     const allocationRatio = laptop.price / priceLimit;
     if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
@@ -609,13 +624,11 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
       score -= 30; 
     }
   } else {
-    // Extreme Hardware Matching for GTA 6
     if (blob.includes("rtx 40") || blob.includes("rtx 3080") || blob.includes("rtx 3090") || blob.includes("rx 7") || blob.includes("apple max")) {
       score += 150;
     }
   }
 
-  // Active platform sync checks
   if (state.activeTab === "AI Vibe Matcher") {
     if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) { score += 45; }
     if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) { score += 15; }
@@ -642,7 +655,6 @@ function getMatches() {
   }
 
   if (state.activeTab === "GTA 6 Mode") {
-    // Force specific extreme gaming keywords to surface the best hardware
     return state.laptops
       .map((laptop) => ({
         laptop,
@@ -669,7 +681,6 @@ function setState(patch) {
     return;
   }
 
-  // Handle GTA 6 Theme Switching seamlessly
   if (state.activeTab === "GTA 6 Mode") {
     document.body.classList.add("gta6-theme-active");
   } else {
@@ -955,12 +966,6 @@ function renderMatchMode() {
     `;
   }
   attachDragSwipe();
-}
-
-function getCurrentSwipeLaptop() {
-  const filtered = getMatches();
-  if (!filtered.length) return null;
-  return filtered[state.matchIndex % filtered.length];
 }
 
 function primaryHighlight(laptop) {
@@ -1394,19 +1399,19 @@ function initGlobalEvents() {
       return;
     }
 
-    const swipeBtn = event.target.closest("[data-swipe]");
+    const swipeBtn = target.closest("[data-swipe]");
     if (swipeBtn) {
       swipeCurrentLaptop(swipeBtn.dataset.swipe);
       return;
     }
 
-    const drawerToggle = event.target.closest("#drawer-toggle");
+    const drawerToggle = target.closest("#drawer-toggle");
     if (drawerToggle) {
       setState({ drawerOpen: !state.drawerOpen });
       return;
     }
 
-    const detailBtn = event.target.closest("[data-detail-id]");
+    const detailBtn = target.closest("[data-detail-id]");
     if (detailBtn) {
       const laptop = state.laptops.find((item) => item.id === Number(detailBtn.dataset.detailId));
       if (laptop) showLaptopDetails(laptop);
@@ -1414,7 +1419,7 @@ function initGlobalEvents() {
     }
 
     // Capture Interactive Custom Chips
-    const vibeChip = event.target.closest(".vibe-toggle-chip");
+    const vibeChip = target.closest(".vibe-toggle-chip");
     if (vibeChip) {
       const type = vibeChip.dataset.vibeType;
       const value = vibeChip.dataset.vibeValue;
@@ -1513,4 +1518,3 @@ fetch("./laptopsData.json")
       </main>
     `;
   });
-  
