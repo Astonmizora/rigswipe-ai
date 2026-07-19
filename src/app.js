@@ -2,108 +2,115 @@ const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
-// ==========================================
-// 1. ARCHITECTURAL LAYER: DESIGN TOKENS & SYSTEM REGISTRY
-// ==========================================
-const DesignTokens = {
-  colors: {
-    background: "#030305",
-    surface: "rgba(255, 255, 255, 0.03)",
-    border: "rgba(255, 255, 255, 0.08)",
-    accent: "#a78bfa",
-    accentGlow: "rgba(167, 139, 250, 0.12)",
-    textMuted: "#a1a1aa",
-    pass: "#4ade80",
-    fail: "#fca5a5"
-  },
-  animations: {
-    physics: "cubic-bezier(0.16, 1, 0.3, 1)",
-    duration: "0.4s"
-  }
-};
-
 const perfStyles = document.createElement("style");
 perfStyles.textContent = `
-  :root {
-    --bg-main: ${DesignTokens.colors.background};
-    --surface-card: ${DesignTokens.colors.surface};
-    --border-glass: ${DesignTokens.colors.border};
-    --accent-core: ${DesignTokens.colors.accent};
-    --accent-glow: ${DesignTokens.colors.accentGlow};
-    --text-muted: ${DesignTokens.colors.textMuted};
-    --color-pass: ${DesignTokens.colors.pass};
-    --color-fail: ${DesignTokens.colors.fail};
-    --motion-physics: ${DesignTokens.animations.physics};
-    --motion-duration: ${DesignTokens.animations.duration};
-  }
-
   /* Premium Apple/iOS Motion Physics */
   @keyframes logoReveal {
     0% { opacity: 0; transform: scale(0.95) translate3d(0, 8px, 0); filter: blur(12px); }
     100% { opacity: 1; transform: scale(1) translate3d(0, 0, 0); filter: blur(0px); }
   }
+
   @keyframes taglineReveal {
     0% { opacity: 0; transform: translate3d(0, 8px, 0); }
     100% { opacity: 0.6; transform: translate3d(0, 0, 0); }
   }
+
   @keyframes fadeOutSplash {
     0% { opacity: 1; filter: blur(0px); }
     100% { opacity: 0; filter: blur(8px); visibility: hidden; }
   }
+
   @keyframes scanningLaser {
     0% { top: -5%; opacity: 0; }
     5% { opacity: 1; }
     95% { opacity: 1; }
     100% { top: 105%; opacity: 0; }
   }
-  @keyframes burstFade {
-    0% { transform: scale(0.6) translate3d(-50%, -50%, 0); opacity: 1; box-shadow: 0 0 0px var(--accent-core); }
-    100% { transform: scale(1.4) translate3d(-50%, -50%, 0); opacity: 0; box-shadow: 0 0 30px var(--accent-core); }
-  }
 
-  /* Structural UI Foundation Elements */
+  /* Minimalist Splash */
   .splash-screen {
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background-color: var(--bg-main);
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 99999; overflow: hidden;
-  }
-  .splash-screen.fade-out {
-    animation: fadeOutSplash var(--motion-duration) var(--motion-physics) forwards;
-    pointer-events: none;
-  }
-  .splash-container { text-align: center; position: relative; z-index: 2; pointer-events: none; }
-  .splash-logo-text {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 3.5rem;
-    letter-spacing: 0.05em; color: #ffffff; text-transform: uppercase;
-    animation: logoReveal 1.2s var(--motion-physics) forwards; opacity: 0;
-  }
-  .splash-sub-text {
-    font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; color: var(--accent-core);
-    letter-spacing: 0.3em; text-transform: uppercase; margin-top: 0.5rem;
-    animation: taglineReveal 1.2s var(--motion-physics) 0.3s forwards; opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #030305;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    overflow: hidden;
   }
 
-  .card, .tinder-card {
-    transition: transform var(--motion-duration) var(--motion-physics), 
-                box-shadow var(--motion-duration) var(--motion-physics), 
-                border-color var(--motion-duration) var(--motion-physics) !important;
+  .splash-screen.fade-out {
+    animation: fadeOutSplash 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    pointer-events: none;
   }
+
+  .splash-container {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .splash-logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 3.5rem;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    text-transform: uppercase;
+  }
+
+  .splash-sub-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    color: #a78bfa;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    opacity: 0;
+  }
+
+  /* Premium Elevation Physics */
+  .card, .tinder-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
   .card:hover {
     transform: translate3d(0, -6px, 0) !important;
     border-color: rgba(139, 92, 246, 0.25) !important;
     box-shadow: 0 12px 30px rgba(139, 92, 246, 0.06), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
   }
-  .tab { transition: color 0.25s ease, background-color 0.25s ease !important; }
-  .tab:active, .primary-btn:active { transform: scale(0.97) translate3d(0, 0, 0) !important; }
 
-  .scan-horizon-laser {
-    position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-    background: linear-gradient(90deg, transparent, var(--accent-core), transparent);
-    animation: scanningLaser 2s linear infinite;
+  /* Tab Indicator Organic Fluidity */
+  .tab {
+    transition: color 0.25s ease, background-color 0.25s ease !important;
   }
 
+  .tab:active, .primary-btn:active {
+    transform: scale(0.97) translate3d(0, 0, 0) !important;
+  }
+
+  /* Holographic Scan Overlay Laser */
+  .scan-horizon-laser {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+    animation: scanningLaser 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* GPU Rendering optimizers */
   .card, .tinder-card, .shortlist-drawer, .panel, .results-head, .nav {
     transform: translate3d(0, 0, 0);
     will-change: transform, opacity;
@@ -111,99 +118,163 @@ perfStyles.textContent = `
     perspective: 1000px;
   }
 
+  /* Cybernetic Roast terminal entry style */
   .roast-output {
-    margin-top: 1.5rem; padding: 1.2rem;
+    margin-top: 1.5rem;
+    padding: 1.2rem;
     background: rgba(239, 68, 68, 0.04) !important;
     border: 1px dashed rgba(239, 68, 68, 0.25) !important;
-    border-radius: 12px; color: var(--color-fail) !important;
-    font-size: 0.95rem; line-height: 1.6;
-    animation: logoReveal var(--motion-duration) var(--motion-physics) forwards;
+    border-radius: 12px;
+    color: #fca5a5 !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    animation: logoReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     box-shadow: 0 4px 20px rgba(239, 68, 68, 0.03);
   }
 
-  /* Match Mode Vector Layouts & Real-Time Swiping Stamps */
+  /* Modular Interface Extensions */
   .tinder-card-inner {
-    width: 100%; height: 100%; position: relative;
-    transform-style: preserve-3d; transition: transform 0.5s var(--motion-physics);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     border-radius: inherit;
   }
-  .tinder-card.flipped .tinder-card-inner { transform: rotateY(180deg); }
+  
+  .tinder-card.flipped .tinder-card-inner {
+    transform: rotateY(180deg);
+  }
+
   .tinder-card-front, .tinder-card-back {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    backface-visibility: hidden; border-radius: inherit;
-    display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
   }
+
   .tinder-card-back {
-    transform: rotateY(180deg); background: #09090b !important;
-    border: 1px solid var(--border-glass) !important; padding: 1.5rem;
+    transform: rotateY(180deg);
+    background: #09090b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 1.5rem;
   }
 
-  /* Scale Architecture Features: Real-time Tinder Interface Stamps */
-  .swipe-stamp {
-    position: absolute; top: 25px; font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.8rem; font-weight: 900; padding: 0.3rem 0.8rem; border-radius: 6px;
-    text-transform: uppercase; transform: rotate(-12deg); opacity: 0; z-index: 50;
-    pointer-events: none; transition: opacity 0.15s ease, transform 0.15s ease;
-  }
-  .swipe-stamp.stamp-like {
-    left: 25px; color: var(--color-pass); border: 4px solid var(--color-pass);
-    transform: rotate(-12deg) scale(0.9);
-  }
-  .swipe-stamp.stamp-nope {
-    right: 25px; color: #ef4444; border: 4px solid #ef4444;
-    transform: rotate(12deg) scale(0.9);
-  }
-  .tinder-card.drag-right .stamp-like { opacity: 1; transform: rotate(-12deg) scale(1); }
-  .tinder-card.drag-left .stamp-nope { opacity: 1; transform: rotate(12deg) scale(1); }
-
-  /* Reward System Particle Engine Node */
-  .particle-burst {
-    position: absolute; top: 50%; left: 50%; width: 120px; height: 120px;
-    border: 3px solid var(--accent-core); border-radius: 50%; pointer-events: none;
-    z-index: 9999; animation: burstFade 0.45s var(--motion-physics) forwards;
+  .xray-header {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #a78bfa;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
   }
 
-  /* Gamified Synergy Tags Layout */
-  .reward-synergy-badge {
-    font-size: 0.65rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 0.25rem 0.6rem; border-radius: 4px; display: inline-block; margin-top: 0.4rem;
-    background: rgba(167, 139, 250, 0.15); border: 1px solid var(--accent-core); color: #c084fc;
-  }
-  .reward-bounty-badge {
-    background: rgba(34, 197, 94, 0.15); border: 1px solid var(--color-pass); color: var(--color-pass);
+  .upgrade-path-map {
+    margin: 0.75rem 0;
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
   }
 
-  /* Shortlist Gamified Metric Trackers */
-  .diversity-tracker-box { margin-bottom: 1rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border-glass); }
-  .diversity-bar-track { width: 100%; height: 5px; background: rgba(255,255,255,0.05); border-radius: 3px; margin-top: 0.35rem; overflow: hidden; }
-  .diversity-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-core), var(--color-pass)); width: 0%; transition: width 0.4s var(--motion-physics); }
+  .upgrade-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
 
-  .xray-header { font-family: monospace; font-size: 0.8rem; color: var(--accent-core); margin-bottom: 0.5rem; letter-spacing: 0.05em; }
-  .upgrade-path-map { margin: 0.75rem 0; padding: 0.85rem; background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border-glass); border-radius: 8px; }
-  .upgrade-badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-  .upgrade-status-pill { font-size: 0.7rem; padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: 600; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); }
-  .upgrade-status-pill.pass-check { background: rgba(34, 197, 94, 0.1); color: var(--color-pass); border-color: rgba(34, 197, 94, 0.2); }
-  .upgrade-status-pill.fail-check { background: rgba(239, 68, 68, 0.1); color: #fca5a5; border-color: rgba(239, 68, 68, 0.2); }
+  .upgrade-status-pill {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
 
-  .price-matrix-container { display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; }
-  .cost-toggle-switch { display: flex; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-glass); border-radius: 6px; padding: 2px; cursor: pointer; }
-  .cost-toggle-opt { font-size: 0.65rem; padding: 0.15rem 0.4rem; border-radius: 4px; color: #71717a; transition: all 0.2s ease; font-weight: 600; }
-  .cost-toggle-opt.selected { background: rgba(255, 255, 255, 0.08); color: #ffffff; }
+  .upgrade-status-pill.pass-check {
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.2);
+  }
 
-  .vibe-chip-group { display: flex; gap: 0.5rem; margin-top: 0.35rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
-  .vibe-toggle-chip { font-size: 0.75rem; padding: 0.4rem 0.75rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); color: #a1a1aa; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s ease; }
-  .vibe-toggle-chip:hover { border-color: rgba(255, 255, 255, 0.15); color: #ffffff; }
-  .vibe-toggle-chip.active { background: var(--accent-glow); border-color: var(--accent-core); color: #c084fc; }
+  .upgrade-status-pill.fail-check {
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.2);
+  }
 
-  .survey-card-layout { padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; }
-  .survey-options-grid { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 1rem; margin-bottom: 1rem; }
-  .survey-select-row { display: flex; gap: 0.5rem; }
+  .price-matrix-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+  }
+
+  .cost-toggle-switch {
+    display: flex;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 2px;
+    cursor: pointer;
+  }
+
+  .cost-toggle-opt {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    color: #71717a;
+    transition: all 0.2s ease;
+    font-weight: 600;
+  }
+
+  .cost-toggle-opt.selected {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  .vibe-chip-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
+    margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .vibe-toggle-chip {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #a1a1aa;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .vibe-toggle-chip:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+
+  .vibe-toggle-chip.active {
+    background: rgba(167, 139, 250, 0.12);
+    border-color: #a78bfa;
+    color: #c084fc;
+  }
 `;
 document.head.appendChild(perfStyles);
 
-// ==========================================
-// 2. DOMAIN REPOSITORIES & CURRICULUM CONFIGURATIONS
-// ==========================================
+// COMPLETE FLAWLESS ENGINEERING BRANCH PROFILE CURRICULUM ARCHITECTURE MAP
 const branchProfiles = {
   CSE: {
     software: ["VS Code", "Docker", "Git", "IntelliJ", "Kubernetes"],
@@ -300,7 +371,6 @@ const purposeProfiles = {
 };
 
 const branchLabels = {
-  ...Object.fromEntries(Object.keys(branchProfiles).map(key => [key, `${key} Curricular Branch`])),
   CSE: "CSE - Computer Science",
   ECE: "ECE - Electronics",
   Mechanical: "Mechanical Engineering",
@@ -317,9 +387,6 @@ const branchLabels = {
   Architecture: "Architecture / Planning",
 };
 
-// ==========================================
-// 3. SECURE CENTRAL STATE MANAGEMENT (IMMUTABLE PATTERN)
-// ==========================================
 const state = {
   laptops: [],
   activeTab: TABS[0],
@@ -336,21 +403,11 @@ const state = {
   showSplash: true,
   cardFlipped: false,
   showMonthlyCost: false,
-  phoneSync: "Mac OS",
-
-  // Modern History Undo Stack and Survey Properties
-  undoStack: [],
-  surveyCompleted: false,
-  surveyOS: "Windows",
-  surveyWorkload: "Coding",
-  surveyBudget: 150000
+  phoneSync: "Mac OS"
 };
 
 const root = document.getElementById("root");
 
-// ==========================================
-// 4. FUNCTIONAL BUSINESS DATA UTILITIES
-// ==========================================
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -385,15 +442,20 @@ function escapeHtml(value) {
 
 function textBlob(laptop) {
   return [
-    laptop.name, laptop.brand, laptop.cpu, laptop.ram, laptop.storage, laptop.graphics, laptop.screen,
-    ...laptop.idealFor, ...laptop.vibeKeywords,
+    laptop.name,
+    laptop.brand,
+    laptop.cpu,
+    laptop.ram,
+    laptop.storage,
+    laptop.graphics,
+    laptop.screen,
+    ...laptop.idealFor,
+    ...laptop.vibeKeywords,
   ].join(" ");
 }
 
-// ==========================================
-// 5. THE AI VIBE ENGINE CORE (DECISION & PRIORITIZATION MATRICES)
-// ==========================================
 function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
+  // STRICT ABSOLUTE CEILING: Hard drop anything exceeding allocated funding lines
   if (laptop.price > priceLimit) {
     return -Infinity;
   }
@@ -402,56 +464,49 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   const rawQuery = normalize(query);
   let score = 0;
 
+  // 1. ADVANCED INTENT SEMANTIC EXPANSION DICTIONARY
   const expansionMatrix = [
     { keys: ["ml", "ai", "learning", "data", "compile"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
     { keys: ["edit", "design", "render", "creator", "blend"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
-    { keys: ["game", "fps", "play", "steam", "refresh", "gaming"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx", "gaming"] },
-    { keys: ["travel", "battery", "carry", "lightweight", "slim"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon", "lightweight"] }
+    { keys: ["game", "fps", "play", "steam", "refresh"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
+    { keys: ["travel", "battery", "carry", "lightweight", "slim"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon"] }
   ];
 
   expansionMatrix.forEach(node => {
     if (node.keys.some(k => rawQuery.includes(k))) {
-      node.targets.forEach(t => { if (blob.includes(t)) score += 20; });
+      node.targets.forEach(t => {
+        if (blob.includes(t)) score += 20; 
+      });
     }
   });
 
+  // Base text parsing layers
   const terms = rawQuery.split(/[^a-z0-9+]+/).filter(Boolean);
   terms.forEach((term) => { if (blob.includes(term)) score += 12; });
   weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
+  // 2. CONTEXT-AWARE ADAPTIVE WEIGHT PHYSICS 
   let powerWeight = 0.14;
   let mobilityWeight = 0.11;
   let efficiencyWeight = 0.12;
 
-  const filtersGaming = ["game", "fps", "render", "cad", "heavy", "compile", "gaming"].some(k => rawQuery.includes(k));
-  const filtersLightweight = ["travel", "battery", "carry", "lightweight", "light", "college", "cafe", "slim"].some(k => rawQuery.includes(k));
-
-  if (filtersGaming && filtersLightweight) {
-    powerWeight = 0.35; 
-    mobilityWeight = 0.30; 
-    efficiencyWeight = 0.25;
-    
-    const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics");
-    const isUltraPortable = blob.includes("thin") || blob.includes("slim") || blob.includes("lightweight") || laptop.scores.mobility > 75;
-    
-    if (hasDiscreteGpu && isUltraPortable) {
-      score += 65; 
-    }
-  } else if (filtersGaming) {
+  if (["game", "fps", "render", "cad", "heavy", "compile"].some(k => rawQuery.includes(k))) {
     powerWeight = 0.45; mobilityWeight = 0.05; efficiencyWeight = 0.05;
-  } else if (filtersLightweight) {
+  } else if (["travel", "battery", "carry", "light", "college", "cafe"].some(k => rawQuery.includes(k))) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
+  // FLAWLESS ENGINEERING CURRICULUM WEIGHT TUNING OVERRIDES
   if (state.activeTab === "Engineering") {
     const targetBranchProfile = branchProfiles[state.branch];
     if (targetBranchProfile) {
       if (targetBranchProfile.biasType === "gpu-mandatory") {
+        // Absolute exclusion filter rule: penalize weak integrated graphic processors for hardware-rendering intense environments
         const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics") || blob.includes("apple pro") || blob.includes("apple max");
-        if (!hasDiscreteGpu) return -Infinity; 
+        if (!hasDiscreteGpu) return -Infinity; // Completely block options missing viewport rasterization accelerators
         powerWeight = 0.50; mobilityWeight = 0.05; efficiencyWeight = 0.05;
       } else if (targetBranchProfile.biasType === "cuda-heavy") {
-        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; 
+        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; // Flag non-CUDA tensor architectures downward
         powerWeight = 0.40; efficiencyWeight = 0.20;
       } else if (targetBranchProfile.biasType === "computational") {
         if (blob.includes("16gb") || blob.includes("32gb")) score += 35;
@@ -466,6 +521,7 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
 
   score += laptop.scores.power * powerWeight + laptop.scores.mobility * mobilityWeight + laptop.scores.efficiency * efficiencyWeight;
 
+  // 3. VALUE STRUCTURAL MATCH CURVE (TARGET SWEET-SPOT OPTIMIZATION)
   const allocationRatio = laptop.price / priceLimit;
   if (allocationRatio >= 0.85 && allocationRatio <= 1.0) {
     score += 40; 
@@ -473,6 +529,7 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     score -= 30; 
   }
 
+  // Active platform sync checks
   if (state.activeTab === "AI Vibe Matcher") {
     if (state.phoneSync === "Mac OS" && normalize(laptop.brand).includes("apple")) { score += 45; }
     if (state.phoneSync === "Windows" && !normalize(laptop.brand).includes("apple")) { score += 15; }
@@ -505,9 +562,6 @@ function getMatches() {
     .map(({ laptop }) => laptop);
 }
 
-// ==========================================
-// 6. DECLARATIVE UI VIEWS AND MOUNT DISPATCHERS
-// ==========================================
 function setState(patch) {
   const oldTab = state.activeTab;
   Object.assign(state, patch);
@@ -522,9 +576,10 @@ function setState(patch) {
     render();
   } else {
     if (
-      patch.branch !== undefined || patch.purpose !== undefined || 
-      patch.roast !== undefined || patch.phoneSync !== undefined ||
-      patch.surveyOS !== undefined || patch.surveyWorkload !== undefined
+      patch.branch !== undefined || 
+      patch.purpose !== undefined || 
+      patch.roast !== undefined ||
+      patch.phoneSync !== undefined
     ) {
       const panel = document.querySelector(".panel");
       if (panel) panel.innerHTML = renderPanel();
@@ -603,6 +658,7 @@ function renderSplash() {
 function render() {
   if (state.showSplash) {
     root.innerHTML = renderSplash();
+
     window.setTimeout(() => {
       const splash = document.getElementById("splash-screen");
       if (splash) {
@@ -629,6 +685,7 @@ function render() {
   root.innerHTML = `
     <main class="app">
       ${renderNav()}
+
       <section class="layout">
         <aside class="glass panel">${renderPanel()}</aside>
         <section class="results">
@@ -659,131 +716,106 @@ function renderPanel() {
   return renderMatcherPanel();
 }
 
-// ==========================================
-// 7. REAL-LIFE MATCH MODE SUITE WITH GAMIFIED REWARDS
-// ==========================================
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
-  
-  root.innerHTML = `
-    <main class="app">
-      ${renderNav()}
-      <section class="match-stage">
-        <div class="match-copy">
-          <p class="eyebrow">Interactive Tinder</p>
-          <h2>Match Mode</h2>
-          <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
-            Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
-          </p>
+  const matchStage = document.querySelector(".match-stage");
+
+  if (matchStage) {
+    document.querySelectorAll(".tabs .tab").forEach(button => {
+      button.classList.toggle("active", button.dataset.tab === state.activeTab);
+    });
+
+    const swipeZone = document.querySelector(".swipe-zone");
+    if (swipeZone) {
+      swipeZone.innerHTML = `
+        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+        <div class="swipe-actions">
+          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
         </div>
-        <div class="match-workspace">
-          <div class="swipe-zone" style="position: relative;">
-            ${!state.surveyCompleted ? renderOnboardingSurveyCard() : (laptop ? renderSwipeCard(laptop) : renderSwipeFinished())}
-            
-            ${state.surveyCompleted ? `
+      `;
+    }
+
+    const shortlistDrawer = document.querySelector(".shortlist-drawer");
+    if (shortlistDrawer) {
+      const count = state.savedMatches.length;
+      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
+      shortlistDrawer.innerHTML = `
+        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
+        ${state.drawerOpen ? `
+          <div class="shortlist-body">${
+            count
+              ? state.savedMatches
+                  .map((item) => `
+                    <article class="mini-card">
+                      <div>
+                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
+                        <h4>${escapeHtml(item.name)}</h4>
+                        <span>${formatPrice(item.price)}</span>
+                      </div>
+                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
+                    </article>
+                  `).join("")
+              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
+          }</div>` : ""}
+      `;
+    }
+  } else {
+    root.innerHTML = `
+      <main class="app">
+        ${renderNav()}
+        <section class="match-stage">
+          <div class="match-copy">
+            <p class="eyebrow">Interactive Tinder</p>
+            <h2>Match Mode</h2>
+            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+            </p>
+          </div>
+          <div class="match-workspace">
+            <div class="swipe-zone">
+              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
               <div class="swipe-actions">
-                <button class="swipe-btn undo-btn" id="undo-swipe-action" ${state.undoStack.length === 0 ? "disabled" : ""} style="background:rgba(255,255,255,0.03); color:#e1e1e6; font-size:1.1rem;" aria-label="Undo last swipe">↺</button>
                 <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
                 <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
               </div>
-            ` : ""}
+            </div>
+            ${renderShortlistDrawer()}
           </div>
-          ${renderShortlistDrawer()}
-        </div>
-      </section>
-    </main>
-  `;
-
-  if (state.surveyCompleted) {
-    attachDragSwipe();
+        </section>
+      </main>
+    `;
   }
+  attachDragSwipe();
 }
 
-function renderOnboardingSurveyCard() {
-  return `
-    <div class="glass tinder-card text-left">
-      <div class="survey-card-layout">
-        <div>
-          <p class="eyebrow" style="color: #a78bfa; margin-bottom: 0.25rem;">Partner Setup Profile</p>
-          <h3 style="font-size: 1.35rem; line-height: 1.3; font-weight: 700;">How you want your lappy partner to be?</h3>
-          <p style="font-size: 0.75rem; color: #71717a; margin-top: 0.25rem;">Fill out this baseline survey card to calibrate the backend engine rules.</p>
-          
-          <div class="survey-options-grid">
-            <label style="font-size: 0.75rem; color: #a1a1aa;">Preferred Ecosystem Environment</label>
-            <div class="survey-select-row">
-              <button class="vibe-toggle-chip ${state.surveyOS === "Mac OS" ? "active" : ""}" data-survey-key="surveyOS" data-survey-val="Mac OS" style="flex:1;">Mac OS</button>
-              <button class="vibe-toggle-chip ${state.surveyOS === "Windows" ? "active" : ""}" data-survey-key="surveyOS" data-survey-val="Windows" style="flex:1;">Windows</button>
-            </div>
-
-            <label style="font-size: 0.75rem; color: #a1a1aa; margin-top: 0.25rem;">Primary Curricular Workload Focus</label>
-            <div class="survey-select-row">
-              <button class="vibe-toggle-chip ${state.surveyWorkload === "Coding" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Coding" style="font-size:0.7rem; flex:1;">Coding Suite</button>
-              <button class="vibe-toggle-chip ${state.surveyWorkload === "Gaming" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Gaming" style="font-size:0.7rem; flex:1;">Gaming / FPS</button>
-              <button class="vibe-toggle-chip ${state.surveyWorkload === "Design" ? "active" : ""}" data-survey-key="surveyWorkload" data-survey-val="Design" style="font-size:0.7rem; flex:1;">Design Viewports</button>
-            </div>
-
-            <label style="font-size: 0.75rem; color: #a1a1aa; margin-top: 0.25rem;">Target Wallet Constraint Limit</label>
-            <div class="survey-select-row">
-              <button class="vibe-toggle-chip ${state.surveyBudget === 80000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="80000" style="font-size:0.7rem; flex:1;">₹80K Entry</button>
-              <button class="vibe-toggle-chip ${state.surveyBudget === 150000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="150000" style="font-size:0.7rem; flex:1;">₹1.5L Mid</button>
-              <button class="vibe-toggle-chip ${state.surveyBudget === 280000 ? "active" : ""}" data-survey-key="surveyBudget" data-survey-val="280000" style="font-size:0.7rem; flex:1;">₹2.8L Ultimate</button>
-            </div>
-          </div>
-        </div>
-        <button class="primary-btn" id="lock-survey-btn" style="width: 100%; font-size: 0.85rem; padding: 12px; margin-top: 0.5rem;">Lock In Demand & Shuffle Deck</button>
-      </div>
-    </div>
-  `;
+function getCurrentSwipeLaptop() {
+  const filtered = getMatches();
+  if (!filtered.length) return null;
+  return filtered[state.matchIndex % filtered.length];
 }
 
-function calculateRewardBadges(laptop) {
-  const blob = normalize(textBlob(laptop));
-  let badgesHtml = '';
-
-  if (laptop.scores.mobility > 80 && laptop.scores.efficiency > 80) {
-    badgesHtml += `<div class="reward-synergy-badge">[ Mobility Elite ]</div> `;
-  }
-  if (!blob.includes("soldered") && !blob.includes("lpddr") && laptop.scores.power > 75) {
-    badgesHtml += `<div class="reward-synergy-badge">[ Future-Proof Workstation ]</div> `;
-  }
-
-  const allocationRatio = (laptop.price * USD_TO_INR) / state.surveyBudget;
-  if (allocationRatio >= 0.85 && allocationRatio <= 1.0 && laptop.scores.power >= 75) {
-    badgesHtml += `<div class="reward-synergy-badge reward-bounty-badge">[ 🎯 Value Bounty Bonus ]</div> `;
-  } else if (allocationRatio <= 0.60) {
-    badgesHtml += `<div class="reward-synergy-badge reward-bounty-badge" style="background:rgba(14,165,233,0.15); border-color:#0ea5e9; color:#38bdf8;">[ Pure Value Play ]</div> `;
-  }
-
-  return badgesHtml;
-}
-
-function calculateShortlistDiversity() {
-  if (!state.savedMatches.length) return 0;
-  const categories = new Set();
-  state.savedMatches.forEach(laptop => {
-    const blob = normalize(textBlob(laptop));
-    if (blob.includes("rtx") || blob.includes("gaming")) categories.add("gaming");
-    if (laptop.scores.mobility > 80) categories.add("portable");
-    if (blob.includes("oled") || blob.includes("creator")) categories.add("creator");
-    if (laptop.price * USD_TO_INR < 75000) categories.add("budget");
-  });
-  return Math.min(100, Math.round((categories.size / 4) * 100));
+function primaryHighlight(laptop) {
+  const dedicatedGraphics = laptop.graphics.includes("RTX") || laptop.graphics.includes("Radeon RX") || laptop.graphics.includes("Apple");
+  const heroSpec = dedicatedGraphics ? laptop.graphics : laptop.cpu;
+  return `${laptop.ram} - ${laptop.storage} - ${heroSpec}`;
 }
 
 function renderSwipeCard(laptop) {
   const rawPriceInInr = laptop.price * USD_TO_INR;
   const computedEmiString = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(Math.round(rawPriceInInr / 12));
   
-  const displayPriceText = state.showMonthlyCost ? `${computedEmiString} / month` : formatPrice(laptop.price);
+  const displayPriceText = state.showMonthlyCost 
+    ? `${computedEmiString} / month` 
+    : formatPrice(laptop.price);
+
   const ramLower = normalize(laptop.ram);
   const isSoldered = ramLower.includes("soldered") || ramLower.includes("onboard") || ramLower.includes("lpddr");
 
   return `
     <article class="glass tinder-card ${state.cardFlipped ? "flipped" : ""}" id="tinder-card" data-card-id="${laptop.id}">
-      <div class="swipe-stamp stamp-like">LIKE</div>
-      <div class="swipe-stamp stamp-nope">NOPE</div>
-      
       <div class="tinder-card-inner">
+        
         <!-- FRONT CARD DISPLAY LAYER -->
         <div class="tinder-card-front">
           <div class="photo-placeholder tinder-photo-box" style="cursor: pointer;">
@@ -798,7 +830,6 @@ function renderSwipeCard(laptop) {
               <div class="card-headings">
                 <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
                 <h3>${escapeHtml(laptop.name)}</h3>
-                ${calculateRewardBadges(laptop)}
               </div>
               <div class="price-matrix-container">
                 <div class="price">${displayPriceText}</div>
@@ -818,13 +849,17 @@ function renderSwipeCard(laptop) {
           <div class="photo-placeholder tinder-photo-box" style="height: 50px; min-height: 50px; cursor: pointer;">
             <span style="font-size: 0.75rem; letter-spacing:0.02em;">← Return to Image view</span>
           </div>
+          
           <div class="upgrade-path-map">
             <div class="xray-header">> CORE SUSTAINABILITY INDEX</div>
             <div class="upgrade-badge-row">
-              ${isSoldered ? `<span class="upgrade-status-pill fail-check">RAM: Soldered ❌</span>` : `<span class="upgrade-status-pill pass-check">RAM: Upgradeable to 32GB</span>`}
+              ${isSoldered 
+                ? `<span class="upgrade-status-pill fail-check">RAM: Soldered ❌</span>` 
+                : `<span class="upgrade-status-pill pass-check">RAM: Upgradeable to 32GB</span>`}
               <span class="upgrade-status-pill pass-check">Storage: 1x Open M.2 Slot</span>
             </div>
           </div>
+
           <div class="tinder-info" style="padding-top: 0.25rem;">
             <div class="card-top" style="margin-bottom:0.5rem;">
               <h4>${escapeHtml(laptop.name)} Specifications</h4>
@@ -834,6 +869,7 @@ function renderSwipeCard(laptop) {
             <p style="font-size: 0.8rem; margin: 0; color:#a1a1aa;"><b>Panel Core Build:</b> ${escapeHtml(laptop.screen)}</p>
           </div>
         </div>
+
       </div>
     </article>
   `;
@@ -853,33 +889,26 @@ function renderSwipeFinished() {
 
 function renderShortlistDrawer() {
   const count = state.savedMatches.length;
-  const diversityPercent = calculateShortlistDiversity();
-  
   const body = state.drawerOpen
-    ? `<div class="shortlist-body">
-        ${state.activeTab === "Match Mode" ? `
-          <div class="diversity-tracker-box">
-            <div style="display:flex; justify-content:space-between; font-size:0.7rem; font-weight:600; color:var(--text-muted);">
-              <span>Build Coverage Portfolio</span>
-              <span>${diversityPercent}%</span>
-            </div>
-            <div class="diversity-bar-track">
-              <div class="diversity-bar-fill" style="width: ${diversityPercent}%;"></div>
-            </div>
-          </div>
-        ` : ""}
-        ${
-        count ? state.savedMatches.map((laptop) => `
-          <article class="mini-card">
-            <div>
-              <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
-              <h4>${escapeHtml(laptop.name)}</h4>
-              <span>${formatPrice(laptop.price)}</span>
-            </div>
-            <button class="mini-detail" data-detail-id="${laptop.id}">View Details</button>
-          </article>
-        `).join("") : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
-      }</div>` : "";
+    ? `<div class="shortlist-body">${
+        count
+          ? state.savedMatches
+              .map(
+                (laptop) => `
+                  <article class="mini-card">
+                    <div>
+                      <p class="eyebrow">${escapeHtml(laptop.brand)}</p>
+                      <h4>${escapeHtml(laptop.name)}</h4>
+                      <span>${formatPrice(laptop.price)}</span>
+                    </div>
+                    <button class="mini-detail" data-detail-id="${laptop.id}">View Details</button>
+                  </article>
+                `
+              )
+              .join("")
+          : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
+      }</div>`
+    : "";
 
   return `
     <aside class="glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}">
@@ -891,17 +920,26 @@ function renderShortlistDrawer() {
 
 function renderMatcherPanel() {
   const ecosystems = ["Mac OS", "Windows"];
+
   return `
     <form class="form" id="matcher-form">
       ${panelTitle("AI Vibe Matcher", "Describe setup targets, neural weights, and visual space alignment parameters.")}
+      
       <label>
         Contextual Directives
         <textarea id="query" rows="3" placeholder="e.g. lightweight machine, metal finish, deep trackpad">${escapeHtml(state.query)}</textarea>
       </label>
+
+      <!-- Updated Platform Controls Header: Operating System -->
       <label>Operating System</label>
       <div class="vibe-chip-group">
-        ${ecosystems.map(e => `<button type="button" class="vibe-toggle-chip ${state.phoneSync === e ? "active" : ""}" data-vibe-type="phoneSync" data-vibe-value="${escapeHtml(e)}">${escapeHtml(e)}</button>`).join("")}
+        ${ecosystems.map(e => `
+          <button type="button" class="vibe-toggle-chip ${state.phoneSync === e ? "active" : ""}" data-vibe-type="phoneSync" data-vibe-value="${escapeHtml(e)}">
+            ${escapeHtml(e)}
+          </button>
+        `).join("")}
       </div>
+
       ${budgetControl()}
       <button class="primary-btn" style="margin-top:0.5rem;">Neural Scan</button>
     </form>
@@ -942,7 +980,12 @@ function renderRoastPanel() {
 }
 
 function panelTitle(title, detail) {
-  return `<div class="panel-title"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(detail)}</p></div>`;
+  return `
+    <div class="panel-title">
+      <h2>${escapeHtml(title)}</h2>
+      <p>${escapeHtml(detail)}</p>
+    </div>
+  `;
 }
 
 function budgetControl() {
@@ -981,7 +1024,10 @@ function renderCard(laptop) {
   `;
 }
 
-function spec(label, value) { return `<div class="spec"><b>${escapeHtml(label)}:</b> ${escapeHtml(value)}</div>`; }
+function spec(label, value) {
+  return `<div class="spec"><b>${escapeHtml(label)}:</b> ${escapeHtml(value)}</div>`;
+}
+
 function scoreBar(label, value, type) {
   return `
     <div>
@@ -991,9 +1037,6 @@ function scoreBar(label, value, type) {
   `;
 }
 
-// ==========================================
-// 8. TACTILE GESTURE SWIPING INTERFACE ENGINE
-// ==========================================
 function attachDragSwipe() {
   const card = document.getElementById("tinder-card");
   if (!card) return;
@@ -1019,10 +1062,6 @@ function attachDragSwipe() {
     if (rafId) cancelAnimationFrame(rafId);
     rafId = requestAnimationFrame(() => {
       if (!dragging) return;
-      
-      card.classList.toggle("drag-right", currentX > 40);
-      card.classList.toggle("drag-left", currentX < -40);
-
       const rotate = Math.max(-10, Math.min(10, currentX / 18));
       card.style.transform = `translate3d(${currentX}px, 0, 0) rotate(${rotate}deg)`;
     });
@@ -1035,29 +1074,20 @@ function attachDragSwipe() {
     if (!dragging) return;
     dragging = false;
     if (rafId) cancelAnimationFrame(rafId);
-    
-    card.classList.remove("dragging", "drag-right", "drag-left");
+    card.classList.remove("dragging");
 
     if (currentX > 110) {
-      triggerParticleBurst(); 
       swipeCurrentLaptop("match");
       return;
     }
+
     if (currentX < -110) {
       swipeCurrentLaptop("pass");
       return;
     }
+
     card.style.transform = "";
   }
-}
-
-function triggerParticleBurst() {
-  const zone = document.querySelector(".swipe-zone");
-  if (!zone) return;
-  const burst = document.createElement("div");
-  burst.className = "particle-burst";
-  zone.appendChild(burst);
-  window.setTimeout(() => burst.remove(), 450);
 }
 
 function swipeCurrentLaptop(action) {
@@ -1065,58 +1095,17 @@ function swipeCurrentLaptop(action) {
   const card = document.getElementById("tinder-card");
   if (!laptop || !card || card.classList.contains("exiting")) return;
 
-  state.undoStack.push({ matchIndex: state.matchIndex, laptopId: laptop.id, wasLiked: action === "match" });
-
   if (action === "match" && !state.savedMatches.some((item) => item.id === laptop.id)) {
     state.savedMatches.push(laptop);
   }
 
   card.classList.add("exiting", action === "match" ? "exit-right" : "exit-left");
+
   window.setTimeout(() => {
     state.matchIndex += 1;
     state.cardFlipped = false;
     render();
   }, 350);
-}
-
-// ==========================================
-// 9. CORE REVIEWS & SYSTEM INFRASTRUCTURE INTERCEPTORS
-// ==========================================
-function buildRoast(input) {
-  const text = normalize(input);
-  const ramRoasts = [
-    "That RAM layout is barely holding your active baseline background elements alive.",
-    "8GB RAM? Your memory metrics look ready to drop into a system paging file cycle.",
-    "An execution sandbox footprint like that is begging for memory leaks."
-  ];
-  const storageRoasts = [
-    "Running a spinning mechanical sector drive in this decade belongs in a legacy museum archive.",
-    "A slow storage controller pool means your data lines move like dial-up packets.",
-    "Your disk controllers are throttling everything. Get ready for buffer queues."
-  ];
-  const cpuRoasts = [
-    "That processor architecture processes data vectors at the speed of bureaucracy.",
-    "Your processing core density is screaming out for a thread scheduler update.",
-    "Silicon limits encountered. That logic block can barely calculate code loops."
-  ];
-
-  const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const burns = [];
-
-  if (text.includes("4gb") || text.includes("8gb")) burns.push(randomPick(ramRoasts));
-  if (text.includes("hdd") || text.includes("256gb")) burns.push(randomPick(storageRoasts));
-  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push(randomPick(cpuRoasts));
-  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The chassis thermals emulate a turbine block but performance metrics remain stagnant.");
-  if (!burns.length) burns.push("Chassis density is baseline structural config, but lacking top-tier performance cache pools entirely.");
-
-  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
-}
-
-function recommendUpgrade(text) {
-  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40/50-series graphics module, 32GB RAM, and 144Hz+ high-refresh display";
-  if (text.includes("code") || text.includes("coding")) return "Adopt 16GB dual-channel memory, SSD storage, and balanced thermal limits";
-  if (text.includes("design") || text.includes("edit")) return "Choose color-certified hardware (OLED or IPS), high memory headroom, and discrete graphics";
-  return "Modernize with 16GB RAM, fast PCIe NVMe storage, and high-efficiency CPU structures";
 }
 
 function showLaptopDetails(laptop) {
@@ -1142,9 +1131,12 @@ function showLaptopDetails(laptop) {
       </div>
     </article>
   `;
+
   document.body.appendChild(overlay);
   overlay.querySelector(".detail-close").addEventListener("click", () => overlay.remove());
-  overlay.addEventListener("click", (event) => { if (event.target === overlay) overlay.remove(); });
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) overlay.remove();
+  });
 }
 
 function showScan() {
@@ -1167,91 +1159,106 @@ function showScan() {
   window.setTimeout(() => overlay.remove(), 1200);
 }
 
+function buildRoast(input) {
+  const text = normalize(input);
+  
+  const ramRoasts = [
+    "That RAM layout is barely holding your active baseline background elements alive.",
+    "8GB RAM? Your memory metrics look ready to drop into a system paging file cycle.",
+    "An execution sandbox footprint like that is begging for memory leaks."
+  ];
+  const storageRoasts = [
+    "Running a spinning mechanical sector drive in this decade belongs in a legacy museum archive.",
+    "A slow storage controller pool means your data lines move like dial-up packets.",
+    "Your disk controllers are throttling everything. Get ready for buffer queues."
+  ];
+  const cpuRoasts = [
+    "That processor architecture processes data vectors at the speed of bureaucracy.",
+    "Your processing core density is screaming out for a thread scheduler update.",
+    "Silicon limits encountered. That logic block can barely calculate code loops."
+  ];
+
+  const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const burns = [];
+
+  if (text.includes("4gb") || text.includes("8gb")) burns.push(randomPick(ramRoasts));
+  if (text.includes("hdd") || text.includes("256gb")) burns.push(randomPick(storageRoasts));
+  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push(randomPick(cpuRoasts));
+  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The chassis thermals emulate a turbine block but performance metrics remain stagnant.");
+  
+  if (!burns.length) burns.push("Chassis density is baseline structural config, but lacking top-tier performance cache pools entirely.");
+
+  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
+}
+
+function recommendUpgrade(text) {
+  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40/50-series graphics module, 32GB RAM, and 144Hz+ high-refresh display";
+  if (text.includes("code") || text.includes("coding")) return "Adopt 16GB dual-channel memory, SSD storage, and balanced thermal limits";
+  if (text.includes("design") || text.includes("edit")) return "Choose color-certified hardware (OLED or IPS), high memory headroom, and discrete graphics";
+  return "Modernize with 16GB RAM, fast PCIe NVMe storage, and high-efficiency CPU structures";
+}
+
 let debounceTimer;
 function debounceRender() {
   clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => { setState({ page: 1 }); }, 200);
+  debounceTimer = setTimeout(() => {
+    setState({ page: 1 });
+  }, 200);
 }
 
-// ==========================================
-// 10. UNIFIED COMPONENT INTERACTION INTERCEPTORS
-// ==========================================
 function initGlobalEvents() {
   document.addEventListener("click", (event) => {
-    const target = event.target;
-    const tabBtn = target.closest("[data-tab]");
+    const tabBtn = event.target.closest("[data-tab]");
     if (tabBtn) {
       setState({ activeTab: tabBtn.dataset.tab, page: 1 });
       return;
     }
 
-    const pageBtn = target.closest("[data-page]");
+    const pageBtn = event.target.closest("[data-page]");
     if (pageBtn) {
       const matches = getMatches();
       const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
-      const nextPage = pageBtn.dataset.page === "next" ? Math.min(totalPages, state.page + 1) : Math.max(1, state.page - 1);
+      const nextPage = pageBtn.dataset.page === "next" 
+        ? Math.min(totalPages, state.page + 1) 
+        : Math.max(1, state.page - 1);
       setState({ page: nextPage });
       return;
     }
 
-    const swipeBtn = target.closest("[data-swipe]");
+    const swipeBtn = event.target.closest("[data-swipe]");
     if (swipeBtn) {
-      if (swipeBtn.dataset.swipe === "match") triggerParticleBurst();
       swipeCurrentLaptop(swipeBtn.dataset.swipe);
       return;
     }
 
-    if (target.id === "undo-swipe-action") {
-      const lastAction = state.undoStack.pop();
-      if (lastAction) {
-        if (lastAction.wasLiked) {
-          state.savedMatches = state.savedMatches.filter(item => item.id !== lastAction.laptopId);
-        }
-        setState({ matchIndex: lastAction.matchIndex, cardFlipped: false });
-      }
-      return;
-    }
-
-    const drawerToggle = target.closest("#drawer-toggle");
+    const drawerToggle = event.target.closest("#drawer-toggle");
     if (drawerToggle) {
       setState({ drawerOpen: !state.drawerOpen });
       return;
     }
 
-    const detailBtn = target.closest("[data-detail-id]");
+    const detailBtn = event.target.closest("[data-detail-id]");
     if (detailBtn) {
       const laptop = state.laptops.find((item) => item.id === Number(detailBtn.dataset.detailId));
       if (laptop) showLaptopDetails(laptop);
       return;
     }
 
-    const surveyChip = target.closest("[data-survey-key]");
-    if (surveyChip) {
-      const key = surveyChip.dataset.surveyKey;
-      let val = surveyChip.dataset.surveyVal;
-      if (key === "surveyBudget") val = Number(val);
-      setState({ [key]: val });
-      return;
-    }
-
-    if (target.id === "lock-survey-btn") {
-      shuffle(state.laptops); 
-      setState({ surveyCompleted: true });
-      return;
-    }
-
-    const vibeChip = target.closest(".vibe-toggle-chip");
+    // Capture Interactive Custom Chips
+    const vibeChip = event.target.closest(".vibe-toggle-chip");
     if (vibeChip) {
-      setState({ [vibeChip.dataset.vibeType]: vibeChip.dataset.vibeValue, page: 1 });
+      const type = vibeChip.dataset.vibeType;
+      const value = vibeChip.dataset.vibeValue;
+      setState({ [type]: value, page: 1 });
       return;
     }
 
-    if (target.closest(".emi-switch-trigger")) {
+    if (event.target.closest(".emi-switch-trigger")) {
       setState({ showMonthlyCost: !state.showMonthlyCost });
       return;
     }
 
-    if (target.closest(".tinder-photo-box")) {
+    if (event.target.closest(".tinder-photo-box")) {
       setState({ cardFlipped: !state.cardFlipped });
       return;
     }
@@ -1261,7 +1268,8 @@ function initGlobalEvents() {
     const target = event.target;
     if (target.id === "budget") {
       state.budget = Number(target.value);
-      document.querySelectorAll(".budget-value").forEach(el => el.textContent = formatBudget(state.budget));
+      const labels = document.querySelectorAll(".budget-value");
+      labels.forEach(el => el.textContent = formatBudget(state.budget));
     } else if (target.id === "query") {
       state.query = target.value;
       debounceRender();
