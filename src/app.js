@@ -468,8 +468,8 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   const expansionMatrix = [
     { keys: ["ml", "ai", "learning", "data", "compile"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
     { keys: ["edit", "design", "render", "creator", "blend"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
-    { keys: ["game", "fps", "play", "steam", "refresh"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
-    { keys: ["travel", "battery", "carry", "lightweight", "slim"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon"] }
+    { keys: ["game", "fps", "play", "steam", "refresh", "gaming"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx", "gaming"] },
+    { keys: ["travel", "battery", "carry", "lightweight", "slim"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon", "lightweight"] }
   ];
 
   expansionMatrix.forEach(node => {
@@ -485,14 +485,30 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   terms.forEach((term) => { if (blob.includes(term)) score += 12; });
   weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
-  // 2. CONTEXT-AWARE ADAPTIVE WEIGHT PHYSICS 
+  // 2. CONTEXT-AWARE ADAPTIVE WEIGHT PHYSICS WITH CROSS-OVER SYNERGY INTERCEPTOR
   let powerWeight = 0.14;
   let mobilityWeight = 0.11;
   let efficiencyWeight = 0.12;
 
-  if (["game", "fps", "render", "cad", "heavy", "compile"].some(k => rawQuery.includes(k))) {
+  const filtersGaming = ["game", "fps", "render", "cad", "heavy", "compile", "gaming"].some(k => rawQuery.includes(k));
+  const filtersLightweight = ["travel", "battery", "carry", "lightweight", "light", "college", "cafe", "slim"].some(k => rawQuery.includes(k));
+
+  if (filtersGaming && filtersLightweight) {
+    // Intercepted dual-intent conflict loop (e.g., "lightweight gaming", "gaming plus lightweight")
+    powerWeight = 0.35; 
+    mobilityWeight = 0.30; 
+    efficiencyWeight = 0.25;
+    
+    // Reward highly optimized thin-and-light gaming profiles (e.g., ROG Zephyrus, Slim Pro, Stealth Series)
+    const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics");
+    const isUltraPortable = blob.includes("thin") || blob.includes("slim") || blob.includes("lightweight") || laptop.scores.mobility > 75;
+    
+    if (hasDiscreteGpu && isUltraPortable) {
+      score += 65; // Massive synergy boost for true lightweight powerhouses
+    }
+  } else if (filtersGaming) {
     powerWeight = 0.45; mobilityWeight = 0.05; efficiencyWeight = 0.05;
-  } else if (["travel", "battery", "carry", "light", "college", "cafe"].some(k => rawQuery.includes(k))) {
+  } else if (filtersLightweight) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
@@ -501,12 +517,11 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
     const targetBranchProfile = branchProfiles[state.branch];
     if (targetBranchProfile) {
       if (targetBranchProfile.biasType === "gpu-mandatory") {
-        // Absolute exclusion filter rule: penalize weak integrated graphic processors for hardware-rendering intense environments
         const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("graphics") || blob.includes("apple pro") || blob.includes("apple max");
-        if (!hasDiscreteGpu) return -Infinity; // Completely block options missing viewport rasterization accelerators
+        if (!hasDiscreteGpu) return -Infinity; 
         powerWeight = 0.50; mobilityWeight = 0.05; efficiencyWeight = 0.05;
       } else if (targetBranchProfile.biasType === "cuda-heavy") {
-        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; // Flag non-CUDA tensor architectures downward
+        if (!blob.includes("nvidia") && !blob.includes("rtx")) score -= 60; 
         powerWeight = 0.40; efficiencyWeight = 0.20;
       } else if (targetBranchProfile.biasType === "computational") {
         if (blob.includes("16gb") || blob.includes("32gb")) score += 35;
