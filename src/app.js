@@ -740,7 +740,6 @@ function calculateRewardBadges(laptop) {
   const blob = normalize(textBlob(laptop));
   let badgesHtml = '';
 
-  // Feature 1: Spec Synergy Level-Up Badges
   if (laptop.scores.mobility > 80 && laptop.scores.efficiency > 80) {
     badgesHtml += `<div class="reward-synergy-badge">[ Mobility Elite ]</div> `;
   }
@@ -748,7 +747,6 @@ function calculateRewardBadges(laptop) {
     badgesHtml += `<div class="reward-synergy-badge">[ Future-Proof Workstation ]</div> `;
   }
 
-  // Feature 2: High-Score Bounties (Wallet Wins)
   const allocationRatio = (laptop.price * USD_TO_INR) / state.surveyBudget;
   if (allocationRatio >= 0.85 && allocationRatio <= 1.0 && laptop.scores.power >= 75) {
     badgesHtml += `<div class="reward-synergy-badge reward-bounty-badge">[ 🎯 Value Bounty Bonus ]</div> `;
@@ -769,7 +767,6 @@ function calculateShortlistDiversity() {
     if (blob.includes("oled") || blob.includes("creator")) categories.add("creator");
     if (laptop.price * USD_TO_INR < 75000) categories.add("budget");
   });
-  // Map distinct categories onto a 4-tier diversity ratio percentage
   return Math.min(100, Math.round((categories.size / 4) * 100));
 }
 
@@ -860,7 +857,6 @@ function renderShortlistDrawer() {
   
   const body = state.drawerOpen
     ? `<div class="shortlist-body">
-        <!-- Feature 3: Shortlist Dynamic Synergy Diversity Meter -->
         ${state.activeTab === "Match Mode" ? `
           <div class="diversity-tracker-box">
             <div style="display:flex; justify-content:space-between; font-size:0.7rem; font-weight:600; color:var(--text-muted);">
@@ -1043,7 +1039,7 @@ function attachDragSwipe() {
     card.classList.remove("dragging", "drag-right", "drag-left");
 
     if (currentX > 110) {
-      triggerParticleBurst(); // Feature 4: Swipe Payoff Trajectory Burst
+      triggerParticleBurst(); 
       swipeCurrentLaptop("match");
       return;
     }
