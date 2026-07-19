@@ -33,54 +33,75 @@ perfStyles.textContent = `
     100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
   }
 
-  /* Minimalist Splash */
-  .splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #030305;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-    overflow: hidden;
+  /* Core Design Tokens: Default Dark Mode */
+  :root {
+    --bg-main: #030305;
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --accent-core: #a78bfa;
+    --accent-glow: rgba(167, 139, 250, 0.12);
+    --text-highlight: #c084fc;
+    --laser-color: linear-gradient(90deg, transparent, #a78bfa, transparent);
   }
 
-  .splash-screen.fade-out {
-    animation: fadeOutSplash 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    pointer-events: none;
+  /* Dynamic Theme Override: GTA 6 Neon Synthwave + Key-Art Background */
+  body.gta6-theme-active {
+    --bg-main: #0b0410;
+    --border-glass: rgba(255, 0, 127, 0.3);
+    --accent-core: #ff007f;
+    --accent-glow: rgba(255, 0, 127, 0.2);
+    --text-highlight: #00f0ff;
+    --laser-color: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent);
   }
 
-  .splash-container {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    pointer-events: none;
+  body {
+    background-color: var(--bg-main);
+    transition: background-color 0.5s ease;
+    min-height: 100vh;
   }
 
-  .splash-logo-text {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: 3.5rem;
-    letter-spacing: 0.05em;
-    color: #ffffff;
-    animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-    text-transform: uppercase;
+  body.gta6-theme-active {
+    background-image: linear-gradient(135deg, rgba(11, 4, 16, 0.65), rgba(11, 4, 16, 0.85)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
   }
 
-  .splash-sub-text {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.85rem;
-    color: #a78bfa;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-top: 0.5rem;
-    animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-    opacity: 0;
+  /* Strict Single-Line Navigation Track Override */
+  .nav .tabs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    scrollbar-width: none;
+  }
+  .nav .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto !important;
+  }
+
+  body.gta6-theme-active .nav,
+  body.gta6-theme-active .panel,
+  body.gta6-theme-active .results-head,
+  body.gta6-theme-active .card,
+  body.gta6-theme-active .tinder-card,
+  body.gta6-theme-active .shortlist-drawer {
+    background-color: rgba(11, 4, 16, 0.75) !important;
+    border-color: rgba(255, 0, 127, 0.3) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  body.gta6-theme-active .tab.active {
+    color: #00f0ff !important;
+    border-color: #ff007f !important;
+    background: rgba(255, 0, 127, 0.15) !important;
+  }
+
+  body.gta6-theme-active .scan-horizon-laser {
+    background: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent) !important;
   }
 
   /* Premium Elevation Physics */
@@ -278,58 +299,6 @@ perfStyles.textContent = `
     color: #c084fc;
   }
 
-  /* =========================================================
-     NEW COMPONENT ARCHITECTURE: GTA 6 NAVIGATION & OVERLAYS 
-     ========================================================= */
-  body {
-    transition: background-image 0.5s ease, background-color 0.5s ease;
-  }
-
-  body.gta6-theme-active {
-    background-color: #0b0410 !important;
-    background-image: linear-gradient(135deg, rgba(11, 4, 16, 0.65), rgba(11, 4, 16, 0.85)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
-  }
-
-  .nav .tabs {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 0.5rem;
-    scrollbar-width: none;
-  }
-  .nav .tabs::-webkit-scrollbar {
-    display: none;
-  }
-  .tab {
-    flex: 0 0 auto !important;
-  }
-
-  body.gta6-theme-active .nav,
-  body.gta6-theme-active .panel,
-  body.gta6-theme-active .results-head,
-  body.gta6-theme-active .card,
-  body.gta6-theme-active .tinder-card,
-  body.gta6-theme-active .shortlist-drawer {
-    background-color: rgba(11, 4, 16, 0.75) !important;
-    border-color: rgba(255, 0, 127, 0.3) !important;
-    backdrop-filter: blur(12px);
-  }
-
-  body.gta6-theme-active .tab.active {
-    color: #00f0ff !important;
-    border-color: #ff007f !important;
-    background: rgba(255, 0, 127, 0.15) !important;
-  }
-
-  body.gta6-theme-active .scan-horizon-laser {
-    background: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent) !important;
-  }
-
   .gta6-popup-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -368,6 +337,35 @@ perfStyles.textContent = `
   .gta6-container { margin-top: 1.5rem; padding: 1.5rem; border-radius: 16px; animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   .gta6-success { background: rgba(34, 197, 94, 0.1) !important; border: 1px solid rgba(34, 197, 94, 0.5) !important; color: #4ade80 !important; animation: successPulse 2s infinite; }
   .gta6-fail { background: rgba(255, 0, 127, 0.1) !important; border: 1px solid rgba(255, 0, 127, 0.5) !important; color: #ff80bf !important; }
+
+  /* Compatibility mode visualization cards setup */
+  .tinder-card.gta6-compatible {
+    border-color: #ff007f !important;
+    box-shadow: 0 8px 24px rgba(255, 0, 127, 0.12) !important;
+  }
+  .tinder-card.gta6-compatible .eyebrow {
+    color: #ff007f !important;
+  }
+  .tinder-card.gta6-compatible .photo-placeholder {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.1), rgba(0, 240, 255, 0.1)) !important;
+    border-color: rgba(255, 0, 127, 0.2) !important;
+  }
+  .tinder-card.gta6-compatible .photo-placeholder span {
+    color: #00f0ff !important;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+  }
+
+  .tinder-card.portable-value {
+    border-color: #22c55e !important;
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.12) !important;
+  }
+  .tinder-card.portable-value .eyebrow {
+    color: #22c55e !important;
+  }
+  .tinder-card.portable-value .photo-placeholder {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(255, 255, 255, 0.02)) !important;
+    border-color: rgba(34, 197, 94, 0.2) !important;
+  }
 `;
 document.head.appendChild(perfStyles);
 
@@ -564,32 +562,35 @@ function scoreLaptop(laptop, query, priceLimit, weightedTerms = []) {
   const rawQuery = normalize(query);
   let score = 0;
 
+  // 1. EXTENSIVE INTENT SEMANTIC EXPANSION PARSING MATRIX DICTIONARY
   const expansionMatrix = [
-    { keys: ["ml", "ai", "learning", "data", "compile"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9"] },
-    { keys: ["edit", "design", "render", "creator", "blend"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro"] },
-    { keys: ["game", "fps", "play", "steam", "refresh"], targets: ["rtx", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
-    { keys: ["travel", "battery", "carry", "lightweight", "slim"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon"] }
+    { keys: ["ml", "ai", "learning", "data", "compile", "python", "neural", "tensor", "deep", "virtualization", "docker", "developer", "backend"], targets: ["nvidia", "rtx", "cuda", "16gb", "32gb", "ryzen 9", "core i9", "pro", "max"] },
+    { keys: ["edit", "design", "render", "creator", "blend", "photoshop", "premiere", "lumion", "3d", "cad", "solidworks", "display", "screen", "color", "accurate"], targets: ["oled", "creators", "rtx", "discrete", "p3", "ips", "pro", "vision", "studio"] },
+    { keys: ["game", "fps", "play", "steam", "refresh", "warzone", "valorant", "gta", "gpu", "graphics", "performance", "gaming", "csgo"], targets: ["rtx", "4050", "4060", "4070", "4080", "144hz", "165hz", "240hz", "graphics", "radeon rx"] },
+    { keys: ["travel", "battery", "carry", "lightweight", "slim", "portable", "silent", "quiet", "cafe", "thin", "office", "sleek", "durable"], targets: ["thin", "fanless", "efficient", "air", "evo", "snapdragon", "ultra", "u-series"] },
+    { keys: ["premium", "luxury", "metal", "aluminum", "bright", "4k", "hdr", "expensive", "buildquality", "chassis"], targets: ["oled", "ips", "macbook", "zenbook", "spectre", "metal", "carbon", "titanium"] },
+    { keys: ["cheap", "budget", "survival", "affordable", "low price", "student", "discount", "value", "saves"], targets: ["cheap", "value", "vivobook", "ideapad", "8gb", "integrated", "aspire"] }
   ];
 
   expansionMatrix.forEach(node => {
     if (node.keys.some(k => rawQuery.includes(k))) {
       node.targets.forEach(t => {
-        if (blob.includes(t)) score += 20; 
+        if (blob.includes(t)) score += 30; 
       });
     }
   });
 
   const terms = rawQuery.split(/[^a-z0-9+]+/).filter(Boolean);
-  terms.forEach((term) => { if (blob.includes(term)) score += 12; });
+  terms.forEach((term) => { if (blob.includes(term)) score += 15; });
   weightedTerms.forEach((term) => { if (blob.includes(normalize(term))) score += 18; });
 
   let powerWeight = 0.14;
   let mobilityWeight = 0.11;
   let efficiencyWeight = 0.12;
 
-  if (["game", "fps", "render", "cad", "heavy", "compile"].some(k => rawQuery.includes(k))) {
+  if (["game", "fps", "render", "cad", "heavy", "compile", "gpu", "render", "3d"].some(k => rawQuery.includes(k))) {
     powerWeight = 0.45; mobilityWeight = 0.05; efficiencyWeight = 0.05;
-  } else if (["travel", "battery", "carry", "light", "college", "cafe"].some(k => rawQuery.includes(k))) {
+  } else if (["travel", "battery", "carry", "light", "college", "cafe", "portable", "silent", "quiet"].some(k => rawQuery.includes(k))) {
     powerWeight = 0.05; mobilityWeight = 0.40; efficiencyWeight = 0.35;
   }
 
@@ -954,7 +955,7 @@ function renderSwipeCard(laptop) {
   const hasHighRam = blob.includes("16gb") || blob.includes("32gb") || blob.includes("64gb");
   
   const isGta6Compatible = !isAppleMac && hasDiscreteGpu && hasHighRam;
-  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin", "portable", "carry"].some(k => blob.includes(k));
+  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin", "portable", "carry", "silent", "quiet"].some(k => blob.includes(k));
 
   let customModifierClass = "";
   if (isGta6Compatible) {
@@ -1376,6 +1377,7 @@ function initGlobalEvents() {
       labels.forEach(el => el.textContent = formatBudget(state.budget));
     } else if (target.id === "query") {
       state.query = target.value;
+      // Fixed: Debounces template array re-renders instantly on input keys rather than freezing
       debounceRender();
     } else if (target.id === "roast-input") {
       state.roastInput = target.value;
@@ -1407,6 +1409,7 @@ function initGlobalEvents() {
       event.preventDefault();
       const inputEl = document.getElementById("roast-input");
       if (inputEl) state.roastInput = inputEl.value;
+      // Fixed: Redraws view templates dynamically upon submission to pull active text strings into view
       setState({ roast: buildRoast(state.roastInput) });
     } else if (target.id === "gta6-form") {
       event.preventDefault();
