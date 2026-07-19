@@ -274,6 +274,57 @@ perfStyles.textContent = `
     color: #c084fc;
   }
 
+  /* Keep all mode tabs on a single line */
+  .nav {
+    flex-wrap: nowrap !important;
+  }
+
+  .tabs {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    flex-direction: row !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    gap: 0.35rem;
+    max-width: 100%;
+  }
+
+  .tabs::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .tabs::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+  }
+
+  .tabs .tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .brand {
+    flex: 0 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .tabs .tab {
+      padding: 0.45rem 0.65rem;
+      font-size: 0.72rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .tabs .tab {
+      padding: 0.4rem 0.55rem;
+      font-size: 0.68rem;
+    }
+  }
+
   /* ============ GTA 6 MODE ============ */
   .app.gta6-theme {
     position: relative;
