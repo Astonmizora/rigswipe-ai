@@ -273,7 +273,7 @@ perfStyles.textContent = `
   }
 
   /* =========================================================
-     NEW MODIFICATIONS: DYNAMIC COMPATIBILITY THEMING
+     COMPATIBILITY COLOURED TRACK OVERRIDES
      ========================================================= */
   .tinder-card.gta6-compatible {
     border-color: #ff007f !important;
@@ -291,19 +291,16 @@ perfStyles.textContent = `
     text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
   }
 
-  .tinder-card.extreme-power {
-    border-color: #dc2626 !important;
-    box-shadow: 0 8px 30px rgba(220, 38, 38, 0.2) !important;
+  .tinder-card.portable-value {
+    border-color: #22c55e !important;
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.12) !important;
   }
-  .tinder-card.extreme-power .eyebrow {
-    color: #ef4444 !important;
+  .tinder-card.portable-value .eyebrow {
+    color: #22c55e !important;
   }
-  .tinder-card.extreme-power .photo-placeholder {
-    background: linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(0, 0, 0, 0.4)) !important;
-    border-color: rgba(220, 38, 38, 0.3) !important;
-  }
-  .tinder-card.extreme-power .photo-placeholder span {
-    color: #fca5a5 !important;
+  .tinder-card.portable-value .photo-placeholder {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(255, 255, 255, 0.02)) !important;
+    border-color: rgba(34, 197, 94, 0.2) !important;
   }
 `;
 document.head.appendChild(perfStyles);
@@ -838,19 +835,23 @@ function renderSwipeCard(laptop) {
   const ramLower = normalize(laptop.ram);
   const isSoldered = ramLower.includes("soldered") || ramLower.includes("onboard") || ramLower.includes("lpddr");
 
-  // Determine performance compatibility markers dynamically
+  // Multi-tier classification logic maps metadata cleanly without collision
   const blob = normalize(textBlob(laptop));
-  const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx") || blob.includes("apple");
+  const isAppleMac = normalize(laptop.brand).includes("apple");
+  
+  const hasDiscreteGpu = blob.includes("rtx") || blob.includes("radeon rx");
   const hasHighRam = blob.includes("16gb") || blob.includes("32gb") || blob.includes("64gb");
   
-  const isGta6Compatible = hasDiscreteGpu && hasHighRam;
-  const isExtremePower = blob.includes("rtx 40") || blob.includes("rtx 50") || blob.includes("apple max") || blob.includes("apple ultra") || blob.includes("ryzen 9") || blob.includes("core i9");
+  // Explicit constraint ruleset: Mac systems drop straight to false
+  const isGta6Compatible = !isAppleMac && hasDiscreteGpu && hasHighRam;
+  
+  const isPortableValue = ["lightweight", "battery", "travel", "cheap", "value", "thin"].some(k => blob.includes(k));
 
   let customModifierClass = "";
-  if (isExtremePower) {
-    customModifierClass = "extreme-power";
-  } else if (isGta6Compatible) {
+  if (isGta6Compatible) {
     customModifierClass = "gta6-compatible";
+  } else if (isPortableValue) {
+    customModifierClass = "portable-value";
   }
 
   return `
@@ -1198,53 +1199,6 @@ function showScan() {
   `;
   document.body.appendChild(overlay);
   window.setTimeout(() => overlay.remove(), 1200);
-}
-
-function buildRoast(input) {
-  const text = normalize(input);
-  
-  const ramRoasts = [
-    "That RAM layout is barely holding your active baseline background elements alive.",
-    "8GB RAM? Your memory metrics look ready to drop into a system paging file cycle.",
-    "An execution sandbox footprint like that is begging for memory leaks."
-  ];
-  const storageRoasts = [
-    "Running a spinning mechanical sector drive in this decade belongs in a legacy museum archive.",
-    "A slow storage controller pool means your data lines move like dial-up packets.",
-    "Your disk controllers are throttling everything. Get ready for buffer queues."
-  ];
-  const cpuRoasts = [
-    "That processor architecture processes data vectors at the speed of bureaucracy.",
-    "Your processing core density is screaming out for a thread scheduler update.",
-    "Silicon limits encountered. That logic block can barely calculate code loops."
-  ];
-
-  const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const burns = [];
-
-  if (text.includes("4gb") || text.includes("8gb")) burns.push(randomPick(ramRoasts));
-  if (text.includes("hdd") || text.includes("256gb")) burns.push(randomPick(storageRoasts));
-  if (text.includes("i3") || text.includes("celeron") || text.includes("pentium")) burns.push(randomPick(cpuRoasts));
-  if (text.includes("heat") || text.includes("jet") || text.includes("fan")) burns.push("The chassis thermals emulate a turbine block but performance metrics remain stagnant.");
-  
-  if (!burns.length) burns.push("Chassis density is baseline structural config, but lacking top-tier performance cache pools entirely.");
-
-  return `${burns.join(" ")} Advice: ${recommendUpgrade(text)}.`;
-}
-
-function recommendUpgrade(text) {
-  if (text.includes("gaming") || text.includes("fps")) return "Aim for an RTX 40/50-series graphics module, 32GB RAM, and 144Hz+ high-refresh display";
-  if (text.includes("code") || text.includes("coding")) return "Adopt 16GB dual-channel memory, SSD storage, and balanced thermal limits";
-  if (text.includes("design") || text.includes("edit")) return "Choose color-certified hardware (OLED or IPS), high memory headroom, and discrete graphics";
-  return "Modernize with 16GB RAM, fast PCIe NVMe storage, and high-efficiency CPU structures";
-}
-
-let debounceTimer;
-function debounceRender() {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    setState({ page: 1 });
-  }, 200);
 }
 
 function initGlobalEvents() {
