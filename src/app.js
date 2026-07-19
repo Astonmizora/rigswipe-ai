@@ -1,4 +1,4 @@
-const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode", "GTA 6 "];
+const TABS = ["AI Vibe Matcher", "Engineering", "Rig Roast", "Match Mode", "GTA 6 Mode"];
 const PAGE_SIZE = 6;
 const USD_TO_INR = 83;
 
@@ -33,54 +33,75 @@ perfStyles.textContent = `
     100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
   }
 
-  /* Minimalist Splash */
-  .splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #030305;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-    overflow: hidden;
+  /* Core Design Tokens: Default Dark Mode */
+  :root {
+    --bg-main: #030305;
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --accent-core: #a78bfa;
+    --accent-glow: rgba(167, 139, 250, 0.12);
+    --text-highlight: #c084fc;
+    --laser-color: linear-gradient(90deg, transparent, #a78bfa, transparent);
   }
 
-  .splash-screen.fade-out {
-    animation: fadeOutSplash 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    pointer-events: none;
+  /* Dynamic Theme Override: GTA 6 Neon Synthwave + Key-Art Background */
+  body.gta6-theme-active {
+    --bg-main: #0b0410;
+    --border-glass: rgba(255, 0, 127, 0.3);
+    --accent-core: #ff007f;
+    --accent-glow: rgba(255, 0, 127, 0.2);
+    --text-highlight: #00f0ff;
+    --laser-color: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent);
   }
 
-  .splash-container {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    pointer-events: none;
+  body {
+    background-color: var(--bg-main);
+    transition: background-color 0.5s ease;
+    min-height: 100vh;
   }
 
-  .splash-logo-text {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: 3.5rem;
-    letter-spacing: 0.05em;
-    color: #ffffff;
-    animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-    text-transform: uppercase;
+  body.gta6-theme-active {
+    background-image: linear-gradient(135deg, rgba(255, 0, 127, 0.45), rgba(0, 240, 255, 0.45)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
   }
 
-  .splash-sub-text {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.85rem;
-    color: #a78bfa;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-top: 0.5rem;
-    animation: taglineReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-    opacity: 0;
+  /* Strict Single-Line Navigation Track Override */
+  .nav .tabs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    scrollbar-width: none;
+  }
+  .nav .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto !important;
+  }
+
+  body.gta6-theme-active .nav,
+  body.gta6-theme-active .panel,
+  body.gta6-theme-active .results-head,
+  body.gta6-theme-active .card,
+  body.gta6-theme-active .tinder-card,
+  body.gta6-theme-active .shortlist-drawer {
+    background-color: rgba(11, 4, 16, 0.75) !important;
+    border-color: rgba(255, 0, 127, 0.3) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  body.gta6-theme-active .tab.active {
+    color: #00f0ff !important;
+    border-color: #ff007f !important;
+    background: rgba(255, 0, 127, 0.15) !important;
+  }
+
+  body.gta6-theme-active .scan-horizon-laser {
+    background: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent) !important;
   }
 
   /* Premium Elevation Physics */
@@ -278,96 +299,23 @@ perfStyles.textContent = `
     color: #c084fc;
   }
 
-  /* =========================================================
-     EXTENSIONS: SINGLE LINE TABS, TRANSITIONS & POPUPS
-     ========================================================= */
-  body {
-    transition: background-image 0.5s ease, background-color 0.5s ease;
-  }
-
-  body.gta6-theme-active {
-    background-color: #0b0410 !important;
-    background-image: linear-gradient(135deg, rgba(255, 0, 127, 0.45), rgba(0, 240, 255, 0.45)), url('Grand Theft Auto VI - Wallpaper.jpg') !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
-  }
-
-  .nav .tabs {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 0.5rem;
-    scrollbar-width: none;
-  }
-  .nav .tabs::-webkit-scrollbar {
-    display: none;
-  }
-  .tab {
-    flex: 0 0 auto !important;
-  }
-
-  body.gta6-theme-active .nav,
-  body.gta6-theme-active .panel,
-  body.gta6-theme-active .results-head,
-  body.gta6-theme-active .card,
-  body.gta6-theme-active .tinder-card,
-  body.gta6-theme-active .shortlist-drawer {
-    background-color: rgba(11, 4, 16, 0.75) !important;
-    border-color: rgba(255, 0, 127, 0.3) !important;
-    backdrop-filter: blur(12px);
-  }
-
-  body.gta6-theme-active .tab.active {
-    color: #00f0ff !important;
-    border-color: #ff007f !important;
-    background: rgba(255, 0, 127, 0.15) !important;
-  }
-
-  body.gta6-theme-active .scan-horizon-laser {
-    background: linear-gradient(90deg, transparent, #ff007f, #00f0ff, transparent) !important;
-  }
-
-  .gta6-popup-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 100000;
-    animation: fadeOutSplash 0.3s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards;
-  }
-
-  .gta6-popup-content {
-    background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(0, 240, 255, 0.15)), #0b0410;
-    border: 1px solid rgba(255, 0, 127, 0.4);
-    border-radius: 16px; padding: 2.5rem; text-align: center;
-    max-width: 450px; color: #ffffff;
-    box-shadow: 0 10px 40px rgba(255, 0, 127, 0.25);
+  .gta6-container {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 16px;
     animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-
-  .gta6-popup-content h2 {
-    color: #00f0ff; font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem;
-    margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;
+  .gta6-success {
+    background: rgba(34, 197, 94, 0.1) !important;
+    border: 1px solid rgba(34, 197, 94, 0.5) !important;
+    color: #4ade80 !important;
+    animation: successPulse 2s infinite;
   }
-
-  .gta6-popup-content p { color: #e2e8f0; font-size: 1rem; line-height: 1.5; margin-bottom: 2rem; }
-
-  .gta6-popup-close {
-    background: #ff007f; color: #ffffff; border: none;
-    padding: 0.75rem 2rem; border-radius: 8px; font-weight: 700;
-    font-size: 1rem; cursor: pointer; transition: all 0.2s ease;
+  .gta6-fail {
+    background: rgba(255, 0, 127, 0.1) !important;
+    border: 1px solid rgba(255, 0, 127, 0.5) !important;
+    color: #ff80bf !important;
   }
-
-  .gta6-popup-close:hover { background: #ff1a8c; box-shadow: 0 0 15px rgba(255, 0, 127, 0.6); }
-
-  .gta6-container { margin-top: 1.5rem; padding: 1.5rem; border-radius: 16px; animation: logoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  .gta6-success { background: rgba(34, 197, 94, 0.1) !important; border: 1px solid rgba(34, 197, 94, 0.5) !important; color: #4ade80 !important; animation: successPulse 2s infinite; }
-  .gta6-fail { background: rgba(255, 0, 127, 0.1) !important; border: 1px solid rgba(255, 0, 127, 0.5) !important; color: #ff80bf !important; }
 `;
 document.head.appendChild(perfStyles);
 
@@ -502,7 +450,6 @@ const state = {
   showMonthlyCost: false,
   phoneSync: "Mac OS",
   
-  // GTA 6 State Tracking
   gta6Input: "Intel i5, 8GB RAM, GTX 1650, 512GB SSD",
   gta6Status: null
 };
@@ -532,6 +479,7 @@ function normalize(text) {
   return String(text || "").toLowerCase();
 }
 
+// Escapes special parameters to avoid input node logic manipulation
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -707,8 +655,7 @@ function setState(patch) {
 
 function updateResultsOnly() {
   if (state.activeTab === "Match Mode") {
-    render();
-    return;
+    return; // Structural updates route via renderMatchMode explicitly
   }
 
   const matches = getMatches();
@@ -895,77 +842,41 @@ function computeGta6Baseline(input) {
   return "fail";
 }
 
+// Absolute full view reconstruction handler to protect Match Mode transitions across separate form structures
 function renderMatchMode() {
   const laptop = getCurrentSwipeLaptop();
-  const matchStage = document.querySelector(".match-stage");
-
-  if (matchStage) {
-    document.querySelectorAll(".tabs .tab").forEach(button => {
-      button.classList.toggle("active", button.dataset.tab === state.activeTab);
-    });
-
-    const swipeZone = document.querySelector(".swipe-zone");
-    if (swipeZone) {
-      swipeZone.innerHTML = `
-        ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-        <div class="swipe-actions">
-          <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-          <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
+  
+  root.innerHTML = `
+    <main class="app">
+      ${renderNav()}
+      <section class="match-stage">
+        <div class="match-copy">
+          <p class="eyebrow">Interactive Tinder</p>
+          <h2>Match Mode</h2>
+          <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
+            Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
+          </p>
         </div>
-      `;
-    }
-
-    const shortlistDrawer = document.querySelector(".shortlist-drawer");
-    if (shortlistDrawer) {
-      const count = state.savedMatches.length;
-      shortlistDrawer.className = `glass shortlist-drawer ${state.drawerOpen ? "open" : "closed"}`;
-      shortlistDrawer.innerHTML = `
-        <button class="drawer-toggle" id="drawer-toggle">Your Shortlist (${count} Laptops liked)</button>
-        ${state.drawerOpen ? `
-          <div class="shortlist-body">${
-            count
-              ? state.savedMatches
-                  .map((item) => `
-                    <article class="mini-card">
-                      <div>
-                        <p class="eyebrow">${escapeHtml(item.brand)}</p>
-                        <h4>${escapeHtml(item.name)}</h4>
-                        <span>${formatPrice(item.price)}</span>
-                      </div>
-                      <button class="mini-detail" data-detail-id="${item.id}">View Details</button>
-                    </article>
-                  `).join("")
-              : `<p class="empty-shortlist">Your liked laptops will appear here.</p>`
-          }</div>` : ""}
-      `;
-    }
-  } else {
-    root.innerHTML = `
-      <main class="app">
-        ${renderNav()}
-        <section class="match-stage">
-          <div class="match-copy">
-            <p class="eyebrow">Interactive Tinder</p>
-            <h2>Match Mode</h2>
-            <p style="font-size: 0.9rem; color: #a1a1aa; margin-top: 0.25rem;">
-              Swipe through the catalog one laptop at a time. Click the photo box to dynamically rotate the chassis and analyze system feasibility blueprints.
-            </p>
-          </div>
-          <div class="match-workspace">
-            <div class="swipe-zone">
-              ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
-              <div class="swipe-actions">
-                <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
-                <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
-              </div>
+        <div class="match-workspace">
+          <div class="swipe-zone">
+            ${laptop ? renderSwipeCard(laptop) : renderSwipeFinished()}
+            <div class="swipe-actions">
+              <button class="swipe-btn pass-btn" data-swipe="pass" aria-label="Pass this laptop">✕</button>
+              <button class="swipe-btn like-btn" data-swipe="match" aria-label="Match this laptop">♥</button>
             </div>
-            ${renderShortlistDrawer()}
           </div>
-        </section>
-      </main>
-    `;
-  }
+          ${renderShortlistDrawer()}
+        </div>
+      </section>
+    </main>
+  `;
   attachDragSwipe();
+}
+
+function getCurrentSwipeLaptop() {
+  const filtered = getMatches();
+  if (!filtered.length) return null;
+  return filtered[state.matchIndex % filtered.length];
 }
 
 function primaryHighlight(laptop) {
@@ -1418,7 +1329,6 @@ function initGlobalEvents() {
       return;
     }
 
-    // Capture Interactive Custom Chips
     const vibeChip = target.closest(".vibe-toggle-chip");
     if (vibeChip) {
       const type = vibeChip.dataset.vibeType;
@@ -1481,7 +1391,10 @@ function initGlobalEvents() {
     } else if (target.id === "gta6-form") {
       event.preventDefault();
       const inputEl = document.getElementById("gta6-input");
-      if (inputEl) state.gta6Input = inputEl.value;
+      // Explicit element verification guards to prevent execution frame drops when switching panels mid-session
+      if (inputEl) {
+        state.gta6Input = inputEl.value;
+      }
       
       const status = computeGta6Baseline(state.gta6Input);
       setState({ gta6Status: status, page: 1 });
@@ -1518,3 +1431,4 @@ fetch("./laptopsData.json")
       </main>
     `;
   });
+  
